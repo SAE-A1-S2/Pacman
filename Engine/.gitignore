@@ -1,0 +1,50 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+*.dll
+*.class
+*.log
+*.tlog
+*.bin
+*.obj
+*.vscode/
+*.vs/
+*.sln.iml
+
+# Ignore ReSharper files
+_ReSharper*/
+
+# Ignore NuGet packages
+packages/
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore user-specific files
+*.userprefs
+*.usertasks
+*.userhost.js
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore MonoDevelop files
+*.pidb
+
+# Ignore Rider files
+.idea/
+
+# Ignore macOS file attributes
+.DS_Store
+
+# Ignore Windows thumbnail cache files
+Thumbs.db
+
+# Ignore backup files created by some text editors
+*~
