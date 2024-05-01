@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "Engine";
+
+message Session {
+  string uuid = 1;
+  Gamemode gamemode = 2;
+  uint32 player_hearts = 3;
+  uint32 player_hp = 4;
+  string player = 5; // UUID
+
+  enum Gamemode {
+    STORY = 0;
+    INFINITE = 1;
+  }
+}

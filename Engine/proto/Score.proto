@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Engine";
+
+message Score {
+  string player_uuid = 1;
+  string level_uuid = 2;
+  uint32 score = 3;
+}

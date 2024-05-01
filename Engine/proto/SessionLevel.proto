@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "Engine";
+
+message SessionLevel {
+  string session_uuid = 1;
+  string level_uuid = 2;
+  Bonus  bonus1 = 3;
+  Bonus bonus2 = 4;
+
+  message Bonus {
+    string uuid = 1;
+    string name = 2;
+    string description = 3;
+  }
+}

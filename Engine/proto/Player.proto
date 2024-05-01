@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option csharp_namespace = "Engine";
+
+message Player {
+  string uuid = 1;
+  string name = 2;
+}
