@@ -1,79 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.utils
+﻿namespace Engine.utils
 {
-
-    public abstract class Enemy
+    public static class Enemies
     {
-        public CellCoordinates position { get; protected set; }
+        public static Enemy Winston = new("Winston", new AmbusherBehavior());
+        public static Enemy Cain = new("Cain", new ChaserBehavior());
+        public static Enemy Viggo = new("Viggo", new WandererBehavior());
+        public static Enemy Marquis = new("Marquis", new WhimsicalBehavior());
+    }
+    public class Enemy
+    {
+        public string Name { get; set; }
+        public CellCoordinates Position { get; protected set; }
         public EnemyState State { get; protected set; }
-        public bool IsFrozen => State == EnemyState.FREEZE;
+        public bool IsFrozen => State == EnemyState.FRIGHTENED; // To be changed
+        public IEnemyBehavior EnemyBehavior { get; protected set; }
         protected Direction currentDirection;
         protected int moveCounter;
         protected const int randomMoveInterval = 5;
         protected Random random = new();
-        protected Cell[,] maze;
+        public Cell[,] Maze { get; private set; }
 
-        public Enemy(CellCoordinates startPosition, Cell[,] maze)
+        public Enemy(CellCoordinates startPosition, Cell[,] maze) // To be removed
         {
-            position = startPosition;
-            State = EnemyState.NORMAL;
+            Position = startPosition;
+            State = EnemyState.CHASE;
             moveCounter = 0; // Initialize counter
             currentDirection = GetRandomDirection();
-            this.maze = maze;
+            Maze = maze;
+            Name = "";
+            EnemyBehavior = new ChaserBehavior();
         }
+
+        public Enemy(string name, IEnemyBehavior enemyBehavior)
+        {
+            Name = name;
+            EnemyBehavior = enemyBehavior;
+            Maze = new Cell[,] {}; // To be removed
+            Position = new CellCoordinates(); // TO be removed
+        }
+
+        public void SetStartingPostion(CellCoordinates start) { Position = start; }
 
         public void ChangeState(EnemyState newState)
         {
             State = newState;
         }
 
-        abstract protected void PlaceRandomly(CellCoordinates playerStart);
+        //public void MoveRandom()
+        //{
+        //    // Always decrease moveCounter
+        //    moveCounter--;
 
-        abstract protected bool isPositionValidForEnemy(CellCoordinates pos, CellCoordinates playerStart, int playerDist);
+        //    // Check if current direction is still valid or if it's time to get a new direction
+        //    if (moveCounter <= 0 || !IsPositionValid(GetNextPosition(Position, currentDirection)))
+        //    {
+        //        currentDirection = GetValidRandomDirection();
+        //        moveCounter = randomMoveInterval;
+        //    }
 
-        public void MoveRandom()
-        {
-            // Always decrease moveCounter
-            moveCounter--;
+        //    // Move to the new position if valid
+        //    CellCoordinates newPosition = GetNextPosition(Position, currentDirection);
+        //    if (IsPositionValid(newPosition))
+        //        UpdatePosition(newPosition);
+        //    else if (moveCounter <= 0) // In case the new position is not valid and moveCounter is depleted, force direction update
+        //    {
+        //        currentDirection = GetValidRandomDirection();
+        //        moveCounter = randomMoveInterval; // Reset move counter after a forced direction change
+        //    }
+        //}
 
-            // Check if current direction is still valid or if it's time to get a new direction
-            if (moveCounter <= 0 || !IsPositionValid(GetNextPosition(position, currentDirection)))
-            {
-                currentDirection = GetValidRandomDirection();
-                moveCounter = randomMoveInterval;
-            }
+        //private Direction GetValidRandomDirection()
+        //{
+        //    Direction newDirection;
+        //    int attempts = 0;
+        //    do
+        //    {
+        //        newDirection = GetRandomDirection();
+        //        attempts++;
+        //    } while (!IsPositionValid(GetNextPosition(Position, newDirection)) && attempts < 4);
 
-            // Move to the new position if valid
-            CellCoordinates newPosition = GetNextPosition(position, currentDirection);
-            if (IsPositionValid(newPosition))
-                UpdatePosition(newPosition);
-            else if (moveCounter <= 0) // In case the new position is not valid and moveCounter is depleted, force direction update
-            {
-                currentDirection = GetValidRandomDirection();
-                moveCounter = randomMoveInterval; // Reset move counter after a forced direction change
-            }
-        }
-
-        abstract protected bool IsPositionValid(CellCoordinates newPosition);
-
-
-        private Direction GetValidRandomDirection()
-        {
-            Direction newDirection;
-            int attempts = 0;
-            do
-            {
-                newDirection = GetRandomDirection();
-                attempts++;
-            } while (!IsPositionValid(GetNextPosition(position, newDirection)) && attempts < 4);
-
-            return newDirection;
-        }
+        //    return newDirection;
+        //}
 
         private Direction GetRandomDirection()
         {
@@ -95,21 +102,21 @@ namespace Engine.utils
 
         private void UpdatePosition(CellCoordinates newPosition)
         {
-            maze[position.X, position.Y] = Cell.Empty;
-            position = newPosition;
-            maze[position.X, position.Y] = Cell.Ghost;
+            Maze[Position.X, Position.Y] = Cell.Empty;
+            Position = newPosition;
+            Maze[Position.X, Position.Y] = Cell.Ghost;
         }
 
 
         public void Freeze()
         {
-            ChangeState(EnemyState.FREEZE);
+            ChangeState(EnemyState.SCATTER);
             // Additional logic when frozen, e.g., disable collision effects
         }
 
         public void Unfreeze()
         {
-            ChangeState(EnemyState.NORMAL);
+            ChangeState(EnemyState.CHASE);
             // Resume normal movement and interactions
         }
     }

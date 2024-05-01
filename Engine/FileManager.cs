@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-
-namespace Engine
+﻿namespace Engine
 {
     public class FileManager
     {

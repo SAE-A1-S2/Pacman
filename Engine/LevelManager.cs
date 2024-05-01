@@ -9,10 +9,6 @@ public class LevelManager
     public byte live { get; private set; }
     public int Score { get; private set; }
     public byte Health { get; private set; }
-    public Viggo viggo { get; set; }
-    public Caine caine { get; set; }
-    public Marquis marquis { get; set; }
-    public Losef losef { get; set; }
     public byte Key { get; private set; }
     public Cell[,] LevelMap { get; private set; } = new Cell[width, height];
     private MazeGenerator mazeGenerator;
@@ -31,21 +27,15 @@ public class LevelManager
         // Place player
         player = new(new CellCoordinates(0, 0));
         player.PlacePlayer(LevelMap);
-
-        // Initialize ghosts
-        viggo = new(new CellCoordinates(0, 0), LevelMap);
-        caine = new(new CellCoordinates(0, 0), LevelMap);
-        marquis = new(new CellCoordinates(0, 0), LevelMap);
-        losef = new(new CellCoordinates(0, 0), LevelMap);
     }
 
     private void Initializelevel(bool isStoryMode = false)
     {
         if (isStoryMode)
         {
-            HistoryMode historyMode = new();
-            LevelMap = historyMode.maze;
-            mazeStartPos = historyMode.startPos;
+            StoryMode storyMode = new();
+            LevelMap = storyMode.maze;
+            mazeStartPos = storyMode.startPos;
         }
         else
         {

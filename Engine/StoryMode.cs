@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Engine
 {
-    public class HistoryMode
+    public class StoryMode
     {
         private string currentFilePath = "";
         private int currentLevel = 1;
@@ -15,7 +11,7 @@ namespace Engine
         public Cell[,] maze { get; private set; }
         public CellCoordinates startPos { get; private set; }
 
-        public HistoryMode()
+        public StoryMode()
         {
             FileManager fileManager = new();
             currentLevel = fileManager.GetLastPlayedLevel() == -1 ? 1 : fileManager.GetLastPlayedLevel() + 1;

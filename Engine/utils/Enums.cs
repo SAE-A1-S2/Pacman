@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.utils
+﻿namespace Engine.utils
 {
     public enum GameState
     {
@@ -30,7 +24,8 @@ namespace Engine.utils
 
     public enum EnemyState
     {
-        NORMAL,
-        FREEZE,
+        CHASE,
+        SCATTER,
+        FRIGHTENED
     }
 }
