@@ -9,26 +9,6 @@ public class GameManager
     LevelManager = new LevelManager(isStoryMode);
   }
 
-  // Should be handled by the frontend
-  // public void HandleKeyInput(Keys key)
-  // {
-  //     var keyToDirectionMap = new Dictionary<Keys, Direction>
-  // {
-  //     { Keys.Z, Direction.UP },
-  //     { Keys.Up, Direction.UP },
-  //     { Keys.Down, Direction.DOWN },
-  //     { Keys.S, Direction.DOWN },
-  //     { Keys.Left, Direction.LEFT },
-  //     { Keys.Q, Direction.LEFT },
-  //     { Keys.Right, Direction.RIGHT },
-  //     { Keys.D, Direction.RIGHT }
-  // };
-
-  //     if (keyToDirectionMap.TryGetValue(key, out Direction direction))
-  //         LevelManager.player.Move(direction, LevelManager.LevelMap, this);
-  // }
-
-
   public void CheckCollisions(Cell cellType)
   {
     switch (cellType)
