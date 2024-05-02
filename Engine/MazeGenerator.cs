@@ -63,6 +63,13 @@
             return cell.X >= 0 && cell.X < _width && cell.Y >= 0 && cell.Y < _height;
         }
 
+        public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
+        {
+            return cell.X >= 0 && cell.X < maze.GetLength(0) &&
+                   cell.Y >= 0 && cell.Y < maze.GetLength(1);
+
+        }
+
         // Enlève le mur entre deux cellules
         private void RemoveWallBetween(CellCoordinates a, CellCoordinates b)
         {

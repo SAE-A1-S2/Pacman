@@ -1,5 +1,4 @@
 ﻿namespace Engine;
-
 public enum Cell
 {
     Empty = 0,
@@ -10,6 +9,7 @@ public enum Cell
     Coin,
     Key,
     Ghost,
-    kit,
+    Kit,
     // TODO: Add every bonuses here.
 }
+

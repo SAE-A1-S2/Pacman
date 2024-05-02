@@ -1,4 +1,6 @@
-﻿namespace Engine.utils
+﻿using Engine.utils;
+
+namespace Engine
 {
     public static class Enemies
     {
@@ -7,17 +9,14 @@
         public static Enemy Viggo = new("Viggo", new WandererBehavior());
         public static Enemy Marquis = new("Marquis", new WhimsicalBehavior());
     }
-    public class Enemy
+    public sealed class Enemy : Entity
     {
-        public string Name { get; set; }
-        public CellCoordinates Position { get; protected set; }
         public EnemyState State { get; protected set; }
         public bool IsFrozen => State == EnemyState.FRIGHTENED; // To be changed
         public IEnemyBehavior EnemyBehavior { get; protected set; }
-        protected Direction currentDirection;
-        protected int moveCounter;
-        protected const int randomMoveInterval = 5;
-        protected Random random = new();
+        private int moveCounter;
+        private const int randomMoveInterval = 5;
+        private Random random = new();
         public Cell[,] Maze { get; private set; }
 
         public Enemy(CellCoordinates startPosition, Cell[,] maze) // To be removed
@@ -25,7 +24,7 @@
             Position = startPosition;
             State = EnemyState.CHASE;
             moveCounter = 0; // Initialize counter
-            currentDirection = GetRandomDirection();
+            CurrentDirection = GetRandomDirection();
             Maze = maze;
             Name = "";
             EnemyBehavior = new ChaserBehavior();
@@ -39,7 +38,7 @@
             Position = new CellCoordinates(); // TO be removed
         }
 
-        public void SetStartingPostion(CellCoordinates start) { Position = start; }
+        public void SetStartingPosition(CellCoordinates start) { Position = start; }
 
         public void ChangeState(EnemyState newState)
         {
@@ -87,26 +86,6 @@
             Array values = Enum.GetValues(typeof(Direction));
             return (Direction)values.GetValue(random.Next(values.Length));
         }
-
-        private CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
-        {
-            return direction switch
-            {
-                Direction.UP => new CellCoordinates(currentPosition.X, currentPosition.Y - 1),
-                Direction.DOWN => new CellCoordinates(currentPosition.X, currentPosition.Y + 1),
-                Direction.LEFT => new CellCoordinates(currentPosition.X - 1, currentPosition.Y),
-                Direction.RIGHT => new CellCoordinates(currentPosition.X + 1, currentPosition.Y),
-                _ => currentPosition,
-            };
-        }
-
-        private void UpdatePosition(CellCoordinates newPosition)
-        {
-            Maze[Position.X, Position.Y] = Cell.Empty;
-            Position = newPosition;
-            Maze[Position.X, Position.Y] = Cell.Ghost;
-        }
-
 
         public void Freeze()
         {

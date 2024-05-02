@@ -35,7 +35,7 @@ public class GameManager
             case Cell.Coin:
                 LevelManager.UpdateScore(10);
                 break;
-            case Cell.kit:
+            case Cell.Kit:
                 // Trigger power-up mode
                 break;
             case Cell.Ghost:
