@@ -1,4 +1,4 @@
-﻿namespace Engine;
+namespace Engine;
 public enum Cell
 {
     Empty = 0,
