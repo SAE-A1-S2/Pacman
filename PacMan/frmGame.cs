@@ -1,15 +1,5 @@
 ﻿using Engine;
 using Engine.utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PacMan
 {
@@ -48,9 +38,27 @@ namespace PacMan
             imgMap.Image = bmp;
         }
 
+        private void HandleKeyInput(Keys key)
+        {
+            var keyToDirectionMap = new Dictionary<Keys, Direction>
+            {
+                { Keys.Z, Direction.UP },
+                { Keys.Up, Direction.UP },
+                { Keys.Down, Direction.DOWN },
+                { Keys.S, Direction.DOWN },
+                { Keys.Left, Direction.LEFT },
+                { Keys.Q, Direction.LEFT },
+                { Keys.Right, Direction.RIGHT },
+                { Keys.D, Direction.RIGHT }
+            };
+
+            if (keyToDirectionMap.TryGetValue(key, out Direction direction))
+                gameManager.LevelManager.player.Move(direction, gameManager.LevelManager.LevelMap, gameManager);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            gameManager.HandleKeyInput(keyData);
+            HandleKeyInput(keyData);
             DisplayMaze(gameManager.LevelManager.LevelMap);
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -68,10 +76,6 @@ namespace PacMan
 
         private void TmrGhost_Tick(object sender, EventArgs e)
         {
-            gameManager.LevelManager.losef.MoveRandom();
-            gameManager.LevelManager.marquis.MoveRandom();
-            gameManager.LevelManager.viggo.MoveRandom();
-            gameManager.LevelManager.caine.MoveRandom();
             DisplayMaze(gameManager.LevelManager.LevelMap);
         }
     }
