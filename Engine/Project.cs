@@ -4,6 +4,8 @@ public class Project
 {
   public static void Main()
   {
-    Console.WriteLine("Hello World!");
+    GameManager gm = new();
+    gm.m_Player.SetPlayerName("Cédric");
+    gm.Run();
   }
 }
