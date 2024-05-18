@@ -1,4 +1,5 @@
-﻿namespace Engine;
+﻿using Engine.utils;
+namespace Engine;
 
 public struct CellCoordinates
 {
@@ -41,4 +42,16 @@ public struct CellCoordinates
 		return !(a == b);
 	}
 
+	public static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
+	{
+		if (src.X < dst.X)
+			return Direction.RIGHT;
+		if (src.X > dst.X)
+			return Direction.LEFT;
+		if (src.Y < dst.Y)
+			return Direction.DOWN;
+		if (src.Y > dst.Y)
+			return Direction.UP;
+		return Direction.STOP;
+	}
 }
