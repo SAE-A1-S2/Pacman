@@ -8,29 +8,13 @@ public struct CellCoordinates
 
 	public CellCoordinates(int x, int y)
 	{
-		this.X = x;
-		this.Y = y;
+		X = x;
+		Y = y;
 	}
 
-	public override bool Equals(object? obj)
-	{
-		if (!(obj is CellCoordinates))
-			return false;
+	public override bool Equals(object? obj) => obj is CellCoordinates coordinates && X == coordinates.X && Y == coordinates.Y;
 
-		var other = (CellCoordinates)obj;
-		return this.X == other.X && this.Y == other.Y;
-	}
-
-	public override int GetHashCode()
-	{
-		unchecked
-		{
-			int hash = 17;
-			hash = hash * 23 + X.GetHashCode();
-			hash = hash * 23 + Y.GetHashCode();
-			return hash;
-		}
-	}
+	public override int GetHashCode() => HashCode.Combine(X, Y);
 
 	public static bool operator ==(CellCoordinates a, CellCoordinates b)
 	{
@@ -40,18 +24,5 @@ public struct CellCoordinates
 	public static bool operator !=(CellCoordinates a, CellCoordinates b)
 	{
 		return !(a == b);
-	}
-
-	public static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
-	{
-		if (src.X < dst.X)
-			return Direction.RIGHT;
-		if (src.X > dst.X)
-			return Direction.LEFT;
-		if (src.Y < dst.Y)
-			return Direction.DOWN;
-		if (src.Y > dst.Y)
-			return Direction.UP;
-		return Direction.STOP;
 	}
 }

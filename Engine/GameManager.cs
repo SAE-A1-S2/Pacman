@@ -14,13 +14,19 @@ namespace Engine
 		{
 			Player = new();
 			GameMode = gameMode;
-			LevelManager = new LevelManager(Player, false);
+			LevelManager = new LevelManager(Player, gameMode);
 		}
 
-		public void Step()
+		public void Step(Direction direction)
 		{
 			if (GameState == GameState.PLAYING)
 			{
+				CellCoordinates newPosition = Entity.GetNextPosition(Player.Position, direction);
+				if (Entity.IsInBounds(newPosition, LevelManager.LevelMap))
+					if (LevelManager.LevelMap[newPosition.X, newPosition.Y] != Cell.Wall)
+						Player.Move(direction, LevelManager.LevelMap, this);
+
+				Enemies.Cain.Move(LevelManager.LevelMap); //Test
 
 			}
 		}

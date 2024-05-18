@@ -10,11 +10,6 @@ namespace Engine
 			Kind = Cell.John;
 		}
 
-		public void SetPlayerPosition(CellCoordinates newPosition)
-		{
-			Position = newPosition;
-		}
-
 		public void SetPlayerName(string newName)
 		{
 			Name = newName;
@@ -31,22 +26,21 @@ namespace Engine
 					}
 		}
 
-		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)
+		public void Move(Direction direction, Cell[,] maze, GameManager gameManager) // will be optimized
 		{
-			if (!Position.HasValue) return;
-			CellCoordinates newPosition = GetNextPosition(Position.Value, direction);
+			CellCoordinates newPosition = GetNextPosition(Position, direction);
 
 			// Check if the new position is within the bounds of the maze
-			if (MazeGenerator.IsInBounds(newPosition, maze))
+			if (IsInBounds(newPosition, maze))
 			{
-				gameManager.CheckCollisions(maze[newPosition.X, newPosition.Y]);
-				// Check if the cell at the new position is not a wall
+				gameManager.CheckCollisions(maze[newPosition.X, newPosition.Y]); // to be removed
+																				 // Check if the cell at the new position is not a wall
 				if (maze[newPosition.X, newPosition.Y] != Cell.Wall)
 				{
 					if (maze[newPosition.X, newPosition.Y] == Cell.Empty || maze[newPosition.X, newPosition.Y] == Cell.Coin)
 					{
 						UpdatePosition(newPosition, maze);
-						HandleCellInteraction(maze[Position.Value.X, Position.Value.Y]);
+						HandleCellInteraction(maze[Position.X, Position.Y]);
 					}
 				}
 			}

@@ -2,8 +2,8 @@
 {
 	public class MazeGenerator
 	{
-		private int _width; // La largeur du labyrinthe.
-		private int _height; // La hauteur du labyrinthe.
+		private readonly int _width; // La largeur du labyrinthe.
+		private readonly int _height; // La hauteur du labyrinthe.
 		public Cell[,] _map { get; private set; } // La grille représentant le labyrinthe.
 		private Random random = new Random(); // Instance pour la génération de nombres aléatoires.
 		public CellCoordinates Start { get; private set; } // Les coordonnées du point de départ du labyrinthe.
@@ -19,7 +19,7 @@
 		{
 			_width = width;
 			_height = height;
-			_map = new Cell[_width, _height];
+			_map = new Cell[_height, _width];
 			GenerateLevel();
 		}
 
@@ -60,14 +60,7 @@
 		// Vérifie si les coordonnées sont à l'intérieur des limites du labyrinthe
 		private bool IsInBounds(CellCoordinates cell)
 		{
-			return cell.X >= 0 && cell.X < _width && cell.Y >= 0 && cell.Y < _height;
-		}
-
-		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
-		{
-			return cell.X >= 0 && cell.X < maze.GetLength(0) &&
-				   cell.Y >= 0 && cell.Y < maze.GetLength(1);
-
+			return cell.X >= 0 && cell.X < _height && cell.Y >= 0 && cell.Y < _width;
 		}
 
 		// Enlève le mur entre deux cellules
@@ -127,8 +120,8 @@
 		private void GenerateLevel()
 		{
 			// Remplit toute la grille avec des murs pour commencer avec un labyrinthe 'vierge'.
-			for (int x = 0; x < _width; x++)
-				for (int y = 0; y < _height; y++)
+			for (int x = 0; x < _height; x++)
+				for (int y = 0; y < _width; y++)
 					_map[x, y] = Cell.Wall;
 
 			// Déclare les variables pour les coordonnées de départ et de fin.
@@ -137,8 +130,8 @@
 			do
 			{
 				// Attribue aléatoirement des coordonnées de départ et d'arrivée.
-				start = new CellCoordinates(random.Next(0, _width), random.Next(0, _height));
-				end = new CellCoordinates(random.Next(0, _width), random.Next(0, _height));
+				start = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
+				end = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
 			} while (start.X == end.X && start.Y == end.Y);
 
 			// Place le point de départ dans le labyrinthe.
@@ -151,7 +144,7 @@
 			// Boucle pour trouver une cellule vide pour la sortie.
 			// Continue de générer des coordonnées aléatoires jusqu'à ce qu'une cellule vide soit trouvée.
 			while (_map[end.X, end.Y] != Cell.Empty)
-				end = new CellCoordinates(random.Next(0, _width), random.Next(0, _height));
+				end = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
 
 			// Marque la cellule d'arrivée trouvée comme la sortie du labyrinthe.
 			_map[end.X, end.Y] = Cell.End;

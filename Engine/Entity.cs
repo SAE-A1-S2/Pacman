@@ -1,15 +1,16 @@
+using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine
 {
 	public class Entity
 	{
-		public CellCoordinates? Position { get; protected set; }
+		public CellCoordinates Position { get; protected set; }
 		public string Name { get; protected set; } = "";
 		public Cell Kind { get; protected set; }
 		protected Direction CurrentDirection { get; set; }
 
-		protected static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
+		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{
 			return direction switch
 			{
@@ -23,10 +24,16 @@ namespace Engine
 
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
-			if (!Position.HasValue) return;
-			maze[Position.Value.X, Position.Value.Y] = Cell.Empty;
+			maze[Position.X, Position.Y] = Cell.Empty;
 			Position = newCell;
-			maze[Position.Value.X, Position.Value.Y] = Kind;
+			maze[Position.X, Position.Y] = Kind;
+		}
+
+		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
+		{
+			Debug.WriteLine($"{maze.GetLength(0)}, {maze.GetLength(1)}");
+			return cell.X >= 0 && cell.X < maze.GetLength(0) &&
+				   cell.Y >= 0 && cell.Y < maze.GetLength(1);
 		}
 
 	}

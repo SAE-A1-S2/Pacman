@@ -1,25 +1,22 @@
-﻿using Engine.utils;
-
-namespace Engine
+﻿namespace Engine
 {
 	public interface IEnemyBehavior
 	{
-		Direction NextPosition(Cell[,] maze, CellCoordinates currentPosition);
+		CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition);
 	}
 
 	public class ChaserBehavior : IEnemyBehavior
 	{
-		public Direction
-		NextPosition(Cell[,] maze, CellCoordinates currentPosition)
+		public CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition)
 		{
-			throw new NotImplementedException();
+			CellCoordinates dst = Algorithms.FindPlayer(maze);
+			return Algorithms.FindDijkstra(currentPosition, dst, maze);
 		}
 	}
 
 	public class AmbusherBehavior : IEnemyBehavior
 	{
-		public Direction
-		NextPosition(Cell[,] maze, CellCoordinates currentPosition)
+		public CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition)
 		{
 			throw new NotImplementedException();
 		}
@@ -27,17 +24,16 @@ namespace Engine
 
 	public class WhimsicalBehavior : IEnemyBehavior
 	{
-		public Direction
-		NextPosition(Cell[,] maze, CellCoordinates currentPosition)
+		public CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition)
 		{
-			throw new NotImplementedException();
+			CellCoordinates dst = Algorithms.FindClosestCell(maze);
+			return Algorithms.FindDijkstra(dst, currentPosition, maze);
 		}
 	}
 
 	public class WandererBehavior : IEnemyBehavior
 	{
-		public Direction
-		NextPosition(Cell[,] maze, CellCoordinates currentPosition)
+		public CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition)
 		{
 			throw new NotImplementedException();
 		}

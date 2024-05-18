@@ -10,16 +10,28 @@ namespace Engine
 		public static Enemy Marquis = new("Marquis", new WhimsicalBehavior(), Cell.Marquis);
 		public static Tuple<Enemy, Enemy, Enemy, Enemy> enemies =
 			new Tuple<Enemy, Enemy, Enemy, Enemy>(Winston, Cain, Viggo, Marquis);
+
+		public static List<CellCoordinates> FindEmptyPositions(Cell[,] maze, int count) // Test, will be changed
+		{
+			var emptyPositions = new List<CellCoordinates>();
+			var random = new Random();
+
+			while (emptyPositions.Count < count)
+			{
+				var coord = new CellCoordinates(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
+				var cell = maze[coord.X, coord.Y];
+
+				if (cell == Cell.Empty && !emptyPositions.Contains(new CellCoordinates(coord.X, coord.Y)))
+					emptyPositions.Add(new CellCoordinates(coord.X, coord.Y));
+			}
+			return emptyPositions;
+		}
 	}
 	public sealed class Enemy : Entity
 	{
 		public EnemyState State { get; private set; }
 		public bool IsFrozen => State == EnemyState.FRIGHTENED; // To be changed
 		public IEnemyBehavior EnemyBehavior { get; private set; }
-		public Cell[,]? Maze { get; private set; }
-
-		private int m_MoveCounter;
-		private static int s_RandomMoveInterval = 5;
 		private Random m_Random = new();
 		private Cell m_PreviousKind = Cell.Empty;
 
@@ -30,59 +42,32 @@ namespace Engine
 			EnemyBehavior = enemyBehavior;
 		}
 
-		public void SetStartingPosition(CellCoordinates start) { Position = start; }
-		public void SetMaze(Cell[,] maze) { Maze = maze; }
+		public void SetStartingPosition(CellCoordinates start, Cell[,] maze)
+		{
+			Position = start;
+			maze[Position.X, Position.Y] = Kind;
+		}
+
+		public new void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
+		{
+			maze[Position.X, Position.Y] = m_PreviousKind;
+			Position = newCell;
+			m_PreviousKind = maze[Position.X, Position.Y];
+			maze[Position.X, Position.Y] = Kind;
+		}
+
+		public void Move(Cell[,] maze) // Everything we need to move an enemy, nothing else
+		{
+			CellCoordinates newPosition = EnemyBehavior.NextPositon(maze, Position);
+			UpdatePosition(newPosition, maze);
+		}
 
 		public void ChangeState(EnemyState newState)
 		{
 			State = newState;
 		}
 
-		public void MoveRandom()
-		{
-			if (!Position.HasValue) return;
-			if (Maze == null) return;
-			// Always decrease m_MoveCounter
-			m_MoveCounter--;
 
-			// Check if current direction is still valid or if it's time to get a new direction
-			if (m_MoveCounter <= 0 || !MazeGenerator.IsInBounds(GetNextPosition(Position.Value, CurrentDirection), Maze))
-			{
-				CurrentDirection = GetValidRandomDirection();
-				m_MoveCounter = s_RandomMoveInterval;
-			}
-
-			// Move to the new position if valid
-			CellCoordinates newPosition = GetNextPosition(Position.Value, CurrentDirection);
-			if (MazeGenerator.IsInBounds(newPosition, Maze))
-				UpdatePosition(newPosition, Maze);
-			else if (m_MoveCounter <= 0) // In case the new position is not valid and m_MoveCounter is depleted, force direction update
-			{
-				CurrentDirection = GetValidRandomDirection();
-				m_MoveCounter = s_RandomMoveInterval; // Reset move counter after a forced direction change
-			}
-		}
-
-		private Direction GetValidRandomDirection()
-		{
-			if (!Position.HasValue) throw new Exception("Position is null");
-			if (Maze == null) throw new Exception("Maze is null");
-			Direction newDirection;
-			int attempts = 0;
-			do
-			{
-				newDirection = GetRandomDirection();
-				attempts++;
-			} while (!MazeGenerator.IsInBounds(GetNextPosition(Position.Value, newDirection), Maze) && attempts < 4);
-
-			return newDirection;
-		}
-
-		private Direction GetRandomDirection()
-		{
-			Array values = Enum.GetValues(typeof(Direction));
-			return (Direction)values.GetValue(m_Random.Next(values.Length))!; // To be checked if null
-		}
 
 		public void Freeze()
 		{

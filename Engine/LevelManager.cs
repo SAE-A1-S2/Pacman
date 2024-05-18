@@ -1,5 +1,7 @@
 ﻿// using Engine.utils;
 
+using Engine.utils;
+
 namespace Engine;
 
 public struct Health
@@ -26,8 +28,8 @@ public struct Health
 
 public class LevelManager
 {
-	private static readonly int s_Width = 30;
-	private static readonly int s_Height = 20;
+	private static readonly int s_Width = 20;
+	private static readonly int s_Height = 30;
 
 	private MazeGenerator m_MazeGenerator;
 	private Player m_Player;
@@ -40,23 +42,27 @@ public class LevelManager
 	public Cell[,] LevelMap { get; private set; } = new Cell[s_Width, s_Height];
 	public CellCoordinates MazeStartPos { get; private set; }
 
-	public LevelManager(Player player, bool isStoryMode = false)
+	public LevelManager(Player player, GameMode gameMode)
 	{
 		Health = new();
 		Score = 0;
 		Key = 0;
 		m_MazeGenerator = new(s_Width, s_Height);
 
-		Initializelevel(isStoryMode);
+		Initializelevel(gameMode);
 		// The player should be an outside ref.
 		m_Player = player;
-		m_Player.SetPlayerPosition(new CellCoordinates(0, 0));
 		m_Player.PlacePlayer(LevelMap);
+
+		//Test
+		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
+		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);
+
 	}
 
-	private void Initializelevel(bool isStoryMode = false)
+	private void Initializelevel(GameMode gameMode = GameMode.INFINTE)
 	{
-		if (isStoryMode)
+		if (gameMode == GameMode.STORY)
 		{
 			StoryMode storyMode = new();
 			LevelMap = storyMode.Maze;
