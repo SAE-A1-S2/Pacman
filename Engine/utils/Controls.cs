@@ -2,10 +2,10 @@
 
 public enum Controls
 {
-    Up,
-    Down,
-    Left,
-    Right,
-    Pause,
-    Use
+	Up,
+	Down,
+	Left,
+	Right,
+	Pause,
+	Use
 }

@@ -2,10 +2,10 @@
 
 public class Project
 {
-  public static void Main()
-  {
-    GameManager gm = new();
-    gm.m_Player.SetPlayerName("Cédric");
-    gm.Run();
-  }
+	public static void Main()
+	{
+		GameManager gm = new();
+		gm.Player.SetPlayerName("Cédric");
+		gm.Step();
+	}
 }

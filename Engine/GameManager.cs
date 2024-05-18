@@ -2,80 +2,82 @@
 
 namespace Engine
 {
-  public class GameManager
-  {
-    public LevelManager LevelManager { get; private set; }
-    public GameState gameState { get; private set; } = GameState.PLAYING;
-    public GameMode GameMode;
+	public class GameManager
+	{
+		public LevelManager LevelManager { get; private set; }
+		public GameState GameState { get; private set; } = GameState.PLAYING;
+		public GameMode GameMode;
 
-    public Player m_Player { get; set; }
+		public Player Player { get; set; }
 
-    public GameManager(GameMode gameMode = GameMode.STORY)
-    {
-      m_Player = new();
-      GameMode = gameMode;
-      LevelManager = new LevelManager(m_Player, false);
-    }
+		public GameManager(GameMode gameMode = GameMode.STORY)
+		{
+			Player = new();
+			GameMode = gameMode;
+			LevelManager = new LevelManager(Player, false);
+		}
 
-    public void Run()
-    {
-      while (gameState == GameState.PLAYING) {
+		public void Step()
+		{
+			if (GameState == GameState.PLAYING)
+			{
 
-      }
-    }
+			}
+		}
 
-    public void Pause() 
-    {
-      gameState = GameState.PAUSED;
-    }
+		public void Pause()
+		{
+			GameState = GameState.PAUSED;
+		}
 
-    public void Resume() 
-    {
-      gameState = GameState.PLAYING;
-    }
+		public void Resume()
+		{
+			GameState = GameState.PLAYING;
+		}
 
-    public void NextLevel() 
-    {
+		public void NextLevel()
+		{
 
-    }
+		}
 
-    public void CheckCollisions(Cell cellType)
-    {
-      switch (cellType)
-      {
-        case Cell.Coin:
-          LevelManager.UpdateScore(10);
-          break;
-        case Cell.Kit:
-          // Trigger power-up mode
-          break;
-        case Cell.Ghost:
-          CollideWithEnemy();
-          break;
-        case Cell.Key:
-          LevelManager.AddKey();
-          break;
+		public void CheckCollisions(Cell cellType)
+		{
+			switch (cellType)
+			{
+				case Cell.Coin:
+					LevelManager.UpdateScore(10);
+					break;
+				case Cell.Kit:
+					// Trigger power-up mode
+					break;
+				case Cell.Winston:
+				case Cell.Cain:
+				case Cell.Viggo:
+				case Cell.Marquis:
+					CollideWithEnemy();
+					break;
+				case Cell.Key:
+					LevelManager.AddKey();
+					break;
 
-        default:
-          break;
-          // Add more cases as needed
-      }
-    }
+				default:
+					break;
+					// Add more cases as needed
+			}
+		}
 
-    public void CollideWithEnemy()
-    {
-      LevelManager.Health.ReduceHealth();
-      if (LevelManager.Health.IsDead())
-      {
-        gameState = GameState.GAME_OVER;
-        // Optionally save the game data
-      }
-      else
-      {
-        LevelManager.LevelMap[m_Player.Position.X, m_Player.Position.Y] = Cell.Empty;  // Set the old position to empty
-        m_Player.SetPlayerPosition(LevelManager.MazeStartPos);
-        LevelManager.LevelMap[m_Player.Position.X, m_Player.Position.Y] = Cell.John;
-      }
-    }
-  }
+		public void CollideWithEnemy()
+		{
+			LevelManager.Health.ReduceHealth();
+			if (LevelManager.Health.IsDead())
+			{
+				GameState = GameState.GAME_OVER;
+				// Optionally save the game data
+			}
+			else
+			{
+				Player.UpdatePosition(LevelManager.MazeStartPos, LevelManager.LevelMap);
+			}
+		}
+	}
 }

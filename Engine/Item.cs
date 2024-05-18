@@ -2,5 +2,5 @@
 
 public class Item
 {
-  public CellCoordinates Position;
+	public CellCoordinates Position;
 }
