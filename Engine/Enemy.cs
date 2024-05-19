@@ -8,8 +8,31 @@ namespace Engine
 		public static Enemy Cain = new("Cain", new ChaserBehavior(), Cell.Cain);
 		public static Enemy Viggo = new("Viggo", new WandererBehavior(), Cell.Viggo);
 		public static Enemy Marquis = new("Marquis", new WhimsicalBehavior(), Cell.Marquis);
-		public static Tuple<Enemy, Enemy, Enemy, Enemy> enemies =
-			new Tuple<Enemy, Enemy, Enemy, Enemy>(Winston, Cain, Viggo, Marquis);
+		public static (Enemy, Enemy, Enemy, Enemy) enemies = (Winston, Cain, Viggo, Marquis);
+
+		/// To be looped over:
+		/// foreach (var enemy in enemies.ToEnumerable()) {
+		/// 	// Do the rest.
+		/// }
+		///
+		/// Or:
+		/// enemies.ForEach(enemy => Console.WriteLine(enemy.Name));
+
+		public static IEnumerable<Enemy> ToEnumerable(this (Enemy, Enemy, Enemy, Enemy) tuple)
+		{
+			yield return tuple.Item1;
+			yield return tuple.Item2;
+			yield return tuple.Item3;
+			yield return tuple.Item4;
+		}
+
+		public static void ForEach(this (Enemy, Enemy, Enemy, Enemy) tuple, Action<Enemy> action)
+		{
+			action(tuple.Item1);
+			action(tuple.Item2);
+			action(tuple.Item3);
+			action(tuple.Item4);
+		}
 
 		public static List<CellCoordinates> FindEmptyPositions(Cell[,] maze, int count) // Test, will be changed
 		{
