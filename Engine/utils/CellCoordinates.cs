@@ -1,5 +1,4 @@
-﻿using Engine.utils;
-namespace Engine;
+﻿namespace Engine;
 
 public struct CellCoordinates
 {

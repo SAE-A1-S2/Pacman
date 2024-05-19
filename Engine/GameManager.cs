@@ -53,7 +53,7 @@ namespace Engine
 				case Cell.Coin:
 					LevelManager.UpdateScore(10);
 					break;
-				case Cell.Kit:
+				case Cell.HealthKit:
 					// Trigger power-up mode
 					break;
 				case Cell.Winston:

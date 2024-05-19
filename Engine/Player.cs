@@ -4,6 +4,8 @@ namespace Engine
 {
 	public sealed class Player : Entity
 	{
+		private BonusPair<Bonus> m_Bonuses = new(null, null);
+
 		public Player(string name = "John")
 		{
 			Name = name;
@@ -47,15 +49,24 @@ namespace Engine
 		}
 
 
-		private static void HandleCellInteraction(Cell cellType)
+		private void HandleCellInteraction(Cell cellType)
 		{
 			switch (cellType)
 			{
 				case Cell.Coin:
 					// Increment score
 					break;
-				case Cell.Kit:
-					// Store power-up
+				case Cell.HealthKit:
+					m_Bonuses.Add(new HealthBonus());
+					break;
+				case Cell.SpeedBoost:
+					m_Bonuses.Add(new SpeedBonus());
+					break;
+				case Cell.Torch:
+					m_Bonuses.Add(new TorchBonus());
+					break;
+				case Cell.InvisibilityCloack:
+					m_Bonuses.Add(new InvisibilityCloakBonus());
 					break;
 				// If enemy
 				case Cell.Winston:

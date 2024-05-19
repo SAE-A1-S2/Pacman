@@ -8,7 +8,7 @@ namespace Engine
 		public static CellCoordinates FindClosestCell(Cell[,] maze)
 		{
 			var john = FindPlayer(maze);
-			List<Cell> targets = [Cell.Kit, Cell.Key];
+			List<Cell> targets = [Cell.HealthKit, Cell.Key];
 			CellCoordinates closest = new(-1, -1);
 			double minDistance = double.MaxValue;
 
@@ -148,7 +148,7 @@ namespace Engine
 			while (!current.Equals(src))
 			{
 				path.Push(current);
-				current = pred[current].Value;
+				current = pred[current].Value; // WARNING: May be null, to be handled
 			}
 			Debug.WriteLine($"start from ({src.X}, {src.Y})");
 			Debug.WriteLine($"Move to ({path.Pop().X}, {path.Pop().Y})");

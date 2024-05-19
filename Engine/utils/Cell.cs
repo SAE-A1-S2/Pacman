@@ -12,7 +12,8 @@ public enum Cell
 	Cain,
 	Viggo,
 	Marquis,
-	Kit,
-	// TODO: Add every bonuses here.
+	HealthKit,
+	SpeedBoost,
+	Torch,
+	InvisibilityCloack,
 }
-

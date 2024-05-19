@@ -20,6 +20,12 @@ public struct Health
 		}
 	}
 
+	public void ResetHealth()
+	{
+		Lives = 3;
+		HealthPoints = 2;
+	}
+
 	public bool IsDead()
 	{
 		return Lives <= 0;
@@ -82,6 +88,7 @@ public class LevelManager
 
 	public void AddKey()
 	{
+		if (Key > 2) return;
 		Key++;
 	}
 
@@ -97,12 +104,12 @@ public class LevelManager
 
 	public Cell HasCollidedWith(CellCoordinates nextPosition)
 	{
-		throw new Exception("not implemented");
+		throw new NotImplementedException();
 	}
 
 	public void ResetLevel()
 	{
-		Health = new();
+		Health.ResetHealth();
 		Score = 0;
 		Key = 0;
 		LevelMap = m_MazeGenerator._map;
