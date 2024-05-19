@@ -54,15 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Ressources\aiGhost.png" />
     <Resource Include="Ressources\blackHeart.png" />
-    <Resource Include="Ressources\blueGhost.png" />
     <Resource Include="Ressources\logo.ico" />
-    <Resource Include="Ressources\orangeGhost.png" />
-    <Resource Include="Ressources\pacman.png" />
     <Resource Include="Ressources\pallet.png" />
-    <Resource Include="Ressources\pinkGhost.png" />
-    <Resource Include="Ressources\redGhost.png" />
     <Resource Include="Ressources\redHeart.png" />
     <Resource Include="Ressources\wall.png" />
   </ItemGroup>

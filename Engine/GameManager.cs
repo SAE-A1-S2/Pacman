@@ -17,7 +17,7 @@ namespace Engine
 			LevelManager = new LevelManager(Player, gameMode);
 		}
 
-		public void Step(Direction direction)
+		public void StepPlayer(Direction direction)
 		{
 			if (GameState == GameState.PLAYING)
 			{
@@ -25,9 +25,14 @@ namespace Engine
 				if (Entity.IsInBounds(newPosition, LevelManager.LevelMap))
 					if (LevelManager.LevelMap[newPosition.X, newPosition.Y] != Cell.Wall)
 						Player.Move(direction, LevelManager.LevelMap, this);
+			}
+		}
 
-				Enemies.Cain.Move(LevelManager.LevelMap); //Test
-
+		public void StepGhosts() // Had to create a new method to be able to control the player and the ghost speed independently
+		{
+			if (GameState == GameState.PLAYING)
+			{
+				Enemies.Cain.Move(LevelManager.LevelMap);
 			}
 		}
 

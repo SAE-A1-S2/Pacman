@@ -118,14 +118,44 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="aiGhost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\aiGhost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="blackHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\blackHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="blueGhost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\blueGhost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Espion_LookDownStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookDownStop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookDownWalk_Frame1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookDownWalk Frame1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookDownWalk_Frame2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookDownWalk Frame2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookLeftStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookLeftStop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookLeftWalk_Frame1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookLeftWalk Frame1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookLeftWalk_Frame2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookLeftWalk Frame2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookRightStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookRightStop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookRightWalk_Frame1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookRightWalk Frame1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookRightWalk_Frame2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookRightWalk Frame2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookUpStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookUpStop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookUpWalk_Frame1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookUpWalk Frame1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Espion_LookUpWalk_Frame2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\Espion LookUpWalk Frame2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="homeImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\homeImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -136,20 +166,8 @@
   <data name="noRessources" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\noRessources.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="orangeGhost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\orangeGhost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pacman" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\pacman.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="pallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\pallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pinkGhost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\pinkGhost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="redGhost" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Ressources\redGhost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="redHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\redHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

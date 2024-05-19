@@ -142,16 +142,20 @@ namespace Engine
 		private static CellCoordinates ReconstructPath(Dictionary<CellCoordinates, CellCoordinates?> pred, CellCoordinates dst, CellCoordinates src)
 		{
 			var current = dst;
-
 			// Construct the path backwards from the destination to the source
 			var path = new Stack<CellCoordinates>();
+
 			while (!current.Equals(src))
 			{
 				path.Push(current);
-				current = pred[current].Value; // WARNING: May be null, to be handled
+				if (pred.TryGetValue(current, out CellCoordinates? value) && value.HasValue)
+					current = value.Value;
+				else
+					return src;
 			}
-			Debug.WriteLine($"start from ({src.X}, {src.Y})");
-			Debug.WriteLine($"Move to ({path.Pop().X}, {path.Pop().Y})");
+			if (path.Count == 1)
+				return path.Pop();
+
 			return path.Pop();
 		}
 

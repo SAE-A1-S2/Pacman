@@ -79,7 +79,7 @@ namespace Engine
 			maze[Position.X, Position.Y] = Kind;
 		}
 
-		public void Move(Cell[,] maze) // Everything we need to move an enemy, nothing else
+		public void Move(Cell[,] maze)
 		{
 			CellCoordinates newPosition = EnemyBehavior.NextPositon(maze, Position);
 			UpdatePosition(newPosition, maze);

@@ -6,6 +6,6 @@ public class Project
 	{
 		GameManager gm = new();
 		gm.Player.SetPlayerName("Cédric");
-		gm.Step(utils.Direction.RIGHT);
+		gm.StepPlayer(utils.Direction.RIGHT);
 	}
 }

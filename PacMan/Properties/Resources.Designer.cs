@@ -63,16 +63,6 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap aiGhost {
-            get {
-                object obj = ResourceManager.GetObject("aiGhost", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap blackHeart {
             get {
                 object obj = ResourceManager.GetObject("blackHeart", resourceCulture);
@@ -83,9 +73,119 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap blueGhost {
+        internal static System.Drawing.Bitmap Espion_LookDownStop {
             get {
-                object obj = ResourceManager.GetObject("blueGhost", resourceCulture);
+                object obj = ResourceManager.GetObject("Espion_LookDownStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookDownWalk_Frame1 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookDownWalk_Frame1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookDownWalk_Frame2 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookDownWalk_Frame2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookLeftStop {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookLeftStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookLeftWalk_Frame1 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookLeftWalk_Frame1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookLeftWalk_Frame2 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookLeftWalk_Frame2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookRightStop {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookRightStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookRightWalk_Frame1 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookRightWalk_Frame1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookRightWalk_Frame2 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookRightWalk_Frame2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookUpStop {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookUpStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookUpWalk_Frame1 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookUpWalk_Frame1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Espion_LookUpWalk_Frame2 {
+            get {
+                object obj = ResourceManager.GetObject("Espion_LookUpWalk_Frame2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,49 +223,9 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap orangeGhost {
-            get {
-                object obj = ResourceManager.GetObject("orangeGhost", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pacman {
-            get {
-                object obj = ResourceManager.GetObject("pacman", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap pallet {
             get {
                 object obj = ResourceManager.GetObject("pallet", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pinkGhost {
-            get {
-                object obj = ResourceManager.GetObject("pinkGhost", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap redGhost {
-            get {
-                object obj = ResourceManager.GetObject("redGhost", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
