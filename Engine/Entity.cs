@@ -14,26 +14,26 @@ namespace Engine
 		{
 			return direction switch
 			{
-				Direction.UP => new CellCoordinates(currentPosition.X, currentPosition.Y - 1),
-				Direction.DOWN => new CellCoordinates(currentPosition.X, currentPosition.Y + 1),
-				Direction.LEFT => new CellCoordinates(currentPosition.X - 1, currentPosition.Y),
-				Direction.RIGHT => new CellCoordinates(currentPosition.X + 1, currentPosition.Y),
+				Direction.UP => new CellCoordinates(currentPosition.row, currentPosition.col - 1),
+				Direction.DOWN => new CellCoordinates(currentPosition.row, currentPosition.col + 1),
+				Direction.LEFT => new CellCoordinates(currentPosition.row - 1, currentPosition.col),
+				Direction.RIGHT => new CellCoordinates(currentPosition.row + 1, currentPosition.col),
 				_ => currentPosition,
 			};
 		}
 
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
-			maze[Position.X, Position.Y] = Cell.Empty;
+			maze[Position.row, Position.col] = Cell.Empty;
 			Position = newCell;
-			maze[Position.X, Position.Y] = Kind;
+			maze[Position.row, Position.col] = Kind;
 		}
 
 		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
 		{
 			Debug.WriteLine($"{maze.GetLength(0)}, {maze.GetLength(1)}");
-			return cell.X >= 0 && cell.X < maze.GetLength(0) &&
-				   cell.Y >= 0 && cell.Y < maze.GetLength(1);
+			return cell.row >= 0 && cell.row < maze.GetLength(0) &&
+				   cell.col >= 0 && cell.col < maze.GetLength(1);
 		}
 
 	}

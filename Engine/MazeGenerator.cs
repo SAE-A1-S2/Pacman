@@ -44,10 +44,10 @@
 			foreach (var direction in directions)
 			{
 				// Calcule les coordonnées du voisin potentiel en ajoutant la direction actuelle aux coordonnées de la cellule actuelle.
-				CellCoordinates neighbor = new CellCoordinates(cell.X + direction.Item1, cell.Y + direction.Item2);
+				CellCoordinates neighbor = new CellCoordinates(cell.row + direction.Item1, cell.col + direction.Item2);
 
 				// Vérifie si le voisin potentiel est dans les limites du labyrinthe et si c'est un mur (non visité).
-				if (IsInBounds(neighbor) && _map[neighbor.X, neighbor.Y] == Cell.Wall)
+				if (IsInBounds(neighbor) && _map[neighbor.row, neighbor.col] == Cell.Wall)
 					// Si les conditions sont remplies, ajoute les coordonnées de ce voisin à la liste des voisins non visités.
 					neighbors.Add(neighbor);
 			}
@@ -60,15 +60,15 @@
 		// Vérifie si les coordonnées sont à l'intérieur des limites du labyrinthe
 		private bool IsInBounds(CellCoordinates cell)
 		{
-			return cell.X >= 0 && cell.X < _height && cell.Y >= 0 && cell.Y < _width;
+			return cell.row >= 0 && cell.row < _height && cell.col >= 0 && cell.col < _width;
 		}
 
 		// Enlève le mur entre deux cellules
 		private void RemoveWallBetween(CellCoordinates a, CellCoordinates b)
 		{
 			// Calculez la cellule du mur entre a et b
-			CellCoordinates wall = new CellCoordinates((a.X + b.X) / 2, (a.Y + b.Y) / 2);
-			_map[wall.X, wall.Y] = Cell.Empty;
+			CellCoordinates wall = new CellCoordinates((a.row + b.row) / 2, (a.col + b.col) / 2);
+			_map[wall.row, wall.col] = Cell.Empty;
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@
 					RemoveWallBetween(current, next);
 
 					// Marque la cellule voisine comme visitée (chemin ouvert).
-					_map[next.X, next.Y] = Cell.Empty;
+					_map[next.row, next.col] = Cell.Empty;
 
 					// Ajoute la cellule voisine dans la pile pour continuer le parcours à partir de ce point.
 					stack.Push(next);
@@ -132,22 +132,22 @@
 				// Attribue aléatoirement des coordonnées de départ et d'arrivée.
 				start = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
 				end = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
-			} while (start.X == end.X && start.Y == end.Y);
+			} while (start.row == end.row && start.col == end.col);
 
 			// Place le point de départ dans le labyrinthe.
-			_map[start.X, start.Y] = Cell.Start;
-			Start = new CellCoordinates(start.X, start.Y);
+			_map[start.row, start.col] = Cell.Start;
+			Start = new CellCoordinates(start.row, start.col);
 
 			// Utilise l'algorithme DFS itératif pour générer le labyrinthe à partir du point de départ.
 			GenerateDFSMazeIterative(start);
 
 			// Boucle pour trouver une cellule vide pour la sortie.
 			// Continue de générer des coordonnées aléatoires jusqu'à ce qu'une cellule vide soit trouvée.
-			while (_map[end.X, end.Y] != Cell.Empty)
+			while (_map[end.row, end.col] != Cell.Empty)
 				end = new CellCoordinates(random.Next(0, _height), random.Next(0, _width));
 
 			// Marque la cellule d'arrivée trouvée comme la sortie du labyrinthe.
-			_map[end.X, end.Y] = Cell.End;
+			_map[end.row, end.col] = Cell.End;
 		}
 	}
 }

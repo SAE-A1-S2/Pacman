@@ -23,7 +23,7 @@ namespace Engine
 			{
 				CellCoordinates newPosition = Entity.GetNextPosition(Player.Position, direction);
 				if (Entity.IsInBounds(newPosition, LevelManager.LevelMap))
-					if (LevelManager.LevelMap[newPosition.X, newPosition.Y] != Cell.Wall)
+					if (LevelManager.LevelMap[newPosition.row, newPosition.col] != Cell.Wall)
 						Player.Move(direction, LevelManager.LevelMap, this);
 			}
 		}

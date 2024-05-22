@@ -26,10 +26,10 @@ namespace Engine
 			while (emptyPositions.Count < count)
 			{
 				var coord = new CellCoordinates(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
-				var cell = maze[coord.X, coord.Y];
+				var cell = maze[coord.row, coord.col];
 
-				if (cell == Cell.Empty && !emptyPositions.Contains(new CellCoordinates(coord.X, coord.Y)))
-					emptyPositions.Add(new CellCoordinates(coord.X, coord.Y));
+				if (cell == Cell.Empty && !emptyPositions.Contains(new CellCoordinates(coord.row, coord.col)))
+					emptyPositions.Add(new CellCoordinates(coord.row, coord.col));
 			}
 			return emptyPositions;
 		}
@@ -51,16 +51,16 @@ namespace Engine
 		public void SetStartingPosition(CellCoordinates start, Cell[,] maze)
 		{
 			Position = start;
-			maze[Position.X, Position.Y] = Kind;
+			maze[Position.row, Position.col] = Kind;
 		}
 
 		public void UpdateStatus(CellCoordinates newCell, Cell[,] maze, Direction direction = Direction.STOP)
 		{
 			CurrentDirection = direction;
-			maze[Position.X, Position.Y] = m_PreviousKind;
+			maze[Position.row, Position.col] = m_PreviousKind;
 			Position = newCell;
-			m_PreviousKind = maze[Position.X, Position.Y];
-			maze[Position.X, Position.Y] = Kind;
+			m_PreviousKind = maze[Position.row, Position.col];
+			maze[Position.row, Position.col] = Kind;
 		}
 
 		public void Move(Cell[,] maze, Direction direction)
@@ -80,7 +80,7 @@ namespace Engine
 			var dir = CurrentDirection;
 			var newPos = GetNextPosition(currentPos, dir);
 
-			bool pathBlocked = !IsInBounds(newPos, maze) || maze[newPos.X, newPos.Y] == Cell.Wall || IsOccupied(newPos, maze);
+			bool pathBlocked = !IsInBounds(newPos, maze) || maze[newPos.row, newPos.col] == Cell.Wall || IsOccupied(newPos, maze);
 
 			int randomDecision = m_Random.Next(1, 4);
 			// If the path is blocked or randomness forces a change, select a new direction
@@ -93,7 +93,7 @@ namespace Engine
 				foreach (var altDir in alternativeDirections)
 				{
 					newPos = GetNextPosition(currentPos, altDir);
-					if (IsInBounds(newPos, maze) && maze[newPos.X, newPos.Y] != Cell.Wall)
+					if (IsInBounds(newPos, maze) && maze[newPos.row, newPos.col] != Cell.Wall)
 					{
 						dir = altDir;
 						foundValidDirection = true;
@@ -106,13 +106,13 @@ namespace Engine
 				{
 					var oppositeDir = GetOppositeDirection(CurrentDirection);
 					newPos = GetNextPosition(currentPos, oppositeDir);
-					if (IsInBounds(newPos, maze) && maze[newPos.X, newPos.Y] != Cell.Wall)
+					if (IsInBounds(newPos, maze) && maze[newPos.row, newPos.col] != Cell.Wall)
 						dir = oppositeDir;
 				}
 			}
 
 			// Move to the new position if valid
-			if (IsInBounds(newPos, maze) && maze[newPos.X, newPos.Y] != Cell.Wall)
+			if (IsInBounds(newPos, maze) && maze[newPos.row, newPos.col] != Cell.Wall)
 				UpdateStatus(newPos, maze, dir);
 		}
 
@@ -153,7 +153,7 @@ namespace Engine
 
 		public static bool IsOccupied(CellCoordinates position, Cell[,] maze)
 		{
-			return maze[position.X, position.Y] != Cell.Empty && maze[position.X, position.Y] != Cell.Start && maze[position.X, position.Y] != Cell.End;
+			return maze[position.row, position.col] != Cell.Empty && maze[position.row, position.col] != Cell.Start && maze[position.row, position.col] != Cell.End;
 		}
 	}
 }

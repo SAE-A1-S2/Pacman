@@ -35,14 +35,14 @@ namespace Engine
 			// Check if the new position is within the bounds of the maze
 			if (IsInBounds(newPosition, maze))
 			{
-				gameManager.CheckCollisions(maze[newPosition.X, newPosition.Y]); // to be removed
-																				 // Check if the cell at the new position is not a wall
-				if (maze[newPosition.X, newPosition.Y] != Cell.Wall)
+				gameManager.CheckCollisions(maze[newPosition.row, newPosition.col]); // to be removed
+																					 // Check if the cell at the new position is not a wall
+				if (maze[newPosition.row, newPosition.col] != Cell.Wall)
 				{
-					if (maze[newPosition.X, newPosition.Y] == Cell.Empty || maze[newPosition.X, newPosition.Y] == Cell.Coin)
+					if (maze[newPosition.row, newPosition.col] == Cell.Empty || maze[newPosition.row, newPosition.col] == Cell.Coin)
 					{
 						UpdatePosition(newPosition, maze);
-						HandleCellInteraction(maze[Position.X, Position.Y]);
+						HandleCellInteraction(maze[Position.row, Position.col]);
 					}
 				}
 			}

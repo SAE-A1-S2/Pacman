@@ -1,19 +1,13 @@
 ﻿namespace Engine;
 
-public struct CellCoordinates
+public struct CellCoordinates(int row, int col)
 {
-	public int X;
-	public int Y;
+	public int row = row;
+	public int col = col;
 
-	public CellCoordinates(int x, int y)
-	{
-		X = x;
-		Y = y;
-	}
+	public override bool Equals(object? obj) => obj is CellCoordinates coordinates && row == coordinates.row && col == coordinates.col;
 
-	public override bool Equals(object? obj) => obj is CellCoordinates coordinates && X == coordinates.X && Y == coordinates.Y;
-
-	public override int GetHashCode() => HashCode.Combine(X, Y);
+	public override int GetHashCode() => HashCode.Combine(row, col);
 
 	public static bool operator ==(CellCoordinates a, CellCoordinates b)
 	{
