@@ -8,7 +8,7 @@ namespace Engine
 		public CellCoordinates Position { get; protected set; }
 		public string Name { get; protected set; } = "";
 		public Cell Kind { get; protected set; }
-		protected Direction CurrentDirection { get; set; }
+		public Direction CurrentDirection { get; protected set; }
 
 		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{

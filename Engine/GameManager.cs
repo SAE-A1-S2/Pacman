@@ -32,7 +32,7 @@ namespace Engine
 		{
 			if (GameState == GameState.PLAYING)
 			{
-				Enemies.Cain.Move(LevelManager.LevelMap);
+				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);
 			}
 		}
 

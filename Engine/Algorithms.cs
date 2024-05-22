@@ -8,7 +8,7 @@ namespace Engine
 		public static CellCoordinates FindClosestCell(Cell[,] maze)
 		{
 			var john = FindPlayer(maze);
-			List<Cell> targets = [Cell.HealthKit, Cell.Key];
+			List<Cell> targets = [Cell.HealthKit, Cell.Key, Cell.SpeedBoost, Cell.Torch, Cell.InvisibilityCloack];
 			CellCoordinates closest = new(-1, -1);
 			double minDistance = double.MaxValue;
 
