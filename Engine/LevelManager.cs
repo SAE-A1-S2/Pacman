@@ -38,11 +38,11 @@ public class LevelManager
 	private static readonly int s_Height = 30;
 
 	private MazeGenerator m_MazeGenerator;
-	private Player m_Player;
 
 	public int Score { get; private set; }
 
 	public Health Health { get; private set; }
+	public Player Player;
 
 	public byte Key { get; private set; }
 	public Cell[,] LevelMap { get; private set; } = new Cell[s_Width, s_Height];
@@ -57,8 +57,8 @@ public class LevelManager
 
 		Initializelevel(gameMode);
 		// The player should be an outside ref.
-		m_Player = player;
-		m_Player.PlacePlayer(LevelMap);
+		Player = player;
+		Player.PlacePlayer(LevelMap);
 
 		//Test
 		var pos = Enemies.FindEmptyPositions(LevelMap, 1);

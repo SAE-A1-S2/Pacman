@@ -90,6 +90,11 @@ namespace Engine
 		public SpeedBonus() : base("SpeedBonus", "SpeedBonus")
 		{
 		}
+
+		public override void Use(LevelManager lm)
+		{
+			lm.Player.SetSpeed(1.2f); // TODO: Check if this speed is proper.
+		}
 	}
 
 	public sealed class TorchBonus : Bonus
