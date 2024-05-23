@@ -6,30 +6,28 @@ namespace Engine;
 
 public struct Health
 {
-	public byte Lives { get; private set; } = 3;
-	public byte HealthPoints { get; private set; } = 2;
+	static private byte _defaultLives = 3;
+	static private byte _defaultHP = 2;
+	public byte Lives { get; private set; } = _defaultLives;
+	public byte HealthPoints { get; private set; } = _defaultHP;
 
 	public Health() { }
 
 	public void ReduceHealth()
 	{
-		if (--HealthPoints <= 0)
-		{
-			Lives--;
-			HealthPoints = 2;
-		}
+		if (IsDead()) return;
+		if (--HealthPoints > 0) return;
+		Lives--;
+		HealthPoints = _defaultHP;
 	}
 
 	public void ResetHealth()
 	{
-		Lives = 3;
-		HealthPoints = 2;
+		Lives = _defaultLives;
+		HealthPoints = _defaultHP;
 	}
 
-	public bool IsDead()
-	{
-		return Lives <= 0;
-	}
+	public bool IsDead() => Lives <= 0;
 }
 
 public class LevelManager
@@ -114,6 +112,4 @@ public class LevelManager
 		Key = 0;
 		LevelMap = m_MazeGenerator._map;
 	}
-
-
 }
