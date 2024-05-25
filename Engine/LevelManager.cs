@@ -15,8 +15,7 @@ public struct Health
 
 	public void ReduceHealth()
 	{
-		if (IsDead()) return;
-		if (--HealthPoints > 0) return;
+		if (IsDead() && --HealthPoints > 0) return;
 		Lives--;
 		HealthPoints = _defaultHP;
 	}
