@@ -60,13 +60,13 @@ namespace Engine
 					m_Bonuses.Add(new HealthBonus());
 					break;
 				case Cell.SpeedBoost:
-					m_Bonuses.Add(new SpeedBonus());
+					m_Bonuses.Add(new SpeedBonus(10 * 1000));
 					break;
 				case Cell.Torch:
-					m_Bonuses.Add(new TorchBonus());
+					m_Bonuses.Add(new TorchBonus(10 * 1000));
 					break;
 				case Cell.InvisibilityCloack:
-					m_Bonuses.Add(new InvisibilityCloakBonus());
+					m_Bonuses.Add(new InvisibilityCloakBonus(10 * 1000));
 					break;
 				// If enemy
 				case Cell.Winston:

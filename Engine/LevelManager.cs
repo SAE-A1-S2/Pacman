@@ -20,6 +20,11 @@ public struct Health
 		HealthPoints = _defaultHP;
 	}
 
+	public void IncrementHealth()
+	{
+		if (HealthPoints < _defaultHP) HealthPoints++;
+	}
+
 	public void ResetHealth()
 	{
 		Lives = _defaultLives;

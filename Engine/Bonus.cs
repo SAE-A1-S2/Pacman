@@ -4,9 +4,8 @@ namespace Engine
 	{
 		public string Name { get; private set; }
 		public string Description { get; private set; }
-		// The idea would be to have an event that is handled outside the class
-		// when the user uses the bonus.
-		public delegate void OnUsed();
+		public int DurationMS { get; protected set; } = 0;
+		public Action? OnCompleted { get; set; } = null;
 
 		public Bonus(string name, string description)
 		{
@@ -81,33 +80,47 @@ namespace Engine
 		public override void Use(LevelManager lm)
 		{
 			// See how we could make it a bit more challenging.
-			lm.Health.ResetHealth();
+			lm.Health.IncrementHealth();
+			OnCompleted?.Invoke();
 		}
 	}
 
 	public sealed class SpeedBonus : Bonus
 	{
-		public SpeedBonus() : base("SpeedBonus", "SpeedBonus")
+		public SpeedBonus(int durationMS) : base("SpeedBonus", "SpeedBonus")
 		{
+			DurationMS = durationMS;
 		}
 
 		public override void Use(LevelManager lm)
 		{
-			lm.Player.SetSpeed(1.2f); // TODO: Check if this speed is proper.
+			// TODO: Check if this speed is proper.
+			lm.Player.SetSpeed(1.2f);
+			// Handle asynchronous behaviour
+			// It has to run on a different thread, or else it will hang the
+			// program for 10 seconds
+			Task.Delay(DurationMS)
+				.ContinueWith(t =>
+				{
+					lm.Player.SetSpeed(1.0f);
+					OnCompleted?.Invoke();
+				});
 		}
 	}
 
 	public sealed class TorchBonus : Bonus
 	{
-		public TorchBonus() : base("TouchBonus", "TouchBonus")
+		public TorchBonus(int durationMS) : base("TorchBonus", "TorchBonus")
 		{
+			DurationMS = durationMS;
 		}
 	}
 
 	public sealed class InvisibilityCloakBonus : Bonus
 	{
-		public InvisibilityCloakBonus() : base("InvisibilityCloak", "InvisibilityCloak")
+		public InvisibilityCloakBonus(int durationMS) : base("InvisibilityCloak", "InvisibilityCloak")
 		{
+			DurationMS = durationMS;
 		}
 	}
 
