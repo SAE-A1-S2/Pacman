@@ -10,7 +10,7 @@ namespace Engine
 
 		public Player Player { get; set; }
 
-		public GameManager(GameMode gameMode = GameMode.STORY)
+		public GameManager(GameMode gameMode)
 		{
 			Player = new();
 			GameMode = gameMode;

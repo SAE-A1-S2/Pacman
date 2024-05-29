@@ -5,7 +5,7 @@
 		private readonly int _width; // La largeur du labyrinthe.
 		private readonly int _height; // La hauteur du labyrinthe.
 		public Cell[,] _map { get; private set; } // La grille représentant le labyrinthe.
-		private Random random = new Random(); // Instance pour la génération de nombres aléatoires.
+		private Random random = new(); // Instance pour la génération de nombres aléatoires.
 		public CellCoordinates Start { get; private set; } // Les coordonnées du point de départ du labyrinthe.
 
 		/// <summary>
@@ -148,6 +148,54 @@
 
 			// Marque la cellule d'arrivée trouvée comme la sortie du labyrinthe.
 			_map[end.row, end.col] = Cell.End;
+
+			EnhanceMazeWithLoops();
+		}
+
+		private void EnhanceMazeWithLoops()
+		{
+			for (int y = 1; y < _height - 1; y++)
+			{
+				for (int x = 1; x < _width - 1; x++)
+				{
+					if (_map[y, x] == Cell.Empty || _map[y, x] == Cell.Start || _map[y, x] == Cell.End)
+					{
+						List<CellCoordinates> surroundingWalls = new List<CellCoordinates>();
+						List<CellCoordinates> validWalls = new List<CellCoordinates>();
+
+						// Check surrounding cells
+						if (_map[y - 1, x] == Cell.Wall) surroundingWalls.Add(new CellCoordinates(y - 1, x)); // above
+						if (_map[y + 1, x] == Cell.Wall) surroundingWalls.Add(new CellCoordinates(y + 1, x)); // below
+						if (_map[y, x - 1] == Cell.Wall) surroundingWalls.Add(new CellCoordinates(y, x - 1)); // left
+						if (_map[y, x + 1] == Cell.Wall) surroundingWalls.Add(new CellCoordinates(y, x + 1)); // right
+
+						// If there are exactly three surrounding walls, consider removing one
+						if (surroundingWalls.Count == 3)
+						{
+							// Check if removing a wall creates a valid new path
+							foreach (var wall in surroundingWalls)
+							{
+								int wallRow = wall.row;
+								int wallCol = wall.col;
+
+								// Check if removing the wall will connect two distinct passages
+								if ((IsInBounds(new CellCoordinates(wallRow - 1, wallCol)) && _map[wallRow - 1, wallCol] == Cell.Empty && IsInBounds(new CellCoordinates(wallRow + 1, wallCol)) && _map[wallRow + 1, wallCol] == Cell.Empty) ||
+									(IsInBounds(new CellCoordinates(wallRow, wallCol - 1)) && _map[wallRow, wallCol - 1] == Cell.Empty && IsInBounds(new CellCoordinates(wallRow, wallCol + 1)) && _map[wallRow, wallCol + 1] == Cell.Empty))
+								{
+									validWalls.Add(wall);
+								}
+							}
+
+							// Remove one of the valid walls if any
+							if (validWalls.Count > 0)
+							{
+								CellCoordinates wallToRemove = validWalls[random.Next(validWalls.Count)];
+								_map[wallToRemove.row, wallToRemove.col] = Cell.Empty;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

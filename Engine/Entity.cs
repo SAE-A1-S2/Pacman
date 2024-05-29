@@ -15,10 +15,10 @@ namespace Engine
 		{
 			return direction switch
 			{
-				Direction.UP => new CellCoordinates(currentPosition.row, currentPosition.col - 1),
-				Direction.DOWN => new CellCoordinates(currentPosition.row, currentPosition.col + 1),
-				Direction.LEFT => new CellCoordinates(currentPosition.row - 1, currentPosition.col),
-				Direction.RIGHT => new CellCoordinates(currentPosition.row + 1, currentPosition.col),
+				Direction.UP => new CellCoordinates(currentPosition.row - 1, currentPosition.col),
+				Direction.DOWN => new CellCoordinates(currentPosition.row + 1, currentPosition.col),
+				Direction.LEFT => new CellCoordinates(currentPosition.row, currentPosition.col - 1),
+				Direction.RIGHT => new CellCoordinates(currentPosition.row, currentPosition.col + 1),
 				_ => currentPosition,
 			};
 		}

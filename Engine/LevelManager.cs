@@ -36,8 +36,8 @@ public struct Health
 
 public class LevelManager
 {
-	private static readonly int s_Width = 20;
-	private static readonly int s_Height = 30;
+	private static readonly int s_Width = 30;
+	private static readonly int s_Height = 20;
 
 	private MazeGenerator m_MazeGenerator;
 

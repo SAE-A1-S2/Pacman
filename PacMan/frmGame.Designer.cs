@@ -47,6 +47,7 @@
 			imgMap = new PictureBox();
 			TmrGhost = new System.Windows.Forms.Timer(components);
 			TmrPlayer = new System.Windows.Forms.Timer(components);
+			TmrRender = new System.Windows.Forms.Timer(components);
 			((System.ComponentModel.ISupportInitialize)imgLives1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).BeginInit();
@@ -213,14 +214,20 @@
 			// TmrGhost
 			// 
 			TmrGhost.Enabled = true;
-			TmrGhost.Interval = 400;
+			TmrGhost.Interval = 250;
 			TmrGhost.Tick += this.TmrGhost_Tick;
 			// 
 			// TmrPlayer
 			// 
 			TmrPlayer.Enabled = true;
-			TmrPlayer.Interval = 400;
+			TmrPlayer.Interval = 250;
 			TmrPlayer.Tick += this.TmrPlayer_Tick;
+			// 
+			// TmrRender
+			// 
+			TmrRender.Enabled = true;
+			TmrRender.Interval = 16;
+			TmrRender.Tick += this.TmrRender_Tick;
 			// 
 			// frmGame
 			// 
@@ -252,7 +259,6 @@
 			Text = "Mode Infini | Le Continentale";
 			Closed += this.frmGame_Closed;
 			Load += this.frmGame_Load;
-			KeyDown += this.frmGame_KeyDown;
 			((System.ComponentModel.ISupportInitialize)imgLives1).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).EndInit();
@@ -284,5 +290,6 @@
 		private PictureBox imgMap;
 		private System.Windows.Forms.Timer TmrGhost;
 		private System.Windows.Forms.Timer TmrPlayer;
+		private System.Windows.Forms.Timer TmrRender;
 	}
 }

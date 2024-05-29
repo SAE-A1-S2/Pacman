@@ -10,7 +10,7 @@
 		public CellCoordinates NextPositon(Cell[,] maze, CellCoordinates currentPosition, Direction direction = Direction.STOP)
 		{
 			CellCoordinates dst = Algorithms.FindPlayer(maze);
-			return Algorithms.FindDijkstra(currentPosition, dst, maze);
+			return Algorithms.FindBellManFord(currentPosition, dst, maze);
 		}
 	}
 

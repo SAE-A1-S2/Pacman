@@ -5,7 +5,7 @@ namespace Engine
 	public static class Algorithms
 	{
 
-		public static CellCoordinates FindClosestCell(Cell[,] maze)
+		public static CellCoordinates FindClosestCell(Cell[,] maze) // this will be changed
 		{
 			var john = FindPlayer(maze);
 			List<Cell> targets = [Cell.HealthKit, Cell.Key, Cell.SpeedBoost, Cell.Torch, Cell.InvisibilityCloack];
@@ -39,7 +39,6 @@ namespace Engine
 				for (int y = 0; y < maze.GetLength(1); y++)
 					if (maze[x, y] == Cell.John)
 						pos = new CellCoordinates(x, y);
-			Debug.WriteLine($"Player is at ({pos.row}, {pos.col})");
 			return pos;
 		}
 
@@ -109,7 +108,7 @@ namespace Engine
 						foreach (var direction in directions)
 						{
 							var v = new CellCoordinates(x + direction.Item1, y + direction.Item2);
-							if (IsWithinBounds(v, _maze) && IsCorrectCell(v, _maze) && dist[u] + 1 < dist[v])
+							if (IsWithinBounds(v, _maze) && (_maze[v.row, v.col] != Cell.Wall) && dist[u] + 1 < dist[v])
 							{
 								dist[v] = dist[u] + 1;
 								pred[v] = u;
@@ -119,26 +118,10 @@ namespace Engine
 				}
 			}
 
-			// Vérification des cycles de poids négatifs
-			for (int x = 0; x < _maze.GetLength(0); x++)
-			{
-				for (int y = 0; y < _maze.GetLength(1); y++)
-				{
-					var u = new CellCoordinates(x, y);
-					if (dist[u] == int.MaxValue || _maze[u.row, u.col] == Cell.Wall) continue;
-
-					foreach (var direction in directions)
-					{
-						var v = new CellCoordinates(x + direction.Item1, y + direction.Item2);
-						if (IsWithinBounds(v, _maze) && IsCorrectCell(v, _maze) && dist[u] + 1 < dist[v])
-							throw new InvalidOperationException("Graph contains a negative weight cycle");
-					}
-				}
-			}
-
 			// Reconstruction du chemin
 			return ReconstructPath(pred, dst, src);
 		}
+
 		private static CellCoordinates ReconstructPath(Dictionary<CellCoordinates, CellCoordinates?> pred, CellCoordinates dst, CellCoordinates src)
 		{
 			var current = dst;
@@ -153,8 +136,6 @@ namespace Engine
 				else
 					return src;
 			}
-			if (path.Count == 1)
-				return path.Pop();
 
 			return path.Pop();
 		}
@@ -175,9 +156,6 @@ namespace Engine
 				pq.Remove(firstKey);
 			return cell;
 		}
-
-		private static bool IsCorrectCell(CellCoordinates cell, Cell[,] maze) =>
-			maze[cell.row, cell.col] == Cell.Empty || maze[cell.row, cell.col] == Cell.Start || maze[cell.row, cell.col] == Cell.End;
 
 		private static bool IsWithinBounds(CellCoordinates cell, Cell[,] maze) =>
 			cell.row >= 0 && cell.row < maze.GetLength(0) && cell.col >= 0 && cell.col < maze.GetLength(1);

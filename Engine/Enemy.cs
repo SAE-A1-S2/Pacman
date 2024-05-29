@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine
@@ -36,6 +37,7 @@ namespace Engine
 	}
 	public sealed class Enemy : Entity
 	{
+		private Stopwatch m_StopWatch;
 		public EnemyState State { get; private set; } = EnemyState.FRIGHTENED;
 		public IEnemyBehavior EnemyBehavior { get; private set; }
 		private Random m_Random = new();
@@ -46,6 +48,8 @@ namespace Engine
 			Kind = kind;
 			Name = name;
 			EnemyBehavior = enemyBehavior;
+			m_StopWatch = new Stopwatch();
+
 		}
 
 		public void SetStartingPosition(CellCoordinates start, Cell[,] maze)
@@ -66,12 +70,37 @@ namespace Engine
 		public void Move(Cell[,] maze, Direction direction)
 		{
 			if (State == EnemyState.FRIGHTENED)
-				MoveRandom(maze);
+			{
+				if (m_StopWatch.Elapsed >= TimeSpan.FromSeconds(20))
+				{
+					State = EnemyState.CHASE;
+					m_StopWatch.Stop();
+				}
+				else
+				{
+					MoveRandom(maze);
+				}
+			}
 			else
 			{
-				var nextPosition = EnemyBehavior.NextPositon(maze, Position, direction);
-				UpdateStatus(nextPosition, maze, direction);
+				var PlayerPosition = Algorithms.FindPlayer(maze);
+				if (PlayerPosition.row == Position.row && PlayerPosition.col == Position.col)
+				{
+					SetFrightened();
+					MoveRandom(maze);
+				}
+				else
+				{
+					var nextPosition = EnemyBehavior.NextPositon(maze, Position, direction);
+					UpdateStatus(nextPosition, maze, direction);
+				}
 			}
+		}
+
+		private void SetFrightened()
+		{
+			State = EnemyState.FRIGHTENED;
+			m_StopWatch.Restart();
 		}
 
 		public void MoveRandom(Cell[,] maze)

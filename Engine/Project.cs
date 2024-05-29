@@ -1,11 +1,13 @@
-﻿namespace Engine;
+﻿using Engine.utils;
+
+namespace Engine;
 
 public class Project
 {
 	public static void Main()
 	{
-		GameManager gm = new();
+		GameManager gm = new(GameMode.STORY);
 		gm.Player.SetPlayerName("Cédric");
-		gm.StepPlayer(utils.Direction.RIGHT);
+		gm.StepPlayer(Direction.RIGHT);
 	}
 }

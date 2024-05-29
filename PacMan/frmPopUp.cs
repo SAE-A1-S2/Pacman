@@ -14,9 +14,9 @@ namespace PacMan
         {
             base.OnPaint(e);
 
-            using (Pen pen = new(Color.White, 1))
-                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
-        }
+			using Pen pen = new(Color.White, 1);
+			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
+		}
 
         private void PopUpForm_MouseDown(object sender, MouseEventArgs e)
         {
