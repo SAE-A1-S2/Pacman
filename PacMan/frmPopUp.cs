@@ -99,5 +99,10 @@ namespace PacMan
 		{
 			Activate(); // Donne le focus à la fenêtre
 		}
+
+		private void FrmPopUp_Load(object sender, EventArgs e)
+		{
+			CenterToParent(); // Centre la fenêtre par rapport à la fenêtre parente
+		}
 	}
 }

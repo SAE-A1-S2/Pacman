@@ -163,19 +163,20 @@
 			btnPause.FlatStyle = FlatStyle.Flat;
 			btnPause.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			btnPause.ForeColor = Color.White;
-			btnPause.Location = new Point(904, 12);
+			btnPause.Location = new Point(1019, 12);
 			btnPause.Name = "btnPause";
-			btnPause.Size = new Size(103, 44);
+			btnPause.Size = new Size(104, 44);
 			btnPause.TabIndex = 10;
 			btnPause.Text = "Pause";
 			btnPause.UseVisualStyleBackColor = false;
+			btnPause.Click += this.btnPause_Click;
 			// 
 			// lblCleT
 			// 
 			lblCleT.AutoSize = true;
 			lblCleT.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			lblCleT.ForeColor = Color.CornflowerBlue;
-			lblCleT.Location = new Point(904, 92);
+			lblCleT.Location = new Point(1011, 92);
 			lblCleT.Name = "lblCleT";
 			lblCleT.Size = new Size(55, 23);
 			lblCleT.TabIndex = 11;
@@ -184,7 +185,7 @@
 			// imgCle2
 			// 
 			imgCle2.Image = Properties.Resources.noRessources;
-			imgCle2.Location = new Point(931, 194);
+			imgCle2.Location = new Point(1038, 190);
 			imgCle2.Name = "imgCle2";
 			imgCle2.Size = new Size(47, 52);
 			imgCle2.SizeMode = PictureBoxSizeMode.Zoom;
@@ -194,7 +195,7 @@
 			// imgCle1
 			// 
 			imgCle1.Image = Properties.Resources.noRessources;
-			imgCle1.Location = new Point(931, 118);
+			imgCle1.Location = new Point(1038, 118);
 			imgCle1.Name = "imgCle1";
 			imgCle1.Size = new Size(47, 52);
 			imgCle1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -205,7 +206,7 @@
 			// 
 			imgMap.Location = new Point(191, 25);
 			imgMap.Name = "imgMap";
-			imgMap.Size = new Size(654, 527);
+			imgMap.Size = new Size(791, 636);
 			imgMap.SizeMode = PictureBoxSizeMode.Zoom;
 			imgMap.TabIndex = 14;
 			imgMap.TabStop = false;
@@ -227,7 +228,7 @@
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
-			ClientSize = new Size(1019, 577);
+			ClientSize = new Size(1135, 673);
 			Controls.Add(imgMap);
 			Controls.Add(imgCle1);
 			Controls.Add(imgCle2);
@@ -244,7 +245,7 @@
 			Controls.Add(imgLives3);
 			Controls.Add(imgLives1);
 			FormBorderStyle = FormBorderStyle.FixedDialog;
-			Icon = (Icon)resources.GetObject("$this.Icon");
+			Icon = Properties.Resources.logo;
 			KeyPreview = true;
 			MaximizeBox = false;
 			MinimizeBox = false;

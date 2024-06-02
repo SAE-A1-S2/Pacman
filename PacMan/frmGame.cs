@@ -13,13 +13,16 @@ namespace PacMan
 		private Dictionary<string, Image[]> characterImages;
 		private int animationFrame = 0;
 		private readonly Image Wall = Properties.Resources.wall;
+		private FrmPause frmPause;
 
 		public frmGame(GameMode gameMode)
 		{
+			// Initialisation de la fenêtre de jeu
 			InitializeComponent();
 			characterImages = [];
 			LoadCharacterImages();
 			gameManager = new(gameMode);
+			frmPause = new(gameManager);
 		}
 
 		private void frmGame_Closed(object sender, EventArgs e)
@@ -71,7 +74,7 @@ namespace PacMan
 
 		public void DisplayMaze(Cell[,] maze)
 		{
-			int cellSize = 20;
+			int cellSize = 30;
 			int width = maze.GetLength(1) * cellSize;
 			int height = maze.GetLength(0) * cellSize;
 			Bitmap bmp = new(width, height);
@@ -181,6 +184,12 @@ namespace PacMan
 			if (src.row > dst.row)
 				return Direction.UP;
 			return Direction.STOP;
+		}
+
+		private void btnPause_Click(object sender, EventArgs e)
+		{
+			gameManager.Pause();
+			frmPause.ShowDialog(this);
 		}
 	}
 }

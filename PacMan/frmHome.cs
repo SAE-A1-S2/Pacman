@@ -42,8 +42,7 @@ namespace PacMan
 			if (Properties.Settings.Default.ShowDialogOnLaunch)
 			{
 				SetLabelStates(false);
-				popUpForm.StartPosition = FormStartPosition.CenterParent;
-				popUpForm.Show(this);
+				popUpForm.ShowDialog(this);
 			}
 		}
 
@@ -86,15 +85,13 @@ namespace PacMan
 		private void lblCredit_Click(object sender, EventArgs e)
 		{
 			SetLabelStates(false);
-			credits.StartPosition = FormStartPosition.CenterParent;
-			credits.Show();
+			credits.ShowDialog(this);
 		}
 
 		private void lblStat_Click(object sender, EventArgs e)
 		{
 			SetLabelStates(false); // Désactive les labels
-			stats.StartPosition = FormStartPosition.CenterParent; // Centre la fenêtre des statistiques
-			stats.Show(); // Affiche la fenêtre des statistiques
+			stats.ShowDialog(this); // Affiche la fenêtre des statistiques
 
 		}
 

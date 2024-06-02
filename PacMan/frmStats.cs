@@ -91,6 +91,7 @@ namespace PacMan
 		// Evénement appelé lors du chargement de la fenêtre
 		private void frmStats_Load(object sender, EventArgs e)
 		{
+			CenterToParent(); // Centre la fenêtre par rapport à la fenêtre parente
 			try
 			{
 				// Chargement des scores
