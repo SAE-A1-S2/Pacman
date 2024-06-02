@@ -12,7 +12,7 @@ namespace PacMan
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             
-            Application.Run(new frmHome());
+            Application.Run(new FrmHome());
 
 
         }
