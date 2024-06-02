@@ -1,5 +1,7 @@
 ﻿// using Engine.utils;
 
+using System.ComponentModel;
+using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine;
@@ -34,12 +36,13 @@ public struct Health
 	public bool IsDead() => Lives <= 0;
 }
 
-public class LevelManager
+public class LevelManager : INotifyPropertyChanged
 {
 	private static readonly int s_Width = 30;
 	private static readonly int s_Height = 20;
 
 	private MazeGenerator m_MazeGenerator;
+	public int RemainingCoins { get; private set; }
 
 	public int Score { get; private set; }
 
@@ -49,6 +52,8 @@ public class LevelManager
 	public byte Key { get; private set; }
 	public Cell[,] LevelMap { get; private set; } = new Cell[s_Width, s_Height];
 	public CellCoordinates MazeStartPos { get; private set; }
+
+	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public LevelManager(Player player, GameMode gameMode)
 	{
@@ -65,6 +70,9 @@ public class LevelManager
 		//Test
 		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
 		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);
+
+		// Place coins
+		PlaceCoins();
 
 	}
 
@@ -86,6 +94,27 @@ public class LevelManager
 	public void UpdateScore(int score)
 	{
 		Score += score;
+		if (score == 10)
+			RemainingCoins--;
+
+		Debug.WriteLine(Score);
+
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));
+	}
+
+	private void PlaceCoins()
+	{
+		for (int x = 0; x < LevelMap.GetLength(0); x++)
+		{
+			for (int y = 0; y < LevelMap.GetLength(1); y++)
+			{
+				if (LevelMap[x, y] == Cell.Empty)
+				{
+					LevelMap[x, y] = Cell.Coin;
+					RemainingCoins++;
+				}
+			}
+		}
 	}
 
 	public void AddKey()

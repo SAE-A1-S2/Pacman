@@ -41,7 +41,6 @@ namespace Engine
 
 		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
 		{
-			Debug.WriteLine($"{maze.GetLength(0)}, {maze.GetLength(1)}");
 			return cell.row >= 0 && cell.row < maze.GetLength(0) &&
 				   cell.col >= 0 && cell.col < maze.GetLength(1);
 		}

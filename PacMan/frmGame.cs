@@ -13,6 +13,7 @@ namespace PacMan
 		private Dictionary<string, Image[]> characterImages;
 		private int animationFrame = 0;
 		private readonly Image Wall = Properties.Resources.wall;
+		private readonly Image Coin = Properties.Resources.coin;
 		private FrmPause frmPause;
 
 		public frmGame(GameMode gameMode)
@@ -23,6 +24,8 @@ namespace PacMan
 			LoadCharacterImages();
 			gameManager = new(gameMode);
 			frmPause = new(gameManager);
+
+			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
 		}
 
 		private void frmGame_Closed(object sender, EventArgs e)
@@ -112,6 +115,9 @@ namespace PacMan
 								break;
 							case Cell.Wall:
 								g.DrawImage(Wall, y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
+							case Cell.Coin:
+								g.DrawImage(Coin, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
 						}
 					}
