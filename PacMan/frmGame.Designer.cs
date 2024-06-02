@@ -47,7 +47,6 @@
 			imgMap = new PictureBox();
 			TmrGhost = new System.Windows.Forms.Timer(components);
 			TmrPlayer = new System.Windows.Forms.Timer(components);
-			TmrRender = new System.Windows.Forms.Timer(components);
 			((System.ComponentModel.ISupportInitialize)imgLives1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).BeginInit();
@@ -223,12 +222,6 @@
 			TmrPlayer.Interval = 250;
 			TmrPlayer.Tick += this.TmrPlayer_Tick;
 			// 
-			// TmrRender
-			// 
-			TmrRender.Enabled = true;
-			TmrRender.Interval = 16;
-			TmrRender.Tick += this.TmrRender_Tick;
-			// 
 			// frmGame
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
@@ -290,6 +283,5 @@
 		private PictureBox imgMap;
 		private System.Windows.Forms.Timer TmrGhost;
 		private System.Windows.Forms.Timer TmrPlayer;
-		private System.Windows.Forms.Timer TmrRender;
 	}
 }

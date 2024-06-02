@@ -68,7 +68,7 @@ public class LevelManager
 
 	}
 
-	private void Initializelevel(GameMode gameMode = GameMode.INFINTE)
+	private void Initializelevel(GameMode gameMode = GameMode.INFINITE)
 	{
 		if (gameMode == GameMode.STORY)
 		{

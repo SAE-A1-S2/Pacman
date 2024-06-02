@@ -1,6 +1,6 @@
 ﻿namespace PacMan
 {
-    partial class frmPopUp
+    partial class FrmPopUp
     {
         /// <summary>
         /// Required designer variable.

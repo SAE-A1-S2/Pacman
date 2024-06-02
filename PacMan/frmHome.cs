@@ -1,21 +1,43 @@
+/*
+- ABASS Hammed
+- AURIGNAC Arthur
+- DOHER Alexis
+- GODET Adrien
+- MAS Cédric
+- NAHARRO Guerby
+
+GROUPE D-06
+SAE 2.01
+2023-2024
+
+Résumé:
+Ce fichier contient le code du formulaire  FrmHome qui gère l'interface principale de notre jeu. 
+Il inclut des fonctionnalités pour afficher des fenêtres popup, les crédits, les statistiques et pour démarrer différents modes de jeu.
+*/
+
 using Engine.utils;
 
 namespace PacMan
 {
-	public partial class frmHome : Form
+	public partial class FrmHome : Form
 	{
-		private frmPopUp popUpForm;
-		private frmCredits credits;
-		protected frmStats stats;
+		// Fenêtre popup affichée au lancement
+		private readonly FrmPopUp popUpForm;
+		// Fenêtre des crédits
+		private readonly FrmCredits credits;
+		// Fenêtre des statistiques
+		private readonly FrmStats stats;
 
-		public frmHome()
+		public FrmHome()
 		{
 			InitializeComponent();
+			// Initialisation des fenêtres popup, crédits et statistiques
 			popUpForm = new();
 			credits = new();
 			stats = new();
-			stats.FormClosing += handle_FormClosing;
-			credits.FormClosing += handle_FormClosing;
+			// Association des événements aux fonctions correspondantes
+			stats.VisibleChanged += Handle_Visibility;
+			credits.VisibleChanged += Handle_Visibility;
 			popUpForm.FormClosed += popup_FormClosed;
 			if (Properties.Settings.Default.ShowDialogOnLaunch)
 			{
@@ -25,11 +47,12 @@ namespace PacMan
 			}
 		}
 
+		// Active ou désactive les labels de l'interface principale en fonction de l'etat de la variable enabled.
 		private void SetLabelStates(bool enabled)
 		{
-			Color labelColor = enabled ? Color.CornflowerBlue : Color.Gray;
+			Color labelColor = enabled ? Color.CornflowerBlue : Color.Gray; // on essaie de changer la couleur du texte en gris
 			lblCredit.Enabled = enabled;
-			lblHistore.Enabled = enabled;
+			lblHistore.Enabled = enabled; // active ou désactive les labels, pour qu'on puisse pas cliquer dessus quand les popups sont affichés
 			lblInfini.Enabled = enabled;
 			lblQuit.Enabled = enabled;
 			lblStat.Enabled = enabled;
@@ -42,24 +65,22 @@ namespace PacMan
 		}
 
 
+		// Gère la fermeture de la fenêtre popup.
 		private void popup_FormClosed(object? sender, FormClosedEventArgs e)
 		{
-			SetLabelStates(true);
-			popUpForm.Dispose();
+			SetLabelStates(true); // Active les étiquettes
+			popUpForm.Dispose(); // Libère les ressources utilisées par la fenêtre popup
 		}
 
-		private void handle_FormClosing(object? sender, FormClosingEventArgs e)
+		private void Handle_Visibility(object? sender, EventArgs e)
 		{
-			SetLabelStates(true);
-			if (e.CloseReason == CloseReason.UserClosing)
-				e.Cancel = true;
-			credits.Hide();
-			stats.Hide();
+			if (!credits.Visible && !stats.Visible)
+				SetLabelStates(true);
 		}
 
 		private void lblQuit_Click(object sender, EventArgs e)
 		{
-			Close();
+			Close(); // ferme la fenêtre actuelle
 		}
 
 		private void lblCredit_Click(object sender, EventArgs e)
@@ -71,30 +92,32 @@ namespace PacMan
 
 		private void lblStat_Click(object sender, EventArgs e)
 		{
-			SetLabelStates(false);
-			stats.StartPosition = FormStartPosition.CenterParent;
-			stats.Show();
+			SetLabelStates(false); // Désactive les labels
+			stats.StartPosition = FormStartPosition.CenterParent; // Centre la fenêtre des statistiques
+			stats.Show(); // Affiche la fenêtre des statistiques
 
 		}
 
+		// Gère le clic sur l'étiquette pour démarrer le mode infini.
 		private void lblInfini_Click(object sender, EventArgs e)
 		{
-			Hide();
-			frmGame game = new(GameMode.INFINTE)
+			Hide(); // Cache la fenêtre principale
+			frmGame game = new(GameMode.INFINITE)
 			{
 				StartPosition = FormStartPosition.CenterParent
 			};
-			game.Show();
+			game.Show(); // Affiche la fenêtre de jeu en mode infini
 		}
 
+		// Méthode appelée quand le bouton "Mode Histoire" est cliqué
 		private void lblHistore_Click(object sender, EventArgs e)
 		{
-			Hide();
-			frmGame game = new(GameMode.STORY)
+			Hide(); // Cache la fenêtre principale
+			frmGame game = new(GameMode.STORY) // instancie la fenêtre de jeu en mode histoire
 			{
 				StartPosition = FormStartPosition.CenterParent,
 			};
-			game.Show();
+			game.Show(); // Affiche la fenêtre de jeu en mode histoire
 		}
 	}
 }

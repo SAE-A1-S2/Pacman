@@ -1,6 +1,6 @@
 ﻿namespace PacMan
 {
-    partial class frmStats
+    partial class FrmStats
     {
         /// <summary>
         /// Required designer variable.

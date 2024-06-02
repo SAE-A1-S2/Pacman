@@ -1,4 +1,13 @@
-﻿namespace Engine.utils
+﻿/*
+GROUPE D-06
+SAE 2.01
+2023-2024
+
+Résumé:
+Ce fichier contient plusieurs énumérations utilisées dans le jeu pour définir les différents états et modes de jeu, 
+les directions de déplacement et les états des ennemis.
+*/
+namespace Engine.utils
 {
 	public enum GameState
 	{
@@ -19,7 +28,7 @@
 	public enum GameMode
 	{
 		STORY,
-		INFINTE,
+		INFINITE,
 	}
 
 	public enum EnemyState

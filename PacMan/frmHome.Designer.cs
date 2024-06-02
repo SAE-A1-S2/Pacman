@@ -1,7 +1,7 @@
 ﻿
 namespace PacMan
 {
-    partial class frmHome
+    partial class FrmHome
     {
         /// <summary>
         ///  Required designer variable.
