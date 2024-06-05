@@ -145,6 +145,7 @@ namespace PacMan
 			MinimizeBox = false;
 			Name = "FrmHome";
 			Text = "Le Continentale";
+			FormClosing += this.FrmHome_FormClosing;
 			((System.ComponentModel.ISupportInitialize)picBoxHome).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

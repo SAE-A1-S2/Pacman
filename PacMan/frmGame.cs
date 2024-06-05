@@ -15,6 +15,7 @@ namespace PacMan
 		private readonly Image Wall = Properties.Resources.wall;
 		private readonly Image Coin = Properties.Resources.coin;
 		private FrmPause frmPause;
+		private FrmNotif frmNotif;
 
 		public frmGame(GameMode gameMode)
 		{
@@ -24,6 +25,7 @@ namespace PacMan
 			LoadCharacterImages();
 			gameManager = new(gameMode);
 			frmPause = new(gameManager);
+			frmNotif = new(this);
 
 			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
 		}
@@ -196,6 +198,17 @@ namespace PacMan
 		{
 			gameManager.Pause();
 			frmPause.ShowDialog(this);
+		}
+
+		private void frmGame_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			gameManager.Pause();
+			frmNotif.ShowDialog(this);
+			if(!frmNotif.Result)
+			{
+				e.Cancel = true;
+				gameManager.Resume();
+			}
 		}
 	}
 }

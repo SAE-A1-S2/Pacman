@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGame));
 			imgLives1 = new PictureBox();
 			imgLives3 = new PictureBox();
 			imgLives2 = new PictureBox();
@@ -252,6 +251,7 @@
 			Name = "frmGame";
 			Text = "Mode Infini | Le Continentale";
 			Closed += this.frmGame_Closed;
+			FormClosing += this.frmGame_FormClosing;
 			Load += this.frmGame_Load;
 			((System.ComponentModel.ISupportInitialize)imgLives1).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).EndInit();
