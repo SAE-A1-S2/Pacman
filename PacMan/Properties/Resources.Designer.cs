@@ -403,6 +403,16 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MedKit {
+            get {
+                object obj = ResourceManager.GetObject("MedKit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap noRessources {
             get {
                 object obj = ResourceManager.GetObject("noRessources", resourceCulture);
@@ -426,6 +436,16 @@ namespace PacMan.Properties {
         internal static System.Drawing.Bitmap redHeart {
             get {
                 object obj = ResourceManager.GetObject("redHeart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap torch {
+            get {
+                object obj = ResourceManager.GetObject("torch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -220,6 +220,9 @@
   <data name="MarquisUp2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\MarquisUp2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MedKit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\MedKit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="noRessources" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\noRessources.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -228,6 +231,9 @@
   </data>
   <data name="redHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\redHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\torch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ViggoDown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\ViggoDown1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

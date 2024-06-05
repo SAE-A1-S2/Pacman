@@ -14,6 +14,9 @@ namespace PacMan
 		private int animationFrame = 0;
 		private readonly Image Wall = Properties.Resources.wall;
 		private readonly Image Coin = Properties.Resources.coin;
+		private readonly Image Key = Properties.Resources.Key;
+		private readonly Image HealthKit = Properties.Resources.MedKit;
+		private readonly Image Torch = Properties.Resources.torch;
 		private FrmPause frmPause;
 		private FrmNotif frmNotif;
 
@@ -28,6 +31,7 @@ namespace PacMan
 			frmNotif = new(this);
 
 			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
+			pnlKeys.DataBindings.Add("TabIndex", gameManager.LevelManager, "Key");
 		}
 
 		private void frmGame_Closed(object sender, EventArgs e)
@@ -121,6 +125,21 @@ namespace PacMan
 							case Cell.Coin:
 								g.DrawImage(Coin, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
+							case Cell.HealthKit:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
+								g.DrawImage(HealthKit, y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
+							case Cell.Torch:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
+								g.DrawImage(Torch, y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
+							case Cell.Key:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
+								g.DrawImage(Key, y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
+							case Cell.Empty:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
 						}
 					}
 				}
@@ -204,11 +223,29 @@ namespace PacMan
 		{
 			gameManager.Pause();
 			frmNotif.ShowDialog(this);
-			if(!frmNotif.Result)
+			if (!frmNotif.Result)
 			{
 				e.Cancel = true;
 				gameManager.Resume();
 			}
+		}
+
+		private void pnlKeys_TabIndexChanged(object sender, EventArgs e)
+		{
+			if(pnlKeys.TabIndex == 1)
+			{
+				picKey1.Image = Properties.Resources.Key;
+				picKey2.Image = Properties.Resources.noRessources;
+			}else if(pnlKeys.TabIndex == 2)
+			{
+				picKey1.Image = Properties.Resources.Key;
+				picKey2.Image = Properties.Resources.Key;
+			}else
+			{
+				picKey1.Image = Properties.Resources.noRessources;
+				picKey2.Image = Properties.Resources.noRessources;
+			}
+
 		}
 	}
 }

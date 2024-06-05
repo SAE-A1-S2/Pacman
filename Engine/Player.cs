@@ -35,15 +35,12 @@ namespace Engine
 			// Check if the new position is within the bounds of the maze
 			if (IsInBounds(newPosition, maze))
 			{
-				gameManager.CheckCollisions(maze[newPosition.row, newPosition.col]); // to be removed
-																					 // Check if the cell at the new position is not a wall
+				gameManager.CheckCollisions(maze[newPosition.row, newPosition.col]);
+
 				if (maze[newPosition.row, newPosition.col] != Cell.Wall)
 				{
-					if (maze[newPosition.row, newPosition.col] == Cell.Empty || maze[newPosition.row, newPosition.col] == Cell.Coin)
-					{
-						UpdatePosition(newPosition, maze);
-						HandleCellInteraction(maze[Position.row, Position.col]);
-					}
+					UpdatePosition(newPosition, maze);
+					HandleCellInteraction(maze[Position.row, Position.col]);
 				}
 			}
 		}
@@ -59,14 +56,8 @@ namespace Engine
 				case Cell.HealthKit:
 					m_Bonuses.Add(new HealthBonus());
 					break;
-				case Cell.SpeedBoost:
-					m_Bonuses.Add(new SpeedBonus(10 * 1000));
-					break;
 				case Cell.Torch:
 					m_Bonuses.Add(new TorchBonus(10 * 1000));
-					break;
-				case Cell.InvisibilityCloack:
-					m_Bonuses.Add(new InvisibilityCloakBonus(10 * 1000));
 					break;
 				// If enemy
 				case Cell.Winston:

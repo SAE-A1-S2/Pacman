@@ -31,6 +31,46 @@ namespace Engine
 			return closest;
 		}
 
+		public static CellCoordinates FindCell(Cell[,] maze, CellCoordinates target, Cell cellType = Cell.Empty, int maxSearchDistance = 0)
+		{
+			if (maxSearchDistance <= 0)
+				maxSearchDistance = Math.Max(maze.GetLength(0), maze.GetLength(1)) / 4;
+
+			(int dr, int dc)[] directions = [(1, 0), (0, 1), (-1, 0), (0, -1)];
+
+			int currentDistance = 0;
+			int dr = 0, dc = 1;
+			CellCoordinates current = target;
+
+			while (currentDistance <= maxSearchDistance)
+			{
+				if (Entity.IsInBounds(current, maze) && maze[current.row, current.col] == cellType)
+					return current;
+
+				current.row += dr;
+				current.col += dc;
+
+				if (!Entity.IsInBounds(current, maze) || maze[current.row, current.col] != Cell.Empty || Math.Abs(current.row - target.row) + Math.Abs(current.col - target.col) > currentDistance)
+				{
+					(dr, dc) = (-dc, dr);
+					currentDistance++;
+				}
+			}
+
+			return FindRandomEmptyCell(maze);
+		}
+
+		private static CellCoordinates FindRandomEmptyCell(Cell[,] maze)
+		{
+			Random random = new();
+			CellCoordinates cell = new(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
+
+			while (maze[cell.row, cell.col] != Cell.Empty)
+				cell = new(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
+
+			return cell;
+		}
+
 
 		public static CellCoordinates FindPlayer(Cell[,] maze)
 		{

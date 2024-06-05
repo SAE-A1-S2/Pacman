@@ -52,7 +52,7 @@ public class LevelManager : INotifyPropertyChanged
 	public byte Key { get; private set; }
 	public Cell[,] LevelMap { get; private set; } = new Cell[s_Width, s_Height];
 	public CellCoordinates MazeStartPos { get; private set; }
-
+	private Dictionary<Cell, CellCoordinates> ObjectPositions = [];
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public LevelManager(Player player, GameMode gameMode)
@@ -66,6 +66,8 @@ public class LevelManager : INotifyPropertyChanged
 		// The player should be an outside ref.
 		Player = player;
 		Player.PlacePlayer(LevelMap);
+
+		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
 
 		//Test
 		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
@@ -121,6 +123,7 @@ public class LevelManager : INotifyPropertyChanged
 	{
 		if (Key > 2) return;
 		Key++;
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
 	}
 
 	// public void NextLevel()
@@ -144,5 +147,17 @@ public class LevelManager : INotifyPropertyChanged
 		Score = 0;
 		Key = 0;
 		LevelMap = m_MazeGenerator._map;
+	}
+
+	public void PlaceStaticObjects(List<Cell> objects)
+	{
+		CellCoordinates[] corners = [new(0, 0), new(s_Width - 1, 0), new(0, s_Height - 1), new(s_Width - 1, s_Height - 1)];
+		foreach (var obj in objects)
+		{
+			CellCoordinates corner = corners[objects.IndexOf(obj)];
+			CellCoordinates placement = Algorithms.FindCell(LevelMap, corner);
+			LevelMap[placement.row, placement.col] = obj;
+			ObjectPositions[obj] = placement;
+		}
 	}
 }

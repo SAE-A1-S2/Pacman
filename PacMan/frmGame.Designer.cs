@@ -41,19 +41,21 @@
 			lblScore = new Label();
 			btnPause = new Button();
 			lblCleT = new Label();
-			imgCle2 = new PictureBox();
-			imgCle1 = new PictureBox();
 			imgMap = new PictureBox();
 			TmrGhost = new System.Windows.Forms.Timer(components);
 			TmrPlayer = new System.Windows.Forms.Timer(components);
+			pnlKeys = new Panel();
+			picKey2 = new PictureBox();
+			picKey1 = new PictureBox();
 			((System.ComponentModel.ISupportInitialize)imgLives1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgBonus1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgBonus2).BeginInit();
-			((System.ComponentModel.ISupportInitialize)imgCle2).BeginInit();
-			((System.ComponentModel.ISupportInitialize)imgCle1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgMap).BeginInit();
+			pnlKeys.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)picKey2).BeginInit();
+			((System.ComponentModel.ISupportInitialize)picKey1).BeginInit();
 			this.SuspendLayout();
 			// 
 			// imgLives1
@@ -181,26 +183,6 @@
 			lblCleT.TabIndex = 11;
 			lblCleT.Text = "Clés : ";
 			// 
-			// imgCle2
-			// 
-			imgCle2.Image = Properties.Resources.noRessources;
-			imgCle2.Location = new Point(1038, 190);
-			imgCle2.Name = "imgCle2";
-			imgCle2.Size = new Size(47, 52);
-			imgCle2.SizeMode = PictureBoxSizeMode.Zoom;
-			imgCle2.TabIndex = 12;
-			imgCle2.TabStop = false;
-			// 
-			// imgCle1
-			// 
-			imgCle1.Image = Properties.Resources.noRessources;
-			imgCle1.Location = new Point(1038, 118);
-			imgCle1.Name = "imgCle1";
-			imgCle1.Size = new Size(47, 52);
-			imgCle1.SizeMode = PictureBoxSizeMode.Zoom;
-			imgCle1.TabIndex = 13;
-			imgCle1.TabStop = false;
-			// 
 			// imgMap
 			// 
 			imgMap.Location = new Point(191, 25);
@@ -222,15 +204,44 @@
 			TmrPlayer.Interval = 250;
 			TmrPlayer.Tick += this.TmrPlayer_Tick;
 			// 
+			// pnlKeys
+			// 
+			pnlKeys.Controls.Add(picKey2);
+			pnlKeys.Controls.Add(picKey1);
+			pnlKeys.Location = new Point(1038, 127);
+			pnlKeys.Name = "pnlKeys";
+			pnlKeys.Size = new Size(85, 171);
+			pnlKeys.TabIndex = 15;
+			pnlKeys.TabIndexChanged += this.pnlKeys_TabIndexChanged;
+			// 
+			// picKey2
+			// 
+			picKey2.Image = Properties.Resources.noRessources;
+			picKey2.Location = new Point(9, 100);
+			picKey2.Name = "picKey2";
+			picKey2.Size = new Size(67, 62);
+			picKey2.SizeMode = PictureBoxSizeMode.Zoom;
+			picKey2.TabIndex = 17;
+			picKey2.TabStop = false;
+			// 
+			// picKey1
+			// 
+			picKey1.Image = Properties.Resources.noRessources;
+			picKey1.Location = new Point(9, 12);
+			picKey1.Name = "picKey1";
+			picKey1.Size = new Size(67, 62);
+			picKey1.SizeMode = PictureBoxSizeMode.Zoom;
+			picKey1.TabIndex = 16;
+			picKey1.TabStop = false;
+			// 
 			// frmGame
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1135, 673);
+			Controls.Add(pnlKeys);
 			Controls.Add(imgMap);
-			Controls.Add(imgCle1);
-			Controls.Add(imgCle2);
 			Controls.Add(lblCleT);
 			Controls.Add(btnPause);
 			Controls.Add(lblScore);
@@ -258,9 +269,10 @@
 			((System.ComponentModel.ISupportInitialize)imgLives2).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgBonus1).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgBonus2).EndInit();
-			((System.ComponentModel.ISupportInitialize)imgCle2).EndInit();
-			((System.ComponentModel.ISupportInitialize)imgCle1).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgMap).EndInit();
+			pnlKeys.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)picKey2).EndInit();
+			((System.ComponentModel.ISupportInitialize)picKey1).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
@@ -279,10 +291,11 @@
 		private Label lblScore;
 		private Button btnPause;
 		private Label lblCleT;
-		private PictureBox imgCle2;
-		private PictureBox imgCle1;
 		private PictureBox imgMap;
 		private System.Windows.Forms.Timer TmrGhost;
 		private System.Windows.Forms.Timer TmrPlayer;
+		private Panel pnlKeys;
+		private PictureBox picKey1;
+		private PictureBox picKey2;
 	}
 }

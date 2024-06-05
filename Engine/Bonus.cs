@@ -1,17 +1,11 @@
 namespace Engine
 {
-	public class Bonus
+	public class Bonus(string name, string description)
 	{
-		public string Name { get; private set; }
-		public string Description { get; private set; }
+		public string Name { get; private set; } = name;
+		public string Description { get; private set; } = description;
 		public int DurationMS { get; protected set; } = 0;
 		public Action? OnCompleted { get; set; } = null;
-
-		public Bonus(string name, string description)
-		{
-			Name = name;
-			Description = description;
-		}
 
 		public virtual void Use(LevelManager lm)
 		{
@@ -20,16 +14,10 @@ namespace Engine
 		}
 	}
 
-	public class BonusPair<B> where B : Bonus
+	public class BonusPair<B>(B? first, B? second) where B : Bonus
 	{
-		public B? First { get; set; } = null;
-		public B? Second { get; set; } = null;
-
-		public BonusPair(B? first, B? second)
-		{
-			First = first;
-			Second = second;
-		}
+		public B? First { get; set; } = first;
+		public B? Second { get; set; } = second;
 
 		public bool IsEmpty() => First == null && Second == null;
 
@@ -66,8 +54,7 @@ namespace Engine
 		{
 			if (First == null)
 				First = bonus;
-			else if (Second == null)
-				Second = bonus;
+			else Second ??= bonus;
 		}
 	}
 
@@ -85,40 +72,10 @@ namespace Engine
 		}
 	}
 
-	public sealed class SpeedBonus : Bonus
-	{
-		public SpeedBonus(int durationMS) : base("SpeedBonus", "SpeedBonus")
-		{
-			DurationMS = durationMS;
-		}
-
-		public override void Use(LevelManager lm)
-		{
-			// TODO: Check if this speed is proper.
-			lm.Player.SetSpeed(1.2f);
-			// Handle asynchronous behaviour
-			// It has to run on a different thread, or else it will hang the
-			// program for 10 seconds
-			Task.Delay(DurationMS)
-				.ContinueWith(t =>
-				{
-					lm.Player.SetSpeed(1.0f);
-					OnCompleted?.Invoke();
-				});
-		}
-	}
 
 	public sealed class TorchBonus : Bonus
 	{
 		public TorchBonus(int durationMS) : base("TorchBonus", "TorchBonus")
-		{
-			DurationMS = durationMS;
-		}
-	}
-
-	public sealed class InvisibilityCloakBonus : Bonus
-	{
-		public InvisibilityCloakBonus(int durationMS) : base("InvisibilityCloak", "InvisibilityCloak")
 		{
 			DurationMS = durationMS;
 		}
