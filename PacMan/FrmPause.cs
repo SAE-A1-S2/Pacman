@@ -8,7 +8,7 @@ namespace PacMan
 	{
 		private bool isDragging = false; // Indique si la fenêtre est en cours de déplacement
 		private Point lastCursorPosition; // Permet de sauvegarder la position de la souris
-		private GameManager gameManager;
+		private readonly GameManager gameManager;
 		public FrmPause(GameManager _gameManager)
 		{
 			InitializeComponent();

@@ -184,6 +184,9 @@
   <data name="Espion_LookUpWalk_Frame2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\Espion LookUpWalk Frame2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fulLife" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\fulLife.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="home" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -223,8 +226,14 @@
   <data name="MedKit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\MedKit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="noLife" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\noLife.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="noRessources" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\noRessources.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="oneLife" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Ressources\oneLife.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Ressources\pallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -4,7 +4,7 @@ namespace Engine
 {
 	public sealed class Player : Entity
 	{
-		private BonusPair<Bonus> m_Bonuses = new(null, null);
+		private readonly BonusPair<Bonus> m_Bonuses = new(null, null);
 
 		public Player(string name = "John")
 		{
@@ -15,6 +15,11 @@ namespace Engine
 		public void SetPlayerName(string newName)
 		{
 			Name = newName;
+		}
+
+		public void SetPlayerPosition(CellCoordinates newPostion)
+		{
+			Position = newPostion;
 		}
 
 		public void PlacePlayer(Cell[,] maze)
@@ -35,37 +40,28 @@ namespace Engine
 			// Check if the new position is within the bounds of the maze
 			if (IsInBounds(newPosition, maze))
 			{
-				gameManager.CheckCollisions(maze[newPosition.row, newPosition.col]);
-
 				if (maze[newPosition.row, newPosition.col] != Cell.Wall)
 				{
+					CheckCollisions(maze[newPosition.row, newPosition.col], gameManager);
 					UpdatePosition(newPosition, maze);
-					HandleCellInteraction(maze[Position.row, Position.col]);
 				}
 			}
 		}
 
-
-		private void HandleCellInteraction(Cell cellType)
+		public void CheckCollisions(Cell cellType, GameManager gameManager)
 		{
 			switch (cellType)
 			{
 				case Cell.Coin:
-					// Increment score
+					gameManager.LevelManager.UpdateScore(10);
 					break;
 				case Cell.HealthKit:
 					m_Bonuses.Add(new HealthBonus());
 					break;
-				case Cell.Torch:
-					m_Bonuses.Add(new TorchBonus(10 * 1000));
+				case Cell.Key:
+					gameManager.LevelManager.AddKey();
 					break;
-				// If enemy
-				case Cell.Winston:
-				case Cell.Cain:
-				case Cell.Viggo:
-				case Cell.Marquis:
-					// Handle collision with ghost
-					break;
+
 				default:
 					break;
 					// Add more cases as needed

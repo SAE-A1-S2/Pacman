@@ -37,19 +37,16 @@ namespace Engine
 	}
 	public sealed class Enemy : Entity
 	{
-		private Stopwatch m_StopWatch;
 		public EnemyState State { get; private set; } = EnemyState.FRIGHTENED;
 		public IEnemyBehavior EnemyBehavior { get; private set; }
-		private Random m_Random = new();
-		private Cell m_PreviousKind = Cell.Empty;
+		private readonly Random m_Random = new();
+		private Cell m_PreviousKind = Cell.Coin;
 
 		public Enemy(string name, IEnemyBehavior enemyBehavior, Cell kind)
 		{
 			Kind = kind;
 			Name = name;
 			EnemyBehavior = enemyBehavior;
-			m_StopWatch = new Stopwatch();
-
 		}
 
 		public void SetStartingPosition(CellCoordinates start, Cell[,] maze)
@@ -61,9 +58,10 @@ namespace Engine
 		public void UpdateStatus(CellCoordinates newCell, Cell[,] maze, Direction direction = Direction.STOP)
 		{
 			CurrentDirection = direction;
-			maze[Position.row, Position.col] = m_PreviousKind;
+			if (!IsDynamicEntity(maze[newCell.row, newCell.col]))
+				maze[Position.row, Position.col] = m_PreviousKind;
+			m_PreviousKind = GetStaticEntity(maze[newCell.row, newCell.col]);
 			Position = newCell;
-			m_PreviousKind = maze[Position.row, Position.col];
 			maze[Position.row, Position.col] = Kind;
 		}
 
@@ -71,36 +69,13 @@ namespace Engine
 		{
 			if (State == EnemyState.FRIGHTENED)
 			{
-				if (m_StopWatch.Elapsed >= TimeSpan.FromSeconds(20))
-				{
-					State = EnemyState.CHASE;
-					m_StopWatch.Stop();
-				}
-				else
-				{
-					MoveRandom(maze);
-				}
+				MoveRandom(maze);
 			}
 			else
 			{
-				var PlayerPosition = Algorithms.FindPlayer(maze);
-				if (PlayerPosition.row == Position.row && PlayerPosition.col == Position.col)
-				{
-					SetFrightened();
-					MoveRandom(maze);
-				}
-				else
-				{
-					var nextPosition = EnemyBehavior.NextPositon(maze, Position, direction);
-					UpdateStatus(nextPosition, maze, direction);
-				}
+				var nextPosition = EnemyBehavior.NextPositon(maze, Position, direction);
+				UpdateStatus(nextPosition, maze, direction);
 			}
-		}
-
-		private void SetFrightened()
-		{
-			State = EnemyState.FRIGHTENED;
-			m_StopWatch.Restart();
 		}
 
 		public void MoveRandom(Cell[,] maze)
@@ -143,6 +118,21 @@ namespace Engine
 			// Move to the new position if valid
 			if (IsInBounds(newPos, maze) && maze[newPos.row, newPos.col] != Cell.Wall)
 				UpdateStatus(newPos, maze, dir);
+		}
+
+		private bool IsDynamicEntity(Cell cell)
+		{
+			return
+				   cell == Cell.John ||
+				   (cell == Cell.Winston && cell != Kind) ||
+				   (cell == Cell.Cain && cell != Kind) ||
+				   (cell == Cell.Viggo && cell != Kind) ||
+				   (cell == Cell.Marquis && cell != Kind);
+		}
+
+		private Cell GetStaticEntity(Cell cell)
+		{
+			return IsDynamicEntity(cell) ? Cell.Empty : cell;
 		}
 
 		public void ChangeState(EnemyState newState)

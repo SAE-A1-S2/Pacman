@@ -20,12 +20,7 @@ namespace Engine
 		public void StepPlayer(Direction direction)
 		{
 			if (GameState == GameState.PLAYING)
-			{
-				CellCoordinates newPosition = Entity.GetNextPosition(Player.Position, direction);
-				if (Entity.IsInBounds(newPosition, LevelManager.LevelMap))
-					if (LevelManager.LevelMap[newPosition.row, newPosition.col] != Cell.Wall)
-						Player.Move(direction, LevelManager.LevelMap, this);
-			}
+				Player.Move(direction, LevelManager.LevelMap, this);
 		}
 
 		public void StepGhosts() // Had to create a new method to be able to control the player and the ghost speed independently
@@ -34,6 +29,22 @@ namespace Engine
 			{
 				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);
 			}
+		}
+
+		public void CheckGhostCollisions()
+		{
+			List<CellCoordinates> enemiesPos = [];
+			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemiesPos.Add(enemy.Position));
+
+			if (enemiesPos.Contains(Player.Position))
+				Entity.CollideWithEnemy(this);
+		}
+
+		public bool CheckGameCompleted()
+		{
+			if (!LevelManager.Health.IsDead() || LevelManager.Key == 2 || LevelManager.RemainingCoins <= 0)
+				return true;
+			return false;
 		}
 
 		public void Pause()
@@ -51,44 +62,9 @@ namespace Engine
 
 		}
 
-		public void CheckCollisions(Cell cellType)
+		public void GameOver()
 		{
-			switch (cellType)
-			{
-				case Cell.Coin:
-					LevelManager.UpdateScore(10);
-					break;
-				case Cell.HealthKit:
-					// Trigger power-up mode
-					break;
-				case Cell.Winston:
-				case Cell.Cain:
-				case Cell.Viggo:
-				case Cell.Marquis:
-					CollideWithEnemy();
-					break;
-				case Cell.Key:
-					LevelManager.AddKey();
-					break;
-
-				default:
-					break;
-					// Add more cases as needed
-			}
-		}
-
-		public void CollideWithEnemy()
-		{
-			LevelManager.Health.ReduceHealth();
-			if (LevelManager.Health.IsDead())
-			{
-				GameState = GameState.GAME_OVER;
-				// Optionally save the game data
-			}
-			else
-			{
-				Player.UpdatePosition(LevelManager.MazeStartPos, LevelManager.LevelMap);
-			}
+			GameState = GameState.GAME_OVER;
 		}
 	}
 }

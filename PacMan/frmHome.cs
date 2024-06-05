@@ -25,7 +25,7 @@ namespace PacMan
 		private readonly FrmPopUp popUpForm;     // Fenêtre popup affichée au lancement
 		private readonly FrmCredits credits;     // Fenêtre des crédits
 		private readonly FrmStats stats;         // Fenêtre des statistiques
-		private FrmNotif frmNotif;             // Fenêtre de confirmation de fermeture
+		private readonly FrmNotif frmNotif;             // Fenêtre de confirmation de fermeture
 
 		public FrmHome()
 		{

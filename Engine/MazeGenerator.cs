@@ -5,8 +5,9 @@
 		private readonly int _width; // La largeur du labyrinthe.
 		private readonly int _height; // La hauteur du labyrinthe.
 		public Cell[,] _map { get; private set; } // La grille représentant le labyrinthe.
-		private Random random = new(); // Instance pour la génération de nombres aléatoires.
+		private readonly Random random = new(); // Instance pour la génération de nombres aléatoires.
 		public CellCoordinates Start { get; private set; } // Les coordonnées du point de départ du labyrinthe.
+		public CellCoordinates End { get; private set; } // Les coordonnées du point d'arrêt du labyrinthe.
 
 		/// <summary>
 		/// Constructeur de la classe MazeGenerator
@@ -148,6 +149,7 @@
 
 			// Marque la cellule d'arrivée trouvée comme la sortie du labyrinthe.
 			_map[end.row, end.col] = Cell.End;
+			End = new CellCoordinates(end.row, end.col);
 
 			EnhanceMazeWithLoops();
 		}

@@ -32,8 +32,6 @@
 			imgLives1 = new PictureBox();
 			imgLives3 = new PictureBox();
 			imgLives2 = new PictureBox();
-			pnlHealth1 = new Panel();
-			pnlHealt2 = new Panel();
 			lblBns = new Label();
 			imgBonus1 = new PictureBox();
 			imgBonus2 = new PictureBox();
@@ -47,6 +45,8 @@
 			pnlKeys = new Panel();
 			picKey2 = new PictureBox();
 			picKey1 = new PictureBox();
+			pnlHealth = new Panel();
+			picHealth = new PictureBox();
 			((System.ComponentModel.ISupportInitialize)imgLives1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).BeginInit();
@@ -56,6 +56,8 @@
 			pnlKeys.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)picKey2).BeginInit();
 			((System.ComponentModel.ISupportInitialize)picKey1).BeginInit();
+			pnlHealth.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)picHealth).BeginInit();
 			this.SuspendLayout();
 			// 
 			// imgLives1
@@ -87,22 +89,6 @@
 			imgLives2.SizeMode = PictureBoxSizeMode.Zoom;
 			imgLives2.TabIndex = 2;
 			imgLives2.TabStop = false;
-			// 
-			// pnlHealth1
-			// 
-			pnlHealth1.BackColor = Color.Green;
-			pnlHealth1.Location = new Point(12, 58);
-			pnlHealth1.Name = "pnlHealth1";
-			pnlHealth1.Size = new Size(64, 25);
-			pnlHealth1.TabIndex = 3;
-			// 
-			// pnlHealt2
-			// 
-			pnlHealt2.BackColor = Color.Red;
-			pnlHealt2.Location = new Point(81, 58);
-			pnlHealt2.Name = "pnlHealt2";
-			pnlHealt2.Size = new Size(64, 25);
-			pnlHealt2.TabIndex = 4;
 			// 
 			// lblBns
 			// 
@@ -192,12 +178,6 @@
 			imgMap.TabIndex = 14;
 			imgMap.TabStop = false;
 			// 
-			// TmrGhost
-			// 
-			TmrGhost.Enabled = true;
-			TmrGhost.Interval = 250;
-			TmrGhost.Tick += this.TmrGhost_Tick;
-			// 
 			// TmrPlayer
 			// 
 			TmrPlayer.Enabled = true;
@@ -234,12 +214,32 @@
 			picKey1.TabIndex = 16;
 			picKey1.TabStop = false;
 			// 
+			// pnlHealth
+			// 
+			pnlHealth.Controls.Add(picHealth);
+			pnlHealth.Location = new Point(12, 59);
+			pnlHealth.Name = "pnlHealth";
+			pnlHealth.Size = new Size(133, 39);
+			pnlHealth.TabIndex = 16;
+			pnlHealth.TabIndexChanged += this.pnlHealth_TabIndexChanged;
+			// 
+			// picHealth
+			// 
+			picHealth.Image = Properties.Resources.fulLife;
+			picHealth.Location = new Point(1, 1);
+			picHealth.Name = "picHealth";
+			picHealth.Size = new Size(131, 37);
+			picHealth.SizeMode = PictureBoxSizeMode.Zoom;
+			picHealth.TabIndex = 0;
+			picHealth.TabStop = false;
+			// 
 			// frmGame
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1135, 673);
+			Controls.Add(pnlHealth);
 			Controls.Add(pnlKeys);
 			Controls.Add(imgMap);
 			Controls.Add(lblCleT);
@@ -249,8 +249,6 @@
 			Controls.Add(imgBonus2);
 			Controls.Add(imgBonus1);
 			Controls.Add(lblBns);
-			Controls.Add(pnlHealt2);
-			Controls.Add(pnlHealth1);
 			Controls.Add(imgLives2);
 			Controls.Add(imgLives3);
 			Controls.Add(imgLives1);
@@ -273,6 +271,8 @@
 			pnlKeys.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)picKey2).EndInit();
 			((System.ComponentModel.ISupportInitialize)picKey1).EndInit();
+			pnlHealth.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)picHealth).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
@@ -282,8 +282,6 @@
 		private PictureBox imgLives1;
 		private PictureBox imgLives3;
 		private PictureBox imgLives2;
-		private Panel pnlHealth1;
-		private Panel pnlHealt2;
 		private Label lblBns;
 		private PictureBox imgBonus1;
 		private PictureBox imgBonus2;
@@ -297,5 +295,7 @@
 		private Panel pnlKeys;
 		private PictureBox picKey1;
 		private PictureBox picKey2;
+		private Panel pnlHealth;
+		private PictureBox picHealth;
 	}
 }

@@ -6,25 +6,37 @@ using Engine.utils;
 
 namespace Engine;
 
-public struct Health
+public class Health : INotifyPropertyChanged
 {
-	static private byte _defaultLives = 3;
-	static private byte _defaultHP = 2;
+	private static readonly byte _defaultLives = 3;
+	private static readonly byte _defaultHP = 2;
 	public byte Lives { get; private set; } = _defaultLives;
 	public byte HealthPoints { get; private set; } = _defaultHP;
+
+	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public Health() { }
 
 	public void ReduceHealth()
 	{
-		if (IsDead() && --HealthPoints > 0) return;
-		Lives--;
-		HealthPoints = _defaultHP;
+		if (!IsDead() && HealthPoints <= 0)
+		{
+			Lives--;
+			HealthPoints = _defaultHP;
+		}
+		else
+			HealthPoints--;
+		Debug.WriteLine($"Lives: {Lives}");
+		Debug.WriteLine($"Health: {HealthPoints}");
+
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));
 	}
 
 	public void IncrementHealth()
 	{
 		if (HealthPoints < _defaultHP) HealthPoints++;
+
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));
 	}
 
 	public void ResetHealth()
@@ -33,7 +45,7 @@ public struct Health
 		HealthPoints = _defaultHP;
 	}
 
-	public bool IsDead() => Lives <= 0;
+	public bool IsDead() => Lives <= 0 && HealthPoints <= 0;
 }
 
 public class LevelManager : INotifyPropertyChanged
@@ -41,7 +53,7 @@ public class LevelManager : INotifyPropertyChanged
 	private static readonly int s_Width = 30;
 	private static readonly int s_Height = 20;
 
-	private MazeGenerator m_MazeGenerator;
+	private readonly MazeGenerator m_MazeGenerator;
 	public int RemainingCoins { get; private set; }
 
 	public int Score { get; private set; }
@@ -52,7 +64,8 @@ public class LevelManager : INotifyPropertyChanged
 	public byte Key { get; private set; }
 	public Cell[,] LevelMap { get; private set; } = new Cell[s_Width, s_Height];
 	public CellCoordinates MazeStartPos { get; private set; }
-	private Dictionary<Cell, CellCoordinates> ObjectPositions = [];
+	public CellCoordinates MazeEndPos { get; private set; }
+	private readonly Dictionary<Cell, CellCoordinates> ObjectPositions = [];
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public LevelManager(Player player, GameMode gameMode)
@@ -85,11 +98,13 @@ public class LevelManager : INotifyPropertyChanged
 			StoryMode storyMode = new();
 			LevelMap = storyMode.Maze;
 			MazeStartPos = storyMode.StartPos;
+			MazeEndPos = storyMode.EndPos;
 		}
 		else
 		{
 			LevelMap = m_MazeGenerator._map;
 			MazeStartPos = m_MazeGenerator.Start;
+			MazeEndPos = m_MazeGenerator.End;
 		}
 	}
 
@@ -98,8 +113,6 @@ public class LevelManager : INotifyPropertyChanged
 		Score += score;
 		if (score == 10)
 			RemainingCoins--;
-
-		Debug.WriteLine(Score);
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));
 	}

@@ -60,9 +60,7 @@ namespace Engine
 
 	public sealed class HealthBonus : Bonus
 	{
-		public HealthBonus() : base("HealthBonus", "HealthBonus")
-		{
-		}
+		public HealthBonus() : base("HealthBonus", "HealthBonus") { }
 
 		public override void Use(LevelManager lm)
 		{

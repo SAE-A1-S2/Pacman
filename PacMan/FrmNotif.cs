@@ -6,8 +6,8 @@
 		public bool Result { get; private set; } 
 
 		// Références vers les fenêtres de jeu et d'accueil 
-		private frmGame? FrmGame; // Peut être null si la notification vient de l'accueil
-		private FrmHome? FrmHome; // Peut être null si la notification vient du jeu
+		private readonly frmGame? FrmGame; // Peut être null si la notification vient de l'accueil
+		private readonly FrmHome? FrmHome; // Peut être null si la notification vient du jeu
 
 		// Constructeur pour une notification venant de FrmHome
 		public FrmNotif(FrmHome frmHome)

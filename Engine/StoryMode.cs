@@ -24,6 +24,7 @@ namespace Engine
 
 		public Cell[,] Maze { get; private set; } // Labyrinthe du niveau
 		public CellCoordinates StartPos { get; private set; } // Position de depart
+		public CellCoordinates EndPos { get; private set; } // Position d'arrêt du niveau
 
 		/// <summary>
 		/// Constructeur de la classe StoryMode.
@@ -45,8 +46,13 @@ namespace Engine
 		{
 			for (int x = 0; x < Maze.GetLength(0); x++)
 				for (int y = 0; y < Maze.GetLength(1); y++)
+				{
 					if (Maze[x, y] == Cell.Start)
 						StartPos = new CellCoordinates(x, y);
+					if (Maze[x, y] == Cell.End)
+						EndPos = new CellCoordinates(x, y);
+				}
+
 		}
 
 	}

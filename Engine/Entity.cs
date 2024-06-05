@@ -9,7 +9,6 @@ namespace Engine
 		public string Name { get; protected set; } = "";
 		public Cell Kind { get; protected set; }
 		public Direction CurrentDirection { get; protected set; }
-		public float Speed { get; protected set; } = 1f;
 
 		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{
@@ -23,15 +22,6 @@ namespace Engine
 			};
 		}
 
-		public void SetSpeed(float speed)
-		{
-			// See if it is necessary to have this check.
-			// Or have a better check that limits what is given to this
-			// function.
-			if (speed < 0) return;
-			Speed = speed;
-		}
-
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
 			maze[Position.row, Position.col] = Cell.Empty;
@@ -43,6 +33,28 @@ namespace Engine
 		{
 			return cell.row >= 0 && cell.row < maze.GetLength(0) &&
 				   cell.col >= 0 && cell.col < maze.GetLength(1);
+		}
+
+		public static void CollideWithEnemy(GameManager gameManager)
+		{
+			gameManager.LevelManager.Health.ReduceHealth();
+			if (gameManager.LevelManager.Health.IsDead())
+			{
+				gameManager.GameOver();
+				// Optionally save the game data
+			}
+			else
+			{
+				UpdatePlayerPosition(gameManager.LevelManager.MazeStartPos, gameManager.LevelManager.LevelMap, gameManager);
+			}
+		}
+
+		public static void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze, GameManager gameManager)
+		{
+			var playerPos = gameManager.LevelManager.Player.Position;
+			maze[playerPos.row, playerPos.col] = Cell.Empty;
+			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
+			maze[playerPos.row, playerPos.col] = gameManager.LevelManager.Player.Kind;
 		}
 
 	}
