@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Engine;
+﻿using Engine;
 using Engine.utils;
 
 namespace PacMan
@@ -132,6 +131,9 @@ namespace PacMan
 							case Cell.Empty:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
+							default:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
+								break;
 						}
 					}
 				}
@@ -246,6 +248,32 @@ namespace PacMan
 				picHealth.Image = Properties.Resources.oneLife;
 			else
 				picHealth.Image = Properties.Resources.noLife;
+
+
+			if (gameManager.LevelManager.Health.Lives == 0)
+			{
+				imgLives1.Image = Properties.Resources.blackHeart;
+				imgLives2.Image = Properties.Resources.blackHeart;
+				imgLives3.Image = Properties.Resources.blackHeart;
+			}
+			else if (gameManager.LevelManager.Health.Lives == 1)
+			{
+				imgLives1.Image = Properties.Resources.redHeart;
+				imgLives2.Image = Properties.Resources.blackHeart;
+				imgLives3.Image = Properties.Resources.blackHeart;
+			}
+			else if (gameManager.LevelManager.Health.Lives == 2)
+			{
+				imgLives1.Image = Properties.Resources.redHeart;
+				imgLives2.Image = Properties.Resources.redHeart;
+				imgLives3.Image = Properties.Resources.blackHeart;
+			}
+			else if (gameManager.LevelManager.Health.Lives == 3)
+			{
+				imgLives1.Image = Properties.Resources.redHeart;
+				imgLives2.Image = Properties.Resources.redHeart;
+				imgLives3.Image = Properties.Resources.redHeart;
+			}
 		}
 	}
 }

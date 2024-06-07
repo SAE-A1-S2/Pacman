@@ -1,25 +1,25 @@
 ﻿
 namespace PacMan
 {
-    partial class FrmHome
-    {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class FrmHome
+	{
+		/// <summary>
+		///  Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		///  Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
 		#region Windows Form Designer generated code
 
@@ -30,12 +30,12 @@ namespace PacMan
 		private void InitializeComponent()
 		{
 			lblTitle = new Label();
-			lblHistore = new Label();
-			lblQuit = new Label();
-			lblCredit = new Label();
-			lblStat = new Label();
-			lblInfini = new Label();
 			picBoxHome = new PictureBox();
+			btnHistore = new Button();
+			btnInfini = new Button();
+			btnStat = new Button();
+			btnCredits = new Button();
+			btnQuit = new Button();
 			((System.ComponentModel.ISupportInitialize)picBoxHome).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -50,71 +50,6 @@ namespace PacMan
 			lblTitle.TabIndex = 0;
 			lblTitle.Text = "Le Continentale";
 			// 
-			// lblHistore
-			// 
-			lblHistore.AutoSize = true;
-			lblHistore.Cursor = Cursors.Hand;
-			lblHistore.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			lblHistore.ForeColor = Color.CornflowerBlue;
-			lblHistore.Location = new Point(60, 154);
-			lblHistore.Name = "lblHistore";
-			lblHistore.Size = new Size(147, 28);
-			lblHistore.TabIndex = 1;
-			lblHistore.Text = "Mode Histoire";
-			lblHistore.Click += this.lblHistore_Click;
-			// 
-			// lblQuit
-			// 
-			lblQuit.AutoSize = true;
-			lblQuit.Cursor = Cursors.Hand;
-			lblQuit.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			lblQuit.ForeColor = Color.CornflowerBlue;
-			lblQuit.Location = new Point(60, 408);
-			lblQuit.Name = "lblQuit";
-			lblQuit.Size = new Size(80, 28);
-			lblQuit.TabIndex = 2;
-			lblQuit.Text = "Quitter";
-			lblQuit.Click += this.lblQuit_Click;
-			// 
-			// lblCredit
-			// 
-			lblCredit.AutoSize = true;
-			lblCredit.Cursor = Cursors.Hand;
-			lblCredit.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			lblCredit.ForeColor = Color.CornflowerBlue;
-			lblCredit.Location = new Point(60, 347);
-			lblCredit.Name = "lblCredit";
-			lblCredit.Size = new Size(78, 28);
-			lblCredit.TabIndex = 3;
-			lblCredit.Text = "Crédits";
-			lblCredit.Click += this.lblCredit_Click;
-			// 
-			// lblStat
-			// 
-			lblStat.AutoSize = true;
-			lblStat.Cursor = Cursors.Hand;
-			lblStat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			lblStat.ForeColor = Color.CornflowerBlue;
-			lblStat.Location = new Point(60, 287);
-			lblStat.Name = "lblStat";
-			lblStat.Size = new Size(123, 28);
-			lblStat.TabIndex = 4;
-			lblStat.Text = "Statistiques";
-			lblStat.Click += this.lblStat_Click;
-			// 
-			// lblInfini
-			// 
-			lblInfini.AutoSize = true;
-			lblInfini.Cursor = Cursors.Hand;
-			lblInfini.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			lblInfini.ForeColor = Color.CornflowerBlue;
-			lblInfini.Location = new Point(60, 223);
-			lblInfini.Name = "lblInfini";
-			lblInfini.Size = new Size(122, 28);
-			lblInfini.TabIndex = 5;
-			lblInfini.Text = "Mode Infini";
-			lblInfini.Click += this.lblInfini_Click;
-			// 
 			// picBoxHome
 			// 
 			picBoxHome.Anchor = AnchorStyles.None;
@@ -126,18 +61,98 @@ namespace PacMan
 			picBoxHome.TabIndex = 6;
 			picBoxHome.TabStop = false;
 			// 
+			// btnHistore
+			// 
+			btnHistore.FlatAppearance.BorderSize = 0;
+			btnHistore.FlatStyle = FlatStyle.Flat;
+			btnHistore.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnHistore.ForeColor = Color.CornflowerBlue;
+			btnHistore.Location = new Point(60, 156);
+			btnHistore.Name = "btnHistore";
+			btnHistore.Size = new Size(174, 52);
+			btnHistore.TabIndex = 7;
+			btnHistore.Text = "Mode Histoire";
+			btnHistore.TextAlign = ContentAlignment.MiddleLeft;
+			btnHistore.UseVisualStyleBackColor = true;
+			btnHistore.Click += this.BtnHistore_Click;
+			btnHistore.Cursor = Cursors.Hand;
+			// 
+			// btnInfini
+			// 
+			btnInfini.FlatAppearance.BorderSize = 0;
+			btnInfini.FlatStyle = FlatStyle.Flat;
+			btnInfini.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnInfini.ForeColor = Color.CornflowerBlue;
+			btnInfini.Location = new Point(60, 214);
+			btnInfini.Name = "btnInfini";
+			btnInfini.Size = new Size(174, 52);
+			btnInfini.TabIndex = 8;
+			btnInfini.Text = "Mode Infini";
+			btnInfini.TextAlign = ContentAlignment.MiddleLeft;
+			btnInfini.UseVisualStyleBackColor = true;
+			btnInfini.Click += this.BtnInfini_Click;
+			btnInfini.Cursor = Cursors.Hand;
+			// 
+			// btnStats
+			// 
+			btnStat.FlatAppearance.BorderSize = 0;
+			btnStat.FlatStyle = FlatStyle.Flat;
+			btnStat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnStat.ForeColor = Color.CornflowerBlue;
+			btnStat.Location = new Point(60, 272);
+			btnStat.Name = "btnStats";
+			btnStat.Size = new Size(174, 52);
+			btnStat.TabIndex = 9;
+			btnStat.Text = "Statistiques";
+			btnStat.TextAlign = ContentAlignment.MiddleLeft;
+			btnStat.UseVisualStyleBackColor = true;
+			btnStat.Click += this.BtnStat_Click;
+			btnStat.Cursor = Cursors.Hand;
+			// 
+			// btnCredits
+			// 
+			btnCredits.FlatAppearance.BorderSize = 0;
+			btnCredits.FlatStyle = FlatStyle.Flat;
+			btnCredits.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnCredits.ForeColor = Color.CornflowerBlue;
+			btnCredits.Location = new Point(60, 330);
+			btnCredits.Name = "btnCredits";
+			btnCredits.Size = new Size(174, 52);
+			btnCredits.TabIndex = 10;
+			btnCredits.Text = "Crédits";
+			btnCredits.TextAlign = ContentAlignment.MiddleLeft;
+			btnCredits.UseVisualStyleBackColor = true;
+			btnCredits.Click += this.BtnCredit_Click;
+			btnCredits.Cursor = Cursors.Hand;
+			// 
+			// btnQuit
+			// 
+			btnQuit.FlatAppearance.BorderSize = 0;
+			btnQuit.FlatStyle = FlatStyle.Flat;
+			btnQuit.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnQuit.ForeColor = Color.CornflowerBlue;
+			btnQuit.Location = new Point(60, 388);
+			btnQuit.Name = "btnQuit";
+			btnQuit.Size = new Size(174, 52);
+			btnQuit.TabIndex = 11;
+			btnQuit.Text = "Quitter";
+			btnQuit.TextAlign = ContentAlignment.MiddleLeft;
+			btnQuit.UseVisualStyleBackColor = true;
+			btnQuit.Click += this.BtnQuit_Click;
+			btnQuit.Cursor = Cursors.Hand;
+			// 
 			// FrmHome
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1024, 665);
+			Controls.Add(btnQuit);
+			Controls.Add(btnCredits);
+			Controls.Add(btnStat);
+			Controls.Add(btnInfini);
+			Controls.Add(btnHistore);
 			Controls.Add(picBoxHome);
-			Controls.Add(lblInfini);
-			Controls.Add(lblStat);
-			Controls.Add(lblCredit);
-			Controls.Add(lblQuit);
-			Controls.Add(lblHistore);
 			Controls.Add(lblTitle);
 			FormBorderStyle = FormBorderStyle.FixedDialog;
 			Icon = Properties.Resources.logo;
@@ -156,11 +171,11 @@ namespace PacMan
 		#endregion
 
 		private Label lblTitle;
-        private Label lblHistore;
-        private Label lblQuit;
-        private Label lblCredit;
-        private Label lblStat;
-        private Label lblInfini;
-        private PictureBox picBoxHome;
-    }
+		private PictureBox picBoxHome;
+		private Button btnHistore;
+		private Button btnInfini;
+		private Button btnStat;
+		private Button btnCredits;
+		private Button btnQuit;
+	}
 }

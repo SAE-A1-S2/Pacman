@@ -57,17 +57,17 @@ namespace PacMan
 			Color labelColor = enabled ? Color.CornflowerBlue : Color.Gray;
 
 			// Active ou désactive les labels et change leur couleur
-			lblCredit.Enabled = enabled;
-			lblHistore.Enabled = enabled;
-			lblInfini.Enabled = enabled;
-			lblQuit.Enabled = enabled;
-			lblStat.Enabled = enabled;
+			btnCredits.Enabled = enabled;
+			btnHistore.Enabled = enabled;
+			btnInfini.Enabled = enabled;
+			btnQuit.Enabled = enabled;
+			btnStat.Enabled = enabled;
 
-			lblCredit.ForeColor = labelColor;
-			lblHistore.ForeColor = labelColor;
-			lblInfini.ForeColor = labelColor;
-			lblQuit.ForeColor = labelColor;
-			lblStat.ForeColor = labelColor;
+			btnCredits.ForeColor = labelColor;
+			btnHistore.ForeColor = labelColor;
+			btnInfini.ForeColor = labelColor;
+			btnQuit.ForeColor = labelColor;
+			btnStat.ForeColor = labelColor;
 		}
 
 		// Gère la fermeture de la fenêtre popup
@@ -86,25 +86,25 @@ namespace PacMan
 		}
 
 		// Gestionnaires d'événements pour les clics sur les labels du menu principal
-		private void lblQuit_Click(object sender, EventArgs e)
+		private void BtnQuit_Click(object sender, EventArgs e)
 		{
 			Close(); // Ferme l'application (déclenche l'événement FormClosing)
 		}
 
-		private void lblCredit_Click(object sender, EventArgs e)
+		private void BtnCredit_Click(object sender, EventArgs e)
 		{
 			SetLabelStates(false); // Désactive les labels pendant que la fenêtre est affichée
 			credits.ShowDialog(this); // Affiche la fenêtre des crédits en tant que boîte de dialogue modale
 		}
 
-		private void lblStat_Click(object sender, EventArgs e)
+		private void BtnStat_Click(object sender, EventArgs e)
 		{
 			SetLabelStates(false); // Désactive les labels pendant que la fenêtre est affichée
 			stats.ShowDialog(this); // Affiche la fenêtre des statistiques en tant que boîte de dialogue modale
 		}
 
 		// Lance le mode de jeu infini
-		private void lblInfini_Click(object sender, EventArgs e)
+		private void BtnInfini_Click(object sender, EventArgs e)
 		{
 			Hide(); // Cache la fenêtre principale
 			frmGame game = new(GameMode.INFINITE) // Crée une nouvelle instance de frmGame en mode infini
@@ -115,7 +115,7 @@ namespace PacMan
 		}
 
 		// Lance le mode histoire
-		private void lblHistore_Click(object sender, EventArgs e)
+		private void BtnHistore_Click(object sender, EventArgs e)
 		{
 			Hide(); // Cache la fenêtre principale
 			frmGame game = new(GameMode.STORY)  // Crée une nouvelle instance de frmGame en mode histoire
@@ -133,7 +133,7 @@ namespace PacMan
 			// Affiche la fenêtre de notification
 			// Si l'utilisateur clique sur "Non", on annule la fermeture de la fenêtre principale
 			frmNotif.ShowDialog(this);
-			if(!frmNotif.Result)
+			if (!frmNotif.Result)
 				// Si jamais l'utilisateur clique sur "Non", on annule demande de fermeture
 				e.Cancel = true;
 		}

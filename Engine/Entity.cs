@@ -9,6 +9,7 @@ namespace Engine
 		public string Name { get; protected set; } = "";
 		public Cell Kind { get; protected set; }
 		public Direction CurrentDirection { get; protected set; }
+		public CellCoordinates StartPosition { get; set; }
 
 		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{
@@ -25,8 +26,8 @@ namespace Engine
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
 			maze[Position.row, Position.col] = Cell.Empty;
+			maze[newCell.row, newCell.col] = Kind;
 			Position = newCell;
-			maze[Position.row, Position.col] = Kind;
 		}
 
 		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
@@ -35,7 +36,7 @@ namespace Engine
 				   cell.col >= 0 && cell.col < maze.GetLength(1);
 		}
 
-		public static void CollideWithEnemy(GameManager gameManager)
+		public static void CollideWithEnemy(GameManager gameManager) // this will be moved to gameManager, just testing for now
 		{
 			gameManager.LevelManager.Health.ReduceHealth();
 			if (gameManager.LevelManager.Health.IsDead())
@@ -45,7 +46,7 @@ namespace Engine
 			}
 			else
 			{
-				UpdatePlayerPosition(gameManager.LevelManager.MazeStartPos, gameManager.LevelManager.LevelMap, gameManager);
+				UpdatePlayerPosition(gameManager.Player.StartPosition, gameManager.LevelManager.LevelMap, gameManager);
 			}
 		}
 
@@ -53,8 +54,9 @@ namespace Engine
 		{
 			var playerPos = gameManager.LevelManager.Player.Position;
 			maze[playerPos.row, playerPos.col] = Cell.Empty;
+			maze[newCell.row, newCell.col] = gameManager.LevelManager.Player.Kind;
 			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
-			maze[playerPos.row, playerPos.col] = gameManager.LevelManager.Player.Kind;
+			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemy.Position = enemy.StartPosition);
 		}
 
 	}

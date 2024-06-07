@@ -78,7 +78,7 @@ public class LevelManager : INotifyPropertyChanged
 		Initializelevel(gameMode);
 		// The player should be an outside ref.
 		Player = player;
-		Player.PlacePlayer(LevelMap);
+		Player.PlacePlayer(LevelMap, MazeStartPos);
 
 		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
 

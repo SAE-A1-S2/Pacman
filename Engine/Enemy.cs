@@ -51,6 +51,7 @@ namespace Engine
 
 		public void SetStartingPosition(CellCoordinates start, Cell[,] maze)
 		{
+			StartPosition = start;
 			Position = start;
 			maze[Position.row, Position.col] = Kind;
 		}
@@ -172,7 +173,7 @@ namespace Engine
 
 		public static bool IsOccupied(CellCoordinates position, Cell[,] maze)
 		{
-			return maze[position.row, position.col] != Cell.Empty && maze[position.row, position.col] != Cell.Start && maze[position.row, position.col] != Cell.End;
+			return maze[position.row, position.col] != Cell.Empty || maze[position.row, position.col] != Cell.Start || maze[position.row, position.col] != Cell.End || maze[position.row, position.col] != Cell.John || maze[position.row, position.col] != Cell.HealthKit || maze[position.row, position.col] != Cell.Coin || maze[position.row, position.col] != Cell.Torch || maze[position.row, position.col] != Cell.Key;
 		}
 	}
 }

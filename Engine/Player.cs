@@ -22,18 +22,14 @@ namespace Engine
 			Position = newPostion;
 		}
 
-		public void PlacePlayer(Cell[,] maze)
+		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition)
 		{
-			for (int x = 0; x < maze.GetLength(0); x++)
-				for (int y = 0; y < maze.GetLength(1); y++)
-					if (maze[x, y] == Cell.Start)
-					{
-						maze[x, y] = Cell.John;
-						Position = new CellCoordinates(x, y);
-					}
+			maze[startPosition.row, startPosition.col] = Kind;
+			Position = startPosition;
+			StartPosition = startPosition;
 		}
 
-		public void Move(Direction direction, Cell[,] maze, GameManager gameManager) // will be optimized
+		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)
 		{
 			CellCoordinates newPosition = GetNextPosition(Position, direction);
 
