@@ -4,7 +4,7 @@ namespace Engine
 {
 	public sealed class Player : Entity
 	{
-		private readonly BonusPair<Bonus> m_Bonuses = new(null, null);
+		public BonusPair<Bonus> m_Bonuses = new(null, null);
 
 		public Player(string name = "John")
 		{
@@ -56,6 +56,9 @@ namespace Engine
 					break;
 				case Cell.Key:
 					gameManager.LevelManager.AddKey();
+					break;
+				case Cell.Torch:
+					m_Bonuses.Add(new TorchBonus());
 					break;
 
 				default:

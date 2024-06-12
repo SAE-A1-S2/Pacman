@@ -56,6 +56,7 @@ namespace Engine
 			maze[playerPos.row, playerPos.col] = Cell.Empty;
 			maze[newCell.row, newCell.col] = gameManager.LevelManager.Player.Kind;
 			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
+			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => maze[enemy.Position.row, enemy.Position.col] = Cell.Empty);
 			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemy.Position = enemy.StartPosition);
 		}
 

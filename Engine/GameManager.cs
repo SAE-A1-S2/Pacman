@@ -10,9 +10,9 @@ namespace Engine
 
 		public Player Player { get; set; }
 
-		public GameManager(GameMode gameMode)
+		public GameManager(GameMode gameMode, string playerName)
 		{
-			Player = new();
+			Player = new(playerName);
 			GameMode = gameMode;
 			LevelManager = new LevelManager(Player, gameMode);
 		}
@@ -31,13 +31,18 @@ namespace Engine
 			}
 		}
 
-		public void CheckGhostCollisions()
+		public bool CheckGhostCollisions()
 		{
 			List<CellCoordinates> enemiesPos = [];
 			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemiesPos.Add(enemy.Position));
 
 			if (enemiesPos.Contains(Player.Position))
+			{
 				Entity.CollideWithEnemy(this);
+				return true;
+			}
+
+			return false;
 		}
 
 		public bool CheckGameCompleted()

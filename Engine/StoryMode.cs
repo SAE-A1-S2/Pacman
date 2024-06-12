@@ -40,7 +40,7 @@ namespace Engine
 		}
 
 		/// <summary>
-		/// Méthode FindStartPos qui trouve la position de départ du joueur dans le labyrinthe.
+		/// Méthode FindStartPos qui trouve la position de départ et d'arrivé du joueur dans le labyrinthe.
 		/// </summary>
 		private void FindStartPos()
 		{

@@ -33,8 +33,6 @@
 			imgLives3 = new PictureBox();
 			imgLives2 = new PictureBox();
 			lblBns = new Label();
-			imgBonus1 = new PictureBox();
-			imgBonus2 = new PictureBox();
 			lblScoreT = new Label();
 			lblScore = new Label();
 			btnPause = new Button();
@@ -47,17 +45,21 @@
 			picKey1 = new PictureBox();
 			pnlHealth = new Panel();
 			picHealth = new PictureBox();
+			PicBonus1 = new PictureBox();
+			PicBonus2 = new PictureBox();
+			PnlBonuses = new Panel();
 			((System.ComponentModel.ISupportInitialize)imgLives1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).BeginInit();
-			((System.ComponentModel.ISupportInitialize)imgBonus1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)imgBonus2).BeginInit();
 			((System.ComponentModel.ISupportInitialize)imgMap).BeginInit();
 			pnlKeys.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)picKey2).BeginInit();
 			((System.ComponentModel.ISupportInitialize)picKey1).BeginInit();
 			pnlHealth.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)picHealth).BeginInit();
+			((System.ComponentModel.ISupportInitialize)PicBonus1).BeginInit();
+			((System.ComponentModel.ISupportInitialize)PicBonus2).BeginInit();
+			PnlBonuses.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// imgLives1
@@ -101,32 +103,12 @@
 			lblBns.TabIndex = 5;
 			lblBns.Text = "Bonus : ";
 			// 
-			// imgBonus1
-			// 
-			imgBonus1.Image = Properties.Resources.noRessources;
-			imgBonus1.Location = new Point(42, 139);
-			imgBonus1.Name = "imgBonus1";
-			imgBonus1.Size = new Size(47, 52);
-			imgBonus1.SizeMode = PictureBoxSizeMode.Zoom;
-			imgBonus1.TabIndex = 6;
-			imgBonus1.TabStop = false;
-			// 
-			// imgBonus2
-			// 
-			imgBonus2.Image = Properties.Resources.noRessources;
-			imgBonus2.Location = new Point(42, 208);
-			imgBonus2.Name = "imgBonus2";
-			imgBonus2.Size = new Size(47, 52);
-			imgBonus2.SizeMode = PictureBoxSizeMode.Zoom;
-			imgBonus2.TabIndex = 7;
-			imgBonus2.TabStop = false;
-			// 
 			// lblScoreT
 			// 
 			lblScoreT.AutoSize = true;
 			lblScoreT.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			lblScoreT.ForeColor = Color.CornflowerBlue;
-			lblScoreT.Location = new Point(12, 287);
+			lblScoreT.Location = new Point(12, 320);
 			lblScoreT.Name = "lblScoreT";
 			lblScoreT.Size = new Size(61, 23);
 			lblScoreT.TabIndex = 8;
@@ -137,7 +119,7 @@
 			lblScore.AutoSize = true;
 			lblScore.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			lblScore.ForeColor = SystemColors.ButtonFace;
-			lblScore.Location = new Point(79, 287);
+			lblScore.Location = new Point(79, 320);
 			lblScore.Name = "lblScore";
 			lblScore.Size = new Size(19, 23);
 			lblScore.TabIndex = 9;
@@ -233,12 +215,43 @@
 			picHealth.TabIndex = 0;
 			picHealth.TabStop = false;
 			// 
+			// PicBonus2
+			// 
+			PicBonus2.Image = Properties.Resources.noRessources;
+			PicBonus2.Location = new Point(9, 100);
+			PicBonus2.Name = "PicBonus2";
+			PicBonus2.Size = new Size(67, 62);
+			PicBonus2.SizeMode = PictureBoxSizeMode.Zoom;
+			PicBonus2.TabIndex = 17;
+			PicBonus2.TabStop = false;
+			// 
+			// PicBonus1
+			// 
+			PicBonus1.Image = Properties.Resources.noRessources;
+			PicBonus1.Location = new Point(9, 12);
+			PicBonus1.Name = "PicBonus1";
+			PicBonus1.Size = new Size(67, 62);
+			PicBonus1.SizeMode = PictureBoxSizeMode.Zoom;
+			PicBonus1.TabIndex = 16;
+			PicBonus1.TabStop = false;
+			// 
+			// PnlBonuses
+			// 
+			PnlBonuses.Controls.Add(PicBonus2);
+			PnlBonuses.Controls.Add(PicBonus1);
+			PnlBonuses.Location = new Point(55, 139);
+			PnlBonuses.Name = "PnlBonuses";
+			PnlBonuses.Size = new Size(85, 171);
+			PnlBonuses.TabIndex = 17;
+			PnlBonuses.TabIndexChanged += this.PnlBonuses_TabIndexChanged;
+			// 
 			// frmGame
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1135, 673);
+			Controls.Add(PnlBonuses);
 			Controls.Add(pnlHealth);
 			Controls.Add(pnlKeys);
 			Controls.Add(imgMap);
@@ -246,8 +259,6 @@
 			Controls.Add(btnPause);
 			Controls.Add(lblScore);
 			Controls.Add(lblScoreT);
-			Controls.Add(imgBonus2);
-			Controls.Add(imgBonus1);
 			Controls.Add(lblBns);
 			Controls.Add(imgLives2);
 			Controls.Add(imgLives3);
@@ -265,14 +276,15 @@
 			((System.ComponentModel.ISupportInitialize)imgLives1).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgLives3).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgLives2).EndInit();
-			((System.ComponentModel.ISupportInitialize)imgBonus1).EndInit();
-			((System.ComponentModel.ISupportInitialize)imgBonus2).EndInit();
 			((System.ComponentModel.ISupportInitialize)imgMap).EndInit();
 			pnlKeys.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)picKey2).EndInit();
 			((System.ComponentModel.ISupportInitialize)picKey1).EndInit();
 			pnlHealth.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)picHealth).EndInit();
+			((System.ComponentModel.ISupportInitialize)PicBonus1).EndInit();
+			((System.ComponentModel.ISupportInitialize)PicBonus2).EndInit();
+			PnlBonuses.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
@@ -283,8 +295,6 @@
 		private PictureBox imgLives3;
 		private PictureBox imgLives2;
 		private Label lblBns;
-		private PictureBox imgBonus1;
-		private PictureBox imgBonus2;
 		private Label lblScoreT;
 		private Label lblScore;
 		private Button btnPause;
@@ -296,6 +306,9 @@
 		private PictureBox picKey1;
 		private PictureBox picKey2;
 		private Panel pnlHealth;
+		private PictureBox PicBonus1;
+		private PictureBox PicBonus2;
+		private Panel PnlBonuses;
 		private PictureBox picHealth;
 	}
 }

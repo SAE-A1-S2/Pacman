@@ -19,19 +19,20 @@ namespace PacMan
 		private readonly FrmPause frmPause;
 		private readonly FrmNotif frmNotif;
 
-		public frmGame(GameMode gameMode)
+		public frmGame(GameMode gameMode, string playerName)
 		{
 			// Initialisation de la fenêtre de jeu
 			InitializeComponent();
 			characterImages = [];
 			LoadCharacterImages();
-			gameManager = new(gameMode);
+			gameManager = new(gameMode, playerName);
 			frmPause = new(gameManager);
 			frmNotif = new(this);
 
 			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
 			pnlKeys.DataBindings.Add("TabIndex", gameManager.LevelManager, "Key");
 			pnlHealth.DataBindings.Add("TabIndex", gameManager.LevelManager.Health, "HealthPoints");
+			PnlBonuses.DataBindings.Add("TabIndex", gameManager.LevelManager.Player.m_Bonuses, "FrontEndValue");
 		}
 
 		private void frmGame_Closed(object sender, EventArgs e)
@@ -108,6 +109,7 @@ namespace PacMan
 								DrawCharacter(g, x, y, ref MarquisPrevPos, "Marquis", cellSize);
 								break;
 							case Cell.John:
+								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								DrawCharacter(g, x, y, ref JohnPrevPos, "Player", cellSize);
 								break;
 							case Cell.Wall:
@@ -174,7 +176,8 @@ namespace PacMan
 		{
 			gameManager.StepPlayer(currentDirection);
 			gameManager.StepGhosts();
-			gameManager.CheckGhostCollisions();
+			if (gameManager.CheckGhostCollisions())
+				currentDirection = Direction.STOP;
 			DisplayMaze(gameManager.LevelManager.LevelMap);
 		}
 
@@ -222,58 +225,42 @@ namespace PacMan
 
 		private void pnlKeys_TabIndexChanged(object sender, EventArgs e)
 		{
-			if (pnlKeys.TabIndex == 1)
+			(picKey1.Image, picKey2.Image) = pnlKeys.TabIndex switch
 			{
-				picKey1.Image = Properties.Resources.Key;
-				picKey2.Image = Properties.Resources.noRessources;
-			}
-			else if (pnlKeys.TabIndex == 2)
-			{
-				picKey1.Image = Properties.Resources.Key;
-				picKey2.Image = Properties.Resources.Key;
-			}
-			else
-			{
-				picKey1.Image = Properties.Resources.noRessources;
-				picKey2.Image = Properties.Resources.noRessources;
-			}
-
+				1 => (Properties.Resources.Key, Properties.Resources.noRessources),
+				2 => (Properties.Resources.Key, Properties.Resources.Key),
+				_ => (Properties.Resources.noRessources, Properties.Resources.noRessources)  // Default
+			};
 		}
+
 
 		private void pnlHealth_TabIndexChanged(object sender, EventArgs e)
 		{
-			if (pnlHealth.TabIndex == 2)
-				picHealth.Image = Properties.Resources.fulLife;
-			else if (pnlHealth.TabIndex == 1)
-				picHealth.Image = Properties.Resources.oneLife;
-			else
-				picHealth.Image = Properties.Resources.noLife;
+			picHealth.Image = pnlHealth.TabIndex switch
+			{
+				2 => Properties.Resources.fulLife,
+				1 => Properties.Resources.oneLife,
+				_ => Properties.Resources.noLife
+			};
+
+			int lives = gameManager.LevelManager.Health.Lives;
+			imgLives1.Image = lives > 0 ? Properties.Resources.redHeart : Properties.Resources.blackHeart;
+			imgLives2.Image = lives > 1 ? Properties.Resources.redHeart : Properties.Resources.blackHeart;
+			imgLives3.Image = lives > 2 ? Properties.Resources.redHeart : Properties.Resources.blackHeart;
+		}
 
 
-			if (gameManager.LevelManager.Health.Lives == 0)
+		private void PnlBonuses_TabIndexChanged(object sender, EventArgs e)
+		{
+			(PicBonus1.Image, PicBonus2.Image) = PnlBonuses.TabIndex switch
 			{
-				imgLives1.Image = Properties.Resources.blackHeart;
-				imgLives2.Image = Properties.Resources.blackHeart;
-				imgLives3.Image = Properties.Resources.blackHeart;
-			}
-			else if (gameManager.LevelManager.Health.Lives == 1)
-			{
-				imgLives1.Image = Properties.Resources.redHeart;
-				imgLives2.Image = Properties.Resources.blackHeart;
-				imgLives3.Image = Properties.Resources.blackHeart;
-			}
-			else if (gameManager.LevelManager.Health.Lives == 2)
-			{
-				imgLives1.Image = Properties.Resources.redHeart;
-				imgLives2.Image = Properties.Resources.redHeart;
-				imgLives3.Image = Properties.Resources.blackHeart;
-			}
-			else if (gameManager.LevelManager.Health.Lives == 3)
-			{
-				imgLives1.Image = Properties.Resources.redHeart;
-				imgLives2.Image = Properties.Resources.redHeart;
-				imgLives3.Image = Properties.Resources.redHeart;
-			}
+				0 => (Properties.Resources.noRessources, Properties.Resources.noRessources),
+				10 => (HealthKit, Properties.Resources.noRessources),
+				20 => (Torch, Properties.Resources.noRessources),
+				12 => (HealthKit, Torch),
+				21 => (Torch, HealthKit),
+				_ => (Properties.Resources.noRessources, Properties.Resources.noRessources)
+			};
 		}
 	}
 }

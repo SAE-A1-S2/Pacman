@@ -36,6 +36,7 @@ namespace PacMan
 			btnStat = new Button();
 			btnCredits = new Button();
 			btnQuit = new Button();
+			BtnSettings = new Button();
 			((System.ComponentModel.ISupportInitialize)picBoxHome).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -74,7 +75,7 @@ namespace PacMan
 			btnHistore.Text = "Mode Histoire";
 			btnHistore.TextAlign = ContentAlignment.MiddleLeft;
 			btnHistore.UseVisualStyleBackColor = true;
-			btnHistore.Click += this.BtnHistore_Click;
+			btnHistore.Click += this.BtnGame_Click;
 			btnHistore.Cursor = Cursors.Hand;
 			// 
 			// btnInfini
@@ -90,7 +91,7 @@ namespace PacMan
 			btnInfini.Text = "Mode Infini";
 			btnInfini.TextAlign = ContentAlignment.MiddleLeft;
 			btnInfini.UseVisualStyleBackColor = true;
-			btnInfini.Click += this.BtnInfini_Click;
+			btnInfini.Click += this.BtnGame_Click;
 			btnInfini.Cursor = Cursors.Hand;
 			// 
 			// btnStats
@@ -131,7 +132,7 @@ namespace PacMan
 			btnQuit.FlatStyle = FlatStyle.Flat;
 			btnQuit.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			btnQuit.ForeColor = Color.CornflowerBlue;
-			btnQuit.Location = new Point(60, 388);
+			btnQuit.Location = new Point(60, 446);
 			btnQuit.Name = "btnQuit";
 			btnQuit.Size = new Size(174, 52);
 			btnQuit.TabIndex = 11;
@@ -141,12 +142,30 @@ namespace PacMan
 			btnQuit.Click += this.BtnQuit_Click;
 			btnQuit.Cursor = Cursors.Hand;
 			// 
+			// BtnSettings
+			// 
+			BtnSettings.Cursor = Cursors.Hand;
+			BtnSettings.FlatAppearance.BorderSize = 0;
+			BtnSettings.FlatStyle = FlatStyle.Flat;
+			BtnSettings.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			BtnSettings.ForeColor = Color.CornflowerBlue;
+			BtnSettings.Location = new Point(60, 388);
+			BtnSettings.Name = "BtnSettings";
+			BtnSettings.Size = new Size(174, 52);
+			BtnSettings.TabIndex = 12;
+			BtnSettings.TabStop = false;
+			BtnSettings.Text = "Paramètres";
+			BtnSettings.TextAlign = ContentAlignment.MiddleLeft;
+			BtnSettings.UseVisualStyleBackColor = true;
+			BtnSettings.Click += this.BtnSettings_Click;
+			// 
 			// FrmHome
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1024, 665);
+			Controls.Add(BtnSettings);
 			Controls.Add(btnQuit);
 			Controls.Add(btnCredits);
 			Controls.Add(btnStat);
@@ -161,6 +180,7 @@ namespace PacMan
 			Name = "FrmHome";
 			Text = "Le Continentale";
 			FormClosing += this.FrmHome_FormClosing;
+			Load += this.FrmHome_Load;
 			((System.ComponentModel.ISupportInitialize)picBoxHome).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -177,5 +197,6 @@ namespace PacMan
 		private Button btnStat;
 		private Button btnCredits;
 		private Button btnQuit;
+		private Button BtnSettings;
 	}
 }

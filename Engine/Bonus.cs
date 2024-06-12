@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Engine
 {
 	public class Bonus(string name, string description)
@@ -14,17 +16,20 @@ namespace Engine
 		}
 	}
 
-	public class BonusPair<B>(B? first, B? second) where B : Bonus
+	public class BonusPair<B>(B? first, B? second) : INotifyPropertyChanged where B : Bonus
 	{
 		public B? First { get; set; } = first;
 		public B? Second { get; set; } = second;
-
+		public int FrontEndValue { get; private set; } = 0;
+		public event PropertyChangedEventHandler? PropertyChanged;
 		public bool IsEmpty() => First == null && Second == null;
 
 		public void Clear()
 		{
 			First = null;
 			Second = null;
+			FrontEndValue = 0;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FrontEndValue)));
 		}
 
 		// To be used if the user wants to use a specific bonus.
@@ -39,6 +44,8 @@ namespace Engine
 				Second?.Use(lm);
 				Second = null;
 			}
+
+			CalculateFrontEndValue();
 		}
 
 		public void UseFirst(LevelManager lm)
@@ -48,6 +55,8 @@ namespace Engine
 			First?.Use(lm);
 			First = Second;
 			Second = null;
+
+			CalculateFrontEndValue();
 		}
 
 		public void Add(B bonus)
@@ -55,6 +64,17 @@ namespace Engine
 			if (First == null)
 				First = bonus;
 			else Second ??= bonus;
+
+			CalculateFrontEndValue();
+		}
+
+		public void CalculateFrontEndValue()
+		{
+			int tensDigit = (First != null) ? (First is HealthBonus ? 1 : 2) : 0;
+			int unitsDigit = (Second != null) ? (Second is HealthBonus ? 1 : 2) : 0;
+			FrontEndValue = tensDigit * 10 + unitsDigit;
+
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FrontEndValue)));
 		}
 	}
 
@@ -73,9 +93,8 @@ namespace Engine
 
 	public sealed class TorchBonus : Bonus
 	{
-		public TorchBonus(int durationMS) : base("TorchBonus", "TorchBonus")
+		public TorchBonus() : base("TorchBonus", "TorchBonus")
 		{
-			DurationMS = durationMS;
 		}
 	}
 
