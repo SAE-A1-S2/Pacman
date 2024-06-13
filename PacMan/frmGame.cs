@@ -234,7 +234,7 @@ namespace PacMan
 		}
 
 
-		private void pnlHealth_TabIndexChanged(object sender, EventArgs e)
+		private void pnlHealth_TabIndexChanged(object sender, EventArgs e) // optimize
 		{
 			picHealth.Image = pnlHealth.TabIndex switch
 			{

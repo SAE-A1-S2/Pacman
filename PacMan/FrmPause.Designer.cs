@@ -46,6 +46,7 @@
 			// 
 			// btnReprendre
 			// 
+			btnReprendre.Cursor = Cursors.Hand;
 			btnReprendre.FlatAppearance.BorderSize = 0;
 			btnReprendre.FlatStyle = FlatStyle.Flat;
 			btnReprendre.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);

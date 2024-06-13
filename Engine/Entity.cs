@@ -36,6 +36,19 @@ namespace Engine
 				   cell.col >= 0 && cell.col < maze.GetLength(1);
 		}
 
+		public static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
+		{
+			if (src.col < dst.col)
+				return Direction.RIGHT;
+			if (src.col > dst.col)
+				return Direction.LEFT;
+			if (src.row < dst.row)
+				return Direction.DOWN;
+			if (src.row > dst.row)
+				return Direction.UP;
+			return Direction.STOP;
+		}
+
 		public static void CollideWithEnemy(GameManager gameManager) // this will be moved to gameManager, just testing for now
 		{
 			gameManager.LevelManager.Health.ReduceHealth();
@@ -52,7 +65,7 @@ namespace Engine
 
 		public static void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze, GameManager gameManager)
 		{
-			var playerPos = gameManager.LevelManager.Player.Position;
+			var playerPos = gameManager.LevelManager.Player.Position; // use GetNextPosition instead, 
 			maze[playerPos.row, playerPos.col] = Cell.Empty;
 			maze[newCell.row, newCell.col] = gameManager.LevelManager.Player.Kind;
 			gameManager.LevelManager.Player.SetPlayerPosition(newCell);

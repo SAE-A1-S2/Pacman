@@ -75,7 +75,8 @@ namespace Engine
 			else
 			{
 				var nextPosition = EnemyBehavior.NextPositon(maze, Position, direction);
-				UpdateStatus(nextPosition, maze, direction);
+				var dir = GetDirection(Position, nextPosition);
+				UpdateStatus(nextPosition, maze, dir);
 			}
 		}
 

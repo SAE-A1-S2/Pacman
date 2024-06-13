@@ -47,9 +47,8 @@ namespace Engine
 
 		public bool CheckGameCompleted()
 		{
-			if (!LevelManager.Health.IsDead() || LevelManager.Key == 2 || LevelManager.RemainingCoins <= 0)
-				return true;
-			return false;
+			return !LevelManager.Health.IsDead() && LevelManager.Key == 2 && LevelManager.RemainingCoins <= 0;
+
 		}
 
 		public void Pause()
