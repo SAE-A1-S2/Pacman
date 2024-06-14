@@ -27,6 +27,8 @@ namespace Engine
 			maze[startPosition.row, startPosition.col] = Kind;
 			Position = startPosition;
 			StartPosition = startPosition;
+			CurrentDirection = Direction.STOP;
+			m_Bonuses.Clear();
 		}
 
 		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)
@@ -38,9 +40,12 @@ namespace Engine
 			{
 				if (maze[newPosition.row, newPosition.col] != Cell.Wall)
 				{
+					CurrentDirection = direction;
 					CheckCollisions(maze[newPosition.row, newPosition.col], gameManager);
 					UpdatePosition(newPosition, maze);
 				}
+				else
+					CurrentDirection = Direction.STOP;
 			}
 		}
 

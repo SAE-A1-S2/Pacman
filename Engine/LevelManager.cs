@@ -1,6 +1,4 @@
-﻿// using Engine.utils;
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using Engine.utils;
 
@@ -10,12 +8,16 @@ public class Health : INotifyPropertyChanged
 {
 	private static readonly byte _defaultLives = 3;
 	private static readonly byte _defaultHP = 2;
-	public byte Lives { get; private set; } = _defaultLives;
-	public byte HealthPoints { get; private set; } = _defaultHP;
+	public byte Lives { get; private set; }
+	public byte HealthPoints { get; private set; }
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	public Health() { }
+	public Health()
+	{
+		Lives = _defaultLives;
+		HealthPoints = _defaultHP;
+	}
 
 	public void ReduceHealth()
 	{
@@ -26,8 +28,6 @@ public class Health : INotifyPropertyChanged
 		}
 		else
 			HealthPoints--;
-		Debug.WriteLine($"Lives: {Lives}");
-		Debug.WriteLine($"Health: {HealthPoints}");
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));
 	}
@@ -53,7 +53,7 @@ public class LevelManager : INotifyPropertyChanged
 	private static readonly int s_Width = 30;
 	private static readonly int s_Height = 20;
 
-	private readonly MazeGenerator m_MazeGenerator;
+	private MazeGenerator m_MazeGenerator;
 	public int RemainingCoins { get; private set; }
 
 	public int Score { get; private set; }
@@ -139,15 +139,21 @@ public class LevelManager : INotifyPropertyChanged
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
 	}
 
-	// public void NextLevel()
-	// {
-	//   live = 3;
-	//   Score = 0;
-	//   Health = 2;
-	//   m_MazeGenerator = new(m_Width, m_Height);
-	//   LevelMap = m_MazeGenerator._map;
-	//   MazeStartPos = m_MazeGenerator.Start;
-	// }
+	public void NextLevel(GameMode gameMode)
+	{
+		Health = new();
+		Score = 0;
+		Key = 0;
+		m_MazeGenerator = new(s_Width, s_Height);
+		Initializelevel(gameMode);
+		Player.PlacePlayer(LevelMap, MazeStartPos);
+
+		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
+		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);
+
+		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
+		PlaceCoins();
+	}
 
 	public Cell HasCollidedWith(CellCoordinates nextPosition)
 	{

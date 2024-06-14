@@ -250,6 +250,7 @@
 			Controls.Add(btnOKPopup);
 			FormBorderStyle = FormBorderStyle.None;
 			Name = "FrmPopUp";
+			Text = "Fenêtre de contrôles";
 			Icon = Properties.Resources.logo;
 			Load += this.FrmPopUp_Load;
 			MouseDown += this.PopUpForm_MouseDown;

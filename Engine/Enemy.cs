@@ -19,6 +19,14 @@ namespace Engine
 			yield return tuple.Item4;
 		}
 
+		public static void ForEach(this (Enemy, Enemy, Enemy, Enemy) tuple, Action<Enemy> action)
+		{
+			action(tuple.Item1);
+			action(tuple.Item2);
+			action(tuple.Item3);
+			action(tuple.Item4);
+		}
+
 		public static List<CellCoordinates> FindEmptyPositions(Cell[,] maze, int count) // Test, will be changed
 		{
 			var emptyPositions = new List<CellCoordinates>();

@@ -4,12 +4,10 @@ using Engine;
 
 namespace PacMan
 {
-	public partial class FrmPause : Form
+	public partial class FrmGameOver : Form
 	{
-		private bool isDragging = false; // Indique si la fenêtre est en cours de déplacement
-		private Point lastCursorPosition; // Permet de sauvegarder la position de la souris
 		private readonly GameManager gameManager;
-		public FrmPause(GameManager _gameManager)
+		public FrmGameOver(GameManager _gameManager)
 		{
 			InitializeComponent();
 			gameManager = _gameManager;
@@ -39,41 +37,10 @@ namespace PacMan
 			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
 		}
 
-
-		// Événement de clic de la souris sur la fenêtre
-		private void FrmPause_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				isDragging = true; // Active le mode de déplacement de la fenêtre
-				lastCursorPosition = PointToScreen(e.Location); // Enregistre la position actuelle du curseur
-			}
-		}
-
-		// Événement de relachement de la souris
-		private void FrmPause_MouseUp(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-				isDragging = false;// Désactive le mode de déplacement de la fenêtre
-		}
-
-		// Événement de déplacement de la souris
-		private void FrmPause_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (isDragging)
-			{
-				Point currentCursorPosition = PointToScreen(e.Location);
-				Location = new Point(
-									   Location.X + (currentCursorPosition.X - lastCursorPosition.X),
-														  Location.Y + (currentCursorPosition.Y - lastCursorPosition.Y));
-				lastCursorPosition = currentCursorPosition;
-			}
-		}
-
-		private void btnReprendre_Click(object sender, EventArgs e)
+		private void BtnNxtLvl_Click(object sender, EventArgs e)
 		{
 			Hide(); // Ferme la fenêtre
-			gameManager.NextLevel(); // Reprend la partie
+			gameManager.NextLevel();
 		}
 
 		private void FrmPause_Load(object sender, EventArgs e)

@@ -33,10 +33,11 @@ namespace Engine
 
 		public bool CheckGhostCollisions()
 		{
-			List<CellCoordinates> enemiesPos = [];
-			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemiesPos.Add(enemy.Position));
+			List<CellCoordinates> enemiesNextPos = [];
+			var PlayerNextPos = Entity.GetNextPosition(Player.Position, Player.CurrentDirection);
+			Enemies.enemies.ForEach(enemy => enemiesNextPos.Add(Entity.GetNextPosition(enemy.Position, enemy.CurrentDirection)));
 
-			if (enemiesPos.Contains(Player.Position))
+			if (enemiesNextPos.Contains(PlayerNextPos))
 			{
 				Entity.CollideWithEnemy(this);
 				return true;
@@ -63,7 +64,9 @@ namespace Engine
 
 		public void NextLevel()
 		{
-
+			GameState = GameState.PLAYING;
+			LevelManager = new(Player, GameMode);
+			// LevelManager.NextLevel(GameMode);
 		}
 
 		public void GameOver()

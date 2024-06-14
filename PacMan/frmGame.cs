@@ -29,6 +29,7 @@ namespace PacMan
 			frmPause = new(gameManager);
 			frmNotif = new(this);
 
+
 			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
 			pnlKeys.DataBindings.Add("TabIndex", gameManager.LevelManager, "Key");
 			pnlHealth.DataBindings.Add("TabIndex", gameManager.LevelManager.Health, "HealthPoints");
@@ -163,6 +164,11 @@ namespace PacMan
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
+			if (keyData == Keys.P)
+			{
+				btnPause_Click(this, EventArgs.Empty);
+				return true;
+			}
 			HandleKeyInput(keyData);
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
@@ -174,10 +180,10 @@ namespace PacMan
 
 		private void TmrPlayer_Tick(object sender, EventArgs e)
 		{
-			gameManager.StepPlayer(currentDirection);
-			gameManager.StepGhosts();
 			if (gameManager.CheckGhostCollisions())
 				currentDirection = Direction.STOP;
+			gameManager.StepPlayer(currentDirection);
+			gameManager.StepGhosts();
 			DisplayMaze(gameManager.LevelManager.LevelMap);
 		}
 
