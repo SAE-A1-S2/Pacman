@@ -9,10 +9,10 @@ namespace PacMan
 		private bool isDragging = false; // Indique si la fenêtre est en cours de déplacement
 		private Point lastCursorPosition; // Permet de sauvegarder la position de la souris
 		private readonly GameManager gameManager;
-		public FrmPause(GameManager _gameManager)
+		public FrmPause(GameManager game)
 		{
 			InitializeComponent();
-			gameManager = _gameManager;
+			gameManager = game;
 		}
 
 		// Correspond à l'evenement KeyDown, permet de récuperer les touches appuyées par l'utilisateur
@@ -73,7 +73,7 @@ namespace PacMan
 		private void btnReprendre_Click(object sender, EventArgs e)
 		{
 			Hide(); // Ferme la fenêtre
-			gameManager.NextLevel(); // Reprend la partie
+			gameManager.Resume(); // Reprend la partie
 		}
 
 		private void FrmPause_Load(object sender, EventArgs e)

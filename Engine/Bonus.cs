@@ -14,15 +14,45 @@ namespace Engine
 			Console.WriteLine(Name);
 			throw new NotImplementedException();
 		}
+
+
 	}
 
-	public class BonusPair<B>(B? first, B? second) : INotifyPropertyChanged where B : Bonus
+	public class BonusPair<B> : INotifyPropertyChanged where B : Bonus
 	{
-		public B? First { get; set; } = first;
-		public B? Second { get; set; } = second;
+		public B? First { get; set; }
+		public B? Second { get; set; }
 		public int FrontEndValue { get; private set; } = 0;
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public bool IsEmpty() => First == null && Second == null;
+
+		public BonusPair(B? first, B? second)
+		{
+			First = first;
+			Second = second;
+		}
+
+		public BonusPair(int value)
+		{
+			FrontEndValue = value;
+			if (value > 0)
+			{
+				First = CreateBonus(value / 10);
+				Second = CreateBonus(value % 10);
+			}
+			else
+			{
+				First = null;
+				Second = null;
+			}
+
+			CalculateFrontEndValue();
+		}
+
+		public B? CreateBonus(int value)
+		{
+			return value == 1 ? (B)(object)new HealthBonus() : value == 2 ? (B)(object)new TorchBonus() : null;
+		}
 
 		public void Clear()
 		{

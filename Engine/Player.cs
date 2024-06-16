@@ -4,12 +4,20 @@ namespace Engine
 {
 	public sealed class Player : Entity
 	{
-		public BonusPair<Bonus> m_Bonuses = new(null, null);
+		public BonusPair<Bonus> m_Bonuses;
 
 		public Player(string name = "John")
 		{
+			m_Bonuses = new BonusPair<Bonus>(null, null);
 			Name = name;
 			Kind = Cell.John;
+		}
+
+		public Player(string name, int BonusValue)
+		{
+			Name = name;
+			Kind = Cell.John;
+			m_Bonuses = new BonusPair<Bonus>(BonusValue);
 		}
 
 		public void SetPlayerName(string newName)

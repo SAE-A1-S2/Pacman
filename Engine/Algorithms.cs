@@ -22,7 +22,7 @@ namespace Engine
 						if (distance < minDistance)
 						{
 							minDistance = distance;
-							closest = new(x, y);
+							closest = new CellCoordinates(x, y);
 						}
 					}
 				}
@@ -66,7 +66,7 @@ namespace Engine
 			CellCoordinates cell = new(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
 
 			while (maze[cell.row, cell.col] != Cell.Empty)
-				cell = new(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
+				cell = new CellCoordinates(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
 
 			return cell;
 		}

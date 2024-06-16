@@ -12,9 +12,14 @@ namespace Engine
 
 		public GameManager(GameMode gameMode, string playerName)
 		{
-			Player = new(playerName);
+			Player = new Player(playerName);
 			GameMode = gameMode;
 			LevelManager = new LevelManager(Player, gameMode);
+		}
+
+		public GameManager(int sessionId)
+		{
+			throw new NotImplementedException();
 		}
 
 		public void StepPlayer(Direction direction)
@@ -34,21 +39,18 @@ namespace Engine
 		public bool CheckGhostCollisions()
 		{
 			List<CellCoordinates> enemiesNextPos = [];
-			var PlayerNextPos = Entity.GetNextPosition(Player.Position, Player.CurrentDirection);
+			var playerNextPos = Entity.GetNextPosition(Player.Position, Player.CurrentDirection);
 			Enemies.enemies.ForEach(enemy => enemiesNextPos.Add(Entity.GetNextPosition(enemy.Position, enemy.CurrentDirection)));
 
-			if (enemiesNextPos.Contains(PlayerNextPos))
-			{
-				Entity.CollideWithEnemy(this);
-				return true;
-			}
+			if (!enemiesNextPos.Contains(playerNextPos)) return false;
+			Entity.CollideWithEnemy(this);
+			return true;
 
-			return false;
 		}
 
 		public bool CheckGameCompleted()
 		{
-			return !LevelManager.Health.IsDead() && LevelManager.Key == 2 && LevelManager.RemainingCoins <= 0;
+			return !LevelManager.Health.IsDead() && LevelManager is { Key: 2, RemainingCoins: <= 0 };
 
 		}
 
@@ -65,7 +67,7 @@ namespace Engine
 		public void NextLevel()
 		{
 			GameState = GameState.PLAYING;
-			LevelManager = new(Player, GameMode);
+			LevelManager = new LevelManager(Player, GameMode);
 			// LevelManager.NextLevel(GameMode);
 		}
 

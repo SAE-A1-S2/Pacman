@@ -1,4 +1,5 @@
-﻿namespace Engine
+﻿// ReSharper disable CommentTypo
+namespace Engine
 {
 	public class MazeGenerator
 	{
@@ -23,6 +24,26 @@
 			_map = new Cell[_height, _width];
 			GenerateLevel();
 		}
+
+		/// <summary>
+		/// Constructeur de la classe MazeGenerator
+		/// Initialise la largeur et la hauteur du labyrinthe, la grille de cellules et les coordonnées du point de depart et d'arrêt.
+		/// Elle sert de point pour la récupération depuis la base de données.
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="map"></param>
+		/// <param name="start"></param>
+		/// <param name="end"></param>
+		public MazeGenerator(int width, int height, Cell[,] map, CellCoordinates start, CellCoordinates end)
+		{
+			_width = width;
+			_height = height;
+			_map = map;
+			Start = start;
+			End = end;
+		}
+
 
 		/// <summary>
 		/// permet d'obteniur une liste des coordonnées des cellules voisines non visitées à partir d'une cellule spécifiée.

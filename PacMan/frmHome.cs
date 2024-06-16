@@ -31,9 +31,9 @@ namespace PacMan
 			InitializeComponent(); // Initialise les composants visuels du formulaire
 
 			// Instancie les fenêtres enfants
-			popUpForm = new();
-			credits = new();
-			stats = new();
+			popUpForm = new FrmPopUp();
+			credits = new FrmCredits();
+			stats = new FrmStats();
 
 			// Gestion des événements :
 			stats.VisibleChanged += Handle_Visibility;     // Appelé quand la visibilité de la fenêtre stats change
