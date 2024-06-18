@@ -102,7 +102,8 @@ namespace PacMan
 				lblTScoreC.Text = allData.Sum(x => x.Score).ToString();
 				lblLowestScore.Text = allData.Min(x => x.Score).ToString();
 				lblAvgScore.Text = allData.Average(x => x.Score).ToString();
-				lblHoursSpent.Text = allData.Sum(x => x.TimeSpentInMinutes) / 60 + "h " + allData.Sum(x => x.TimeSpentInMinutes) % 60 + "m";
+				int SumMinutes = allData.Sum(x => x.TimeSpentInMinutes);
+				lblHoursSpent.Text = SumMinutes / 60 + "h " + SumMinutes % 60 + "m";
 			}
 			catch (InvalidOperationException)
 			{

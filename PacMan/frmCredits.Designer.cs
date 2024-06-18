@@ -50,7 +50,7 @@
 			btnRetour.ForeColor = Color.Black;
 			btnRetour.Location = new Point(46, 325);
 			btnRetour.Name = "btnRetour";
-			btnRetour.Size = new Size(94, 29);
+			btnRetour.Size = new Size(94, 31);
 			btnRetour.TabIndex = 0;
 			btnRetour.Text = "Retour";
 			btnRetour.UseVisualStyleBackColor = false;

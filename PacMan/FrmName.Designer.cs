@@ -83,7 +83,7 @@
 			label1.Name = "label1";
 			label1.Size = new Size(355, 20);
 			label1.TabIndex = 3;
-			label1.Text = "Veuillez rentrer votre Psuedo pour commencer le jeu";
+			label1.Text = "Veuillez rentrer votre Pseudo pour commencer le jeu";
 			// 
 			// chkName
 			// 
