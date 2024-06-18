@@ -19,11 +19,8 @@ using Engine;
 
 namespace PacMan
 {
-	public partial class FrmStats : Form
+	public partial class FrmStats : FrmEntity
 	{
-		// Permet de savoir de deplacer la fenêtre
-		private bool isDragging = false;
-		private Point lastCursorPosition; // permet de sauvegarder la position de la fenêtre
 		public FrmStats()
 		{
 			InitializeComponent();
@@ -43,49 +40,10 @@ namespace PacMan
 			return base.ProcessCmdKey(ref msg, keyData); // retourne ici pour indiquer que la touche n'est pas traitée
 		}
 
-		// Rajoute un contour autour de la fenêtre
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-
-			using Pen pen = new(Color.White, 1);
-			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
-		}
-
 		// méthode appélée lorsque l'utilisateur clique sur le bouton "Retour"
 		private void btnRetour_Click(object sender, EventArgs e)
 		{
 			Hide(); // ferme la fenêtre
-		}
-
-		// Événement de clic de la souris sur la fenêtre
-		private void frmStats_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				isDragging = true; // Active le mode de déplacement de la fenêtre
-				lastCursorPosition = PointToScreen(e.Location); // Enregistre la position actuelle du curseur
-			}
-		}
-
-		// Événement de déplacement de la souris
-		private void frmStats_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (isDragging)
-			{
-				Point currentCursorPosition = PointToScreen(e.Location);
-				Location = new Point(
-									   Location.X + (currentCursorPosition.X - lastCursorPosition.X),
-														  Location.Y + (currentCursorPosition.Y - lastCursorPosition.Y));
-				lastCursorPosition = currentCursorPosition;
-			}
-		}
-
-		// Événement de relachement de la souris
-		private void frmStats_MouseUp(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-				isDragging = false;// Désactive le mode de déplacement de la fenêtre
 		}
 
 		// Evénement appelé lors du chargement de la fenêtre
@@ -109,7 +67,7 @@ namespace PacMan
 			{
 				// vous vous demandez probablement pourquoi nous ecrivons 0.ToString() au lieu de "0"
 				// voila pourquoi: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1303
-				// le programme fonctionnera correctement, mais la bonne pratique
+				// le programme fonctionnera correctement, mais les bonnes pratique
 
 				// Gère les cas où il n'y a pas de données disponibles
 				lblHighScore.Text = 0.ToString();
@@ -118,13 +76,6 @@ namespace PacMan
 				lblAvgScore.Text = 0.ToString();
 				lblHoursSpent.Text = 0.ToString();
 			}
-		}
-
-		// Evénement appelé lorsque la fenêtre est affichée
-		// permet de donner le focus à la fenêtre, pour que l'appuuie sur la touche Escape fonctionne correctement
-		private void frmStats_Shown(object sender, EventArgs e)
-		{
-			Activate();
 		}
 	}
 }

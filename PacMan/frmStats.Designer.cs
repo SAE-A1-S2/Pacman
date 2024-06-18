@@ -202,9 +202,6 @@
 			Text = "frmStats";
 			Icon = Properties.Resources.logo;
 			Load += frmStats_Load;
-			MouseDown += frmStats_MouseDown;
-			MouseMove += frmStats_MouseMove;
-			MouseUp += frmStats_MouseUp;
 			ResumeLayout(false);
 			PerformLayout();
 		}

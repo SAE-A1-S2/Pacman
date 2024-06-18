@@ -1,6 +1,6 @@
 ﻿namespace PacMan
 {
-	public partial class FrmName : Form
+	public partial class FrmName : FrmEntity
 	{
 		// Propriété publique de la classe pour stocker le résultat de la fenêtre (true si le nom est valide, false sinon)
 		public bool Result { get; private set; }
@@ -18,27 +18,11 @@
 			BtnCtn.Enabled = !string.IsNullOrWhiteSpace(TxtPlyName.Text); // Active le bouton "Continuer" si le champ de texte n'est pas vide
 		}
 
-		// Surcharge de la méthode OnPaint pour ajouter un contour blanc autour de la fenêtre
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e); // Appelle la méthode OnPaint de la classe de base
-
-			// Dessine un rectangle blanc avec une largeur de 1 pixel autour de la fenêtre
-			using Pen pen = new(Color.White, 1);
-			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
-		}
-
 		// Méthode appelée lors de l'appui sur une touche 
 		private void TxtName_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter) // Si la touche Enter est appuyée
 				BtnCtn_Click(sender, e);
-		}
-
-		//Méthode appelée au chargement de la fenêtre
-		private void FrmName_Load(object sender, EventArgs e)
-		{
-			CenterToParent(); // Centre la fenêtre par rapport à la fenêtre parente
 		}
 
 		//Méthode appelée lors du clic sur le bouton "Annuler"

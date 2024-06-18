@@ -187,10 +187,6 @@
 			Icon = Properties.Resources.logo;
 			Name = "FrmCredits";
 			Text = "Credits";
-			Load += this.FrmCredits_Load;
-			MouseDown += this.Credits_MouseDown;
-			MouseMove += this.Credits_MouseMove;
-			MouseUp += this.Credits_MouseUp;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

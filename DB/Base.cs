@@ -115,7 +115,8 @@ namespace DB
 					RemainingCoins = reader.GetInt32("RemainingCoins"),
 					StartPos = reader.GetString("StartPos"),
 					EndPos = reader.GetString("EndPos"),
-					BonusValue = reader.GetInt32("BonusValue")
+					BonusValue = reader.GetInt32("BonusValue"),
+					PlayerPos = reader.GetString("PlayerPos")
 				};
 				return savedData;
 			}

@@ -75,6 +75,7 @@
 			chkShowDialog.TabIndex = 2;
 			chkShowDialog.Text = "Oui";
 			chkShowDialog.UseVisualStyleBackColor = true;
+			chkShowDialog.CheckedChanged += this.chkShowDialog_CheckedChanged;
 			// 
 			// lblPlayerNameHead
 			// 

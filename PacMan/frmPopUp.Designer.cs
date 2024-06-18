@@ -252,10 +252,6 @@
 			Name = "FrmPopUp";
 			Text = "Fenêtre de contrôles";
 			Icon = Properties.Resources.logo;
-			Load += this.FrmPopUp_Load;
-			MouseDown += this.PopUpForm_MouseDown;
-			MouseMove += this.PopUpForm_MouseMove;
-			MouseUp += this.PopUpForm_MouseUp;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

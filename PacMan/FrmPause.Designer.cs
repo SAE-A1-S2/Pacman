@@ -100,10 +100,6 @@
 			Icon = Properties.Resources.logo;
 			Name = "FrmPause";
 			Text = "FrmPause";
-			Load += this.FrmPause_Load;
-			MouseDown += this.FrmPause_MouseDown;
-			MouseMove += this.FrmPause_MouseMove;
-			MouseUp += this.FrmPause_MouseUp;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
