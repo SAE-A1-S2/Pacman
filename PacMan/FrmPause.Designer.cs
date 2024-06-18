@@ -31,6 +31,7 @@
 			lblPause = new Label();
 			btnReprendre = new Button();
 			btnQuitSave = new Button();
+			lblMsgDB = new Label();
 			this.SuspendLayout();
 			// 
 			// lblPause
@@ -72,6 +73,18 @@
 			btnQuitSave.TabIndex = 2;
 			btnQuitSave.Text = "Sauvegarder et quitter";
 			btnQuitSave.UseVisualStyleBackColor = false;
+			btnQuitSave.Click += this.btnQuitSave_Click;
+			// 
+			// lblMsgDB
+			// 
+			lblMsgDB.AutoSize = true;
+			lblMsgDB.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+			lblMsgDB.ForeColor = Color.Red;
+			lblMsgDB.Location = new Point(89, 352);
+			lblMsgDB.Name = "lblMsgDB";
+			lblMsgDB.Size = new Size(225, 20);
+			lblMsgDB.TabIndex = 3;
+			lblMsgDB.Text = "La partie n'est pas sauvegarder";
 			// 
 			// FrmPause
 			// 
@@ -79,6 +92,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(402, 381);
+			Controls.Add(lblMsgDB);
 			Controls.Add(btnQuitSave);
 			Controls.Add(btnReprendre);
 			Controls.Add(lblPause);
@@ -99,5 +113,6 @@
 		private Label lblPause;
 		private Button btnReprendre;
 		private Button btnQuitSave;
+		private Label lblMsgDB;
 	}
 }

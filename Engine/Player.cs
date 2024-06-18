@@ -30,13 +30,12 @@ namespace Engine
 			Position = newPostion;
 		}
 
-		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition)
+		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition, CellCoordinates PlayerPosition)
 		{
 			maze[startPosition.row, startPosition.col] = Kind;
-			Position = startPosition;
+			Position = PlayerPosition;
 			StartPosition = startPosition;
 			CurrentDirection = Direction.STOP;
-			m_Bonuses.Clear();
 		}
 
 		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)

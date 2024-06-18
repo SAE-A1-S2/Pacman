@@ -51,5 +51,27 @@ namespace Engine
 		/// <param name="b">Deuxième instance de CellCoordinates.</param>
 		/// <returns>True si les instances ne sont pas égales; sinon, False.</returns>
 		public static bool operator !=(CellCoordinates a, CellCoordinates b) => !(a == b);
+
+		/// <summary>
+		/// Convertit une instance de CellCoordinates en une chaîne de caractères.
+		/// </summary>
+		/// <returns>Chaîne de caractères correspondant à l'instance actuelle.</returns>
+		public override readonly string ToString() => $"{row},{col}";
+
+		/// <summary>
+		/// Convertit une chaîne de caractères en une instance de CellCoordinates.
+		/// </summary>
+		/// <param name="cellString">Chaîne de caractères à convertir.</param>
+		/// <returns>Instance de CellCoordinates correspondant à la chaîne de caractères.</returns>
+		public static CellCoordinates Parse(string cellString)
+		{
+			string[] parts = cellString.Split(',');
+
+			return new CellCoordinates
+			{
+				row = int.Parse(parts[0]),
+				col = int.Parse(parts[1])
+			};
+		}
 	}
 }

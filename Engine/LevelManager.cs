@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine;
@@ -61,15 +60,17 @@ public class LevelManager : INotifyPropertyChanged
 	private readonly Dictionary<Cell, CellCoordinates> ObjectPositions = [];
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	public LevelManager(int score, byte key, Cell[,] levelMap, CellCoordinates mazeStartPos, CellCoordinates mazeEndPos, Player player, byte lives, byte healthPoints, GameMode gameMode)
+	public LevelManager(int score, int key, Cell[,] levelMap, CellCoordinates mazeStartPos, CellCoordinates mazeEndPos, Player player, byte lives, byte healthPoints, GameMode gameMode, CellCoordinates playerPosition, int remainingCoins)
 	{
 		Health = new(lives, healthPoints);
 		Score = score;
-		Key = key;
+		Key = (byte)key;
+		RemainingCoins = remainingCoins;
 		Player = player;
 		m_MazeGenerator = new(s_Width, s_Height, levelMap, mazeStartPos, mazeEndPos);
 
 		InitializeLevel(gameMode);
+		Player.PlacePlayer(LevelMap, mazeStartPos, playerPosition);
 	}
 
 	public LevelManager(Player player, GameMode gameMode)
@@ -82,7 +83,7 @@ public class LevelManager : INotifyPropertyChanged
 		InitializeLevel(gameMode);
 		// The player should be an outside ref.
 		Player = player;
-		Player.PlacePlayer(LevelMap, MazeStartPos);
+		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
 		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
 
@@ -148,7 +149,7 @@ public class LevelManager : INotifyPropertyChanged
 		Key = 0;
 		LevelMap = m_MazeGenerator._map;
 		RemainingCoins = 0;
-		Player.PlacePlayer(LevelMap, MazeStartPos);
+		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));

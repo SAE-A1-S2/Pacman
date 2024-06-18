@@ -46,5 +46,29 @@ namespace PacMan.Properties {
                 this["PlayerName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int LastInserterID {
+            get {
+                return ((int)(this["LastInserterID"]));
+            }
+            set {
+                this["LastInserterID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string shit {
+            get {
+                return ((string)(this["shit"]));
+            }
+            set {
+                this["shit"] = value;
+            }
+        }
     }
 }

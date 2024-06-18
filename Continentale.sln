@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacMan", "PacMan\PacMan.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{9A2350EA-A6A3-45FC-8849-D6BFFC93A127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase", "DataBase\DataBase.csproj", "{4FB6DCD1-4895-4F03-92C6-D36076127A42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{A2C2A92D-0465-4EF0-A883-8B12F0DE8F93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{9A2350EA-A6A3-45FC-8849-D6BFFC93A127}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A2350EA-A6A3-45FC-8849-D6BFFC93A127}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A2350EA-A6A3-45FC-8849-D6BFFC93A127}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FB6DCD1-4895-4F03-92C6-D36076127A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FB6DCD1-4895-4F03-92C6-D36076127A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FB6DCD1-4895-4F03-92C6-D36076127A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FB6DCD1-4895-4F03-92C6-D36076127A42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C2A92D-0465-4EF0-A883-8B12F0DE8F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C2A92D-0465-4EF0-A883-8B12F0DE8F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C2A92D-0465-4EF0-A883-8B12F0DE8F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C2A92D-0465-4EF0-A883-8B12F0DE8F93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

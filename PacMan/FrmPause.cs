@@ -1,5 +1,6 @@
 ﻿
 
+using System.Diagnostics;
 using Engine;
 
 namespace PacMan
@@ -79,6 +80,25 @@ namespace PacMan
 		private void FrmPause_Load(object sender, EventArgs e)
 		{
 			CenterToParent(); // Centre la fenêtre par rapport à la fenêtre parente
+		}
+
+		private async void btnQuitSave_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.LastInserterID = gameManager.SaveSession(); // Sauvegarde la partie
+			if (Properties.Settings.Default.LastInserterID != -1)
+			{
+				lblMsgDB.ForeColor = Color.Green;
+				lblMsgDB.Text = "Partie sauvegardée !";
+			}
+			else
+			{
+				lblMsgDB.ForeColor = Color.Red;
+				lblMsgDB.Text = "Erreur lors de la sauvegarde !";
+			}
+			Properties.Settings.Default.Save(); // Sauvegarde les paramètres
+			await Task.Delay(2000);
+			Hide(); // Ferme la fenêtre
+			gameManager.Resume(); // Reprend la partie
 		}
 	}
 }

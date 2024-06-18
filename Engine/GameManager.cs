@@ -1,4 +1,7 @@
 ﻿using Engine.utils;
+using DB;
+using System.Text;
+using System.Diagnostics;
 
 namespace Engine
 {
@@ -34,6 +37,28 @@ namespace Engine
 			{
 				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);
 			}
+		}
+
+		public int SaveSession()
+		{
+			SavedData savedData = new()
+			{
+
+				PlayerName = Player.Name,
+				GameMode = GameMode.ToString(),
+				PlayerHearts = LevelManager.Health.Lives,
+				PlayerHP = LevelManager.Health.HealthPoints,
+				Score = LevelManager.Score,
+				Keys = LevelManager.Key,
+				LevelWidth = LevelManager.LevelMap.GetLength(0),
+				LevelHeight = LevelManager.LevelMap.GetLength(1),
+				LevelMap = FormatMap(LevelManager.LevelMap),
+				RemainingCoins = LevelManager.RemainingCoins,
+				StartPos = LevelManager.MazeStartPos.ToString(),
+				EndPos = LevelManager.MazeEndPos.ToString(),
+				BonusValue = Player.m_Bonuses.FrontEndValue
+			};
+			return Base.SaveSession(savedData);
 		}
 
 		public bool CheckGhostCollisions()
@@ -74,6 +99,42 @@ namespace Engine
 		public void GameOver()
 		{
 			GameState = GameState.GAME_OVER;
+		}
+
+		private static string FormatMap(Cell[,] levelMap)
+		{
+			var rows = levelMap.GetLength(0);
+			var cols = levelMap.GetLength(1);
+			var sb = new StringBuilder();
+
+			for (var i = 0; i < rows; i++)
+			{
+				for (var j = 0; j < cols; j++)
+				{
+					sb.Append((int)levelMap[i, j]); // Convert Cell enum value to int
+					if (j < cols - 1)
+					{
+						sb.Append(',');  // Add comma separator between columns
+					}
+				}
+				sb.AppendLine(";");
+			}
+
+			return sb.ToString();
+		}
+
+		private static Cell[,] ParseMap(string mapString)
+		{
+			var rows = mapString.Split(';');
+			var levelMap = new Cell[rows.Length, rows[0].Split(',').Length]; // Determine the size based on string
+
+			for (var i = 0; i < rows.Length; i++)
+			{
+				var cols = rows[i].Split(',');
+				for (var j = 0; j < cols.Length; j++)
+					levelMap[i, j] = (Cell)Enum.Parse(typeof(Cell), cols[j]);
+			}
+			return levelMap;
 		}
 	}
 }
