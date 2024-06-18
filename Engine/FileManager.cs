@@ -27,8 +27,8 @@ namespace Engine
 	public class FileManager
 	{
 		// Chemins des fichiers pour les modes de jeu infini et histoire
-		private readonly string infiniteModeFilePath;
-		private readonly string storyModeFilePath;
+		private readonly string m_InfiniteModeFilePath;
+		private readonly string m_StoryModeFilePath;
 
 		/// <summary>
 		/// Constructeur de la classe FileManager
@@ -45,10 +45,10 @@ namespace Engine
 
 			// Chemin des fichiers pour les modes de jeu infini et histoire
 			// l'extension ".dat" permet d'indiquer que le fichier est un fichier de données et de faire genre que c'est un fichier sécuriser😆
-			infiniteModeFilePath = Path.Combine(appDataFolder, "InfiniteModeGameData.dat");
-			storyModeFilePath = Path.Combine(appDataFolder, "StoryModeGameData.dat");
-			InitializeDAT(infiniteModeFilePath);
-			InitializeDAT(storyModeFilePath);
+			m_InfiniteModeFilePath = Path.Combine(appDataFolder, "InfiniteModeGameData.dat");
+			m_StoryModeFilePath = Path.Combine(appDataFolder, "StoryModeGameData.dat");
+			InitializeDAT(m_InfiniteModeFilePath);
+			InitializeDAT(m_StoryModeFilePath);
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace Engine
 		/// <param name="level">Le niveau atteint par le joueur (par défaut -1 si non applicable).</param>
 		public void SaveGameData(string gameMode, int score, int timeSpent, int level = -1)
 		{
-			string filePath = gameMode == "Story" ? storyModeFilePath : infiniteModeFilePath;
+			string filePath = gameMode == "Story" ? m_StoryModeFilePath : m_InfiniteModeFilePath;
 			string dateString = DateTime.Now.ToString("yyyy-MM-dd");
 			// -1 signifie qu'il n'y a pas de niveau, dans le cas du mode infini
 			string levelPart = level == -1 ? "" : $"{level};";
@@ -91,8 +91,8 @@ namespace Engine
 			List<PlayerData> allGameData =
 			[
 				// récupère les données de jeu
-				.. ReadGameDataFromFile(infiniteModeFilePath),
-				.. ReadGameDataFromFile(storyModeFilePath),
+				.. ReadGameDataFromFile(m_InfiniteModeFilePath),
+				.. ReadGameDataFromFile(m_StoryModeFilePath),
 			];
 
 			return allGameData;
@@ -141,11 +141,11 @@ namespace Engine
 		/// <returns>Le dernier niveau joué, ou -1 s'il n'y a pas de données disponibles.</returns>
 		public int GetLastPlayedLevel()
 		{
-			if (!File.Exists(storyModeFilePath))
+			if (!File.Exists(m_StoryModeFilePath))
 				return -1;
 
 			int lastLevel = -1;
-			using StreamReader reader = new(storyModeFilePath);
+			using StreamReader reader = new(m_StoryModeFilePath);
 			reader.ReadLine();
 			while (!reader.EndOfStream)
 			{
@@ -159,39 +159,6 @@ namespace Engine
 				}
 			}
 			return lastLevel;
-		}
-
-		/// <summary>
-		/// Charge un niveau de jeu depuis un fichier.
-		/// </summary>
-		/// <param name="levelPath">Le chemin relatif du fichier de niveau à charger.</param>
-		/// <returns>Un tableau 2D de cellules représentant le niveau de jeu.</returns>
-		public static Cell[,] LoadLevel(string levelPath)
-		{
-			// recupère le chemin du fichier .txt de niveau
-			string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Levels", levelPath);
-
-			if (!File.Exists(filePath))
-				throw new FileNotFoundException("Le fichier de niveau n'existe pas.", filePath);
-
-			// Lit le contenu du fichier et le stocke dans un tableau 
-			string[] lines = File.ReadAllLines(filePath);
-			int rows = lines.Length;
-			int cols = (rows > 0) ? lines[0].Length : 0;
-			Cell[,] grid = new Cell[rows, cols];
-
-			for (int i = 0; i < rows; i++)
-			{
-				for (int j = 0; j < cols; j++)
-				{
-					string cellValue = lines[i][j].ToString();
-					if (Enum.TryParse(cellValue, true, out Cell result))
-						grid[i, j] = result;
-					else
-						grid[i, j] = Cell.Empty;
-				}
-			}
-			return grid;
 		}
 	}
 

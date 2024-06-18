@@ -16,25 +16,25 @@ namespace Engine
 	/// <summary>
 	/// Structure CellCoordinates représentant les coordonnées d'une cellule dans le labyrinthe.
 	/// </summary>
-	public struct CellCoordinates(int Row, int Col)
+	public struct CellCoordinates(int row, int col)
 	{
 		// Coordonnée de la ligne
-		public int row = Row;
+		public int Row = row;
 		// Coordonnée de la colonne
-		public int col = Col;
+		public int Col = col;
 
 		/// <summary>
 		/// Détermine si l'objet spécifié est égal à l'instance actuelle.
 		/// </summary>
 		/// <param name="obj">Objet à comparer avec l'instance actuelle.</param>
 		/// <returns>True si l'objet spécifié est égal à l'instance actuelle; sinon, False.</returns>
-		public override readonly bool Equals(object? obj) => obj is CellCoordinates coordinates && row == coordinates.row && col == coordinates.col;
+		public override readonly bool Equals(object? obj) => obj is CellCoordinates coordinates && Row == coordinates.Row && Col == coordinates.Col;
 
 		/// <summary>
 		/// Sert de fonction de hachage par défaut.
 		/// </summary>
 		/// <returns>Code de hachage pour l'instance actuelle.</returns>
-		public override readonly int GetHashCode() => HashCode.Combine(row, col);
+		public override readonly int GetHashCode() => HashCode.Combine(Row, Col);
 
 		/// <summary>
 		/// Détermine si deux instances de CellCoordinates sont égales.
@@ -56,7 +56,7 @@ namespace Engine
 		/// Convertit une instance de CellCoordinates en une chaîne de caractères.
 		/// </summary>
 		/// <returns>Chaîne de caractères correspondant à l'instance actuelle.</returns>
-		public override readonly string ToString() => $"{row},{col}";
+		public override readonly string ToString() => $"{Row},{Col}";
 
 		/// <summary>
 		/// Convertit une chaîne de caractères en une instance de CellCoordinates.
@@ -69,8 +69,8 @@ namespace Engine
 
 			return new CellCoordinates
 			{
-				row = int.Parse(parts[0]),
-				col = int.Parse(parts[1])
+				Row = int.Parse(parts[0]),
+				Col = int.Parse(parts[1])
 			};
 		}
 	}

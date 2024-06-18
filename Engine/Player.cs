@@ -4,20 +4,20 @@ namespace Engine
 {
 	public sealed class Player : Entity
 	{
-		public BonusPair<Bonus> m_Bonuses;
+		public BonusPair<Bonus> Bonuses;
 
 		public Player(string name = "John")
 		{
-			m_Bonuses = new BonusPair<Bonus>(null, null);
+			Bonuses = new BonusPair<Bonus>(null, null);
 			Name = name;
-			Kind = Cell.John;
+			Kind = Cell.JOHN;
 		}
 
 		public Player(string name, int BonusValue)
 		{
 			Name = name;
-			Kind = Cell.John;
-			m_Bonuses = new BonusPair<Bonus>(BonusValue);
+			Kind = Cell.JOHN;
+			Bonuses = new BonusPair<Bonus>(BonusValue);
 		}
 
 		public void SetPlayerName(string newName)
@@ -32,7 +32,7 @@ namespace Engine
 
 		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition, CellCoordinates PlayerPosition)
 		{
-			maze[startPosition.row, startPosition.col] = Kind;
+			maze[startPosition.Row, startPosition.Col] = Kind;
 			Position = PlayerPosition;
 			StartPosition = startPosition;
 			CurrentDirection = Direction.STOP;
@@ -45,10 +45,10 @@ namespace Engine
 			// Check if the new position is within the bounds of the maze
 			if (IsInBounds(newPosition, maze))
 			{
-				if (maze[newPosition.row, newPosition.col] != Cell.Wall)
+				if (maze[newPosition.Row, newPosition.Col] != Cell.WALL)
 				{
 					CurrentDirection = direction;
-					CheckCollisions(maze[newPosition.row, newPosition.col], gameManager);
+					CheckCollisions(maze[newPosition.Row, newPosition.Col], gameManager);
 					UpdatePosition(newPosition, maze);
 				}
 				else
@@ -60,17 +60,17 @@ namespace Engine
 		{
 			switch (cellType)
 			{
-				case Cell.Coin:
+				case Cell.COIN:
 					gameManager.LevelManager.UpdateScore(10);
 					break;
-				case Cell.HealthKit:
-					m_Bonuses.Add(new HealthBonus());
+				case Cell.HEALTH_KIT:
+					Bonuses.Add(new HealthBonus());
 					break;
-				case Cell.Key:
+				case Cell.KEY:
 					gameManager.LevelManager.AddKey();
 					break;
-				case Cell.Torch:
-					m_Bonuses.Add(new TorchBonus());
+				case Cell.TORCH:
+					Bonuses.Add(new TorchBonus());
 					break;
 
 				default:

@@ -28,41 +28,41 @@ namespace PacMan
 					{
 						switch (maze[x, y])
 						{
-							case Cell.Cain:
+							case Cell.CAIN:
 								DrawCharacter(g, x, y, ref CainPrevPos, "Cain", cellSize);
 								break;
-							case Cell.Winston:
+							case Cell.WINSTON:
 								DrawCharacter(g, x, y, ref WinstonPrevPos, "Winston", cellSize);
 								break;
-							case Cell.Viggo:
+							case Cell.VIGGO:
 								DrawCharacter(g, x, y, ref ViggoPrevPos, "Viggo", cellSize);
 								break;
-							case Cell.Marquis:
+							case Cell.MARQUIS:
 								DrawCharacter(g, x, y, ref MarquisPrevPos, "Marquis", cellSize);
 								break;
-							case Cell.John:
+							case Cell.JOHN:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								DrawCharacter(g, x, y, ref JohnPrevPos, "Player", cellSize);
 								break;
-							case Cell.Wall:
+							case Cell.WALL:
 								g.DrawImage(Wall, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
-							case Cell.Coin:
+							case Cell.COIN:
 								g.DrawImage(Coin, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
-							case Cell.HealthKit:
+							case Cell.HEALTH_KIT:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								g.DrawImage(HealthKit, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
-							case Cell.Torch:
+							case Cell.TORCH:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								g.DrawImage(Torch, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
-							case Cell.Key:
+							case Cell.KEY:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								g.DrawImage(Key, y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
-							case Cell.Empty:
+							case Cell.EMPTY:
 								g.FillRectangle(new SolidBrush(Color.White), y * cellSize, x * cellSize, cellSize, cellSize);
 								break;
 							default:
@@ -89,13 +89,13 @@ namespace PacMan
 
 		private static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
 		{
-			if (src.col < dst.col)
+			if (src.Col < dst.Col)
 				return Direction.RIGHT;
-			if (src.col > dst.col)
+			if (src.Col > dst.Col)
 				return Direction.LEFT;
-			if (src.row < dst.row)
+			if (src.Row < dst.Row)
 				return Direction.DOWN;
-			if (src.row > dst.row)
+			if (src.Row > dst.Row)
 				return Direction.UP;
 			return Direction.STOP;
 		}
