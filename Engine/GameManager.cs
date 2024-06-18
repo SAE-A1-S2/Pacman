@@ -1,7 +1,6 @@
 ﻿using Engine.utils;
 using DB;
 using System.Text;
-using System.Diagnostics;
 
 namespace Engine
 {
@@ -22,7 +21,10 @@ namespace Engine
 
 		public GameManager(int sessionId)
 		{
-			throw new NotImplementedException();
+			SavedData savedData = Base.LoadSession(sessionId);
+			Player = new Player(savedData.PlayerName, savedData.BonusValue);
+			GameMode = (GameMode)Enum.Parse(typeof(GameMode), savedData.GameMode, true);
+			LevelManager = new(savedData.Score, savedData.Keys, ParseMap(savedData.LevelMap), CellCoordinates.Parse(savedData.StartPos), CellCoordinates.Parse(savedData.EndPos), Player, (byte)savedData.PlayerHearts, (byte)savedData.PlayerHP, GameMode, CellCoordinates.Parse(savedData.PlayerPos), savedData.RemainingCoins);
 		}
 
 		public void StepPlayer(Direction direction)
@@ -56,8 +58,10 @@ namespace Engine
 				RemainingCoins = LevelManager.RemainingCoins,
 				StartPos = LevelManager.MazeStartPos.ToString(),
 				EndPos = LevelManager.MazeEndPos.ToString(),
-				BonusValue = Player.m_Bonuses.FrontEndValue
+				BonusValue = Player.m_Bonuses.FrontEndValue,
+				PlayerPos = Player.Position.ToString()
 			};
+			GameState = GameState.PAUSED;
 			return Base.SaveSession(savedData);
 		}
 
@@ -132,7 +136,12 @@ namespace Engine
 			{
 				var cols = rows[i].Split(',');
 				for (var j = 0; j < cols.Length; j++)
-					levelMap[i, j] = (Cell)Enum.Parse(typeof(Cell), cols[j]);
+				{
+					if (Enum.TryParse(cols[j], true, out Cell cell))
+					{
+						levelMap[i, j] = cell;
+					}
+				}
 			}
 			return levelMap;
 		}

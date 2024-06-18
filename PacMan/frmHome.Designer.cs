@@ -37,6 +37,7 @@ namespace PacMan
 			btnCredits = new Button();
 			btnQuit = new Button();
 			BtnSettings = new Button();
+			BtnDB = new Button();
 			((System.ComponentModel.ISupportInitialize)picBoxHome).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,6 +65,7 @@ namespace PacMan
 			// 
 			// btnHistore
 			// 
+			btnHistore.Cursor = Cursors.Hand;
 			btnHistore.FlatAppearance.BorderSize = 0;
 			btnHistore.FlatStyle = FlatStyle.Flat;
 			btnHistore.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -76,10 +78,10 @@ namespace PacMan
 			btnHistore.TextAlign = ContentAlignment.MiddleLeft;
 			btnHistore.UseVisualStyleBackColor = true;
 			btnHistore.Click += this.BtnGame_Click;
-			btnHistore.Cursor = Cursors.Hand;
 			// 
 			// btnInfini
 			// 
+			btnInfini.Cursor = Cursors.Hand;
 			btnInfini.FlatAppearance.BorderSize = 0;
 			btnInfini.FlatStyle = FlatStyle.Flat;
 			btnInfini.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -92,31 +94,31 @@ namespace PacMan
 			btnInfini.TextAlign = ContentAlignment.MiddleLeft;
 			btnInfini.UseVisualStyleBackColor = true;
 			btnInfini.Click += this.BtnGame_Click;
-			btnInfini.Cursor = Cursors.Hand;
 			// 
-			// btnStats
+			// btnStat
 			// 
+			btnStat.Cursor = Cursors.Hand;
 			btnStat.FlatAppearance.BorderSize = 0;
 			btnStat.FlatStyle = FlatStyle.Flat;
 			btnStat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			btnStat.ForeColor = Color.CornflowerBlue;
-			btnStat.Location = new Point(60, 272);
-			btnStat.Name = "btnStats";
+			btnStat.Location = new Point(60, 330);
+			btnStat.Name = "btnStat";
 			btnStat.Size = new Size(174, 52);
 			btnStat.TabIndex = 9;
 			btnStat.Text = "Statistiques";
 			btnStat.TextAlign = ContentAlignment.MiddleLeft;
 			btnStat.UseVisualStyleBackColor = true;
 			btnStat.Click += this.BtnStat_Click;
-			btnStat.Cursor = Cursors.Hand;
 			// 
 			// btnCredits
 			// 
+			btnCredits.Cursor = Cursors.Hand;
 			btnCredits.FlatAppearance.BorderSize = 0;
 			btnCredits.FlatStyle = FlatStyle.Flat;
 			btnCredits.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			btnCredits.ForeColor = Color.CornflowerBlue;
-			btnCredits.Location = new Point(60, 330);
+			btnCredits.Location = new Point(60, 386);
 			btnCredits.Name = "btnCredits";
 			btnCredits.Size = new Size(174, 52);
 			btnCredits.TabIndex = 10;
@@ -124,15 +126,15 @@ namespace PacMan
 			btnCredits.TextAlign = ContentAlignment.MiddleLeft;
 			btnCredits.UseVisualStyleBackColor = true;
 			btnCredits.Click += this.BtnCredit_Click;
-			btnCredits.Cursor = Cursors.Hand;
 			// 
 			// btnQuit
 			// 
+			btnQuit.Cursor = Cursors.Hand;
 			btnQuit.FlatAppearance.BorderSize = 0;
 			btnQuit.FlatStyle = FlatStyle.Flat;
 			btnQuit.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			btnQuit.ForeColor = Color.CornflowerBlue;
-			btnQuit.Location = new Point(60, 446);
+			btnQuit.Location = new Point(60, 502);
 			btnQuit.Name = "btnQuit";
 			btnQuit.Size = new Size(174, 52);
 			btnQuit.TabIndex = 11;
@@ -140,7 +142,6 @@ namespace PacMan
 			btnQuit.TextAlign = ContentAlignment.MiddleLeft;
 			btnQuit.UseVisualStyleBackColor = true;
 			btnQuit.Click += this.BtnQuit_Click;
-			btnQuit.Cursor = Cursors.Hand;
 			// 
 			// BtnSettings
 			// 
@@ -149,7 +150,7 @@ namespace PacMan
 			BtnSettings.FlatStyle = FlatStyle.Flat;
 			BtnSettings.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			BtnSettings.ForeColor = Color.CornflowerBlue;
-			BtnSettings.Location = new Point(60, 388);
+			BtnSettings.Location = new Point(60, 444);
 			BtnSettings.Name = "BtnSettings";
 			BtnSettings.Size = new Size(174, 52);
 			BtnSettings.TabIndex = 12;
@@ -159,12 +160,29 @@ namespace PacMan
 			BtnSettings.UseVisualStyleBackColor = true;
 			BtnSettings.Click += this.BtnSettings_Click;
 			// 
+			// BtnDB
+			// 
+			BtnDB.Cursor = Cursors.Hand;
+			BtnDB.FlatAppearance.BorderSize = 0;
+			BtnDB.FlatStyle = FlatStyle.Flat;
+			BtnDB.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			BtnDB.ForeColor = Color.CornflowerBlue;
+			BtnDB.Location = new Point(60, 272);
+			BtnDB.Name = "BtnDB";
+			BtnDB.Size = new Size(182, 52);
+			BtnDB.TabIndex = 13;
+			BtnDB.Text = "Reprendre partie";
+			BtnDB.TextAlign = ContentAlignment.MiddleLeft;
+			BtnDB.UseVisualStyleBackColor = true;
+			BtnDB.Click += this.BtnDB_Click;
+			// 
 			// FrmHome
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(1024, 665);
+			Controls.Add(BtnDB);
 			Controls.Add(BtnSettings);
 			Controls.Add(btnQuit);
 			Controls.Add(btnCredits);
@@ -198,5 +216,6 @@ namespace PacMan
 		private Button btnCredits;
 		private Button btnQuit;
 		private Button BtnSettings;
+		private Button BtnDB;
 	}
 }

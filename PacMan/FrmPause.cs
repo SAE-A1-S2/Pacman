@@ -97,8 +97,9 @@ namespace PacMan
 			}
 			Properties.Settings.Default.Save(); // Sauvegarde les paramètres
 			await Task.Delay(2000);
-			Hide(); // Ferme la fenêtre
-			gameManager.Resume(); // Reprend la partie
+			Close(); // Ferme la fenêtre
+			Application.OpenForms[1]?.Close();
+			Application.OpenForms[0]?.Show();
 		}
 	}
 }

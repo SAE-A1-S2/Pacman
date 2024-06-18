@@ -29,6 +29,16 @@ namespace PacMan
 			frmNotif = new FrmNotif(this);
 		}
 
+		public frmGame(int sessionId)
+		{
+			// Initialisation de la fenêtre de jeu
+			InitializeComponent();
+			characterImages = [];
+			gameManager = new GameManager(sessionId);
+			frmPause = new FrmPause(gameManager);
+			frmNotif = new FrmNotif(this);
+		}
+
 		private void frmGame_Load(object sender, EventArgs e)
 		{
 			UnbindDataSources();
@@ -143,6 +153,9 @@ namespace PacMan
 
 		private void frmGame_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (e.CloseReason != CloseReason.UserClosing &&
+		e.CloseReason != CloseReason.WindowsShutDown) return;
+
 			gameManager.Pause();
 			frmNotif.ShowDialog(this);
 			if (frmNotif.Result) return;

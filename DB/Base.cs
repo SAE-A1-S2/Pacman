@@ -52,8 +52,8 @@ namespace DB
 			try
 			{
 				// Note the added comma after the Score parameter in the VALUES list
-				string query = $"INSERT INTO SessionLevel (PlayerName, GameMode, PlayerHearts, PlayerHP, Score, `Keys`, LevelWidth, LevelHeight, LevelMap, RemainingCoins, StartPos, EndPos, BonusValue) " +
-					$"VALUES ('{savedData.PlayerName}', '{savedData.GameMode}', {savedData.PlayerHearts}, {savedData.PlayerHP}, {savedData.Score}, {savedData.Keys}, {savedData.LevelWidth}, {savedData.LevelHeight}, '{savedData.LevelMap}', {savedData.RemainingCoins}, '{savedData.StartPos}', '{savedData.EndPos}', {savedData.BonusValue})";
+				string query = $"INSERT INTO SessionLevel (PlayerName, GameMode, PlayerHearts, PlayerHP, Score, `Keys`, LevelWidth, LevelHeight, LevelMap, RemainingCoins, StartPos, EndPos, BonusValue, PlayerPos) " +
+					$"VALUES ('{savedData.PlayerName}', '{savedData.GameMode}', {savedData.PlayerHearts}, {savedData.PlayerHP}, {savedData.Score}, {savedData.Keys}, {savedData.LevelWidth}, {savedData.LevelHeight}, '{savedData.LevelMap}', {savedData.RemainingCoins}, '{savedData.StartPos}', '{savedData.EndPos}', {savedData.BonusValue}, '{savedData.PlayerPos}');";
 
 				var cmd = new MySqlCommand(query, conn);
 				cmd.ExecuteNonQuery();
@@ -63,6 +63,44 @@ namespace DB
 			{
 				// Log the exception (e.g., Console.WriteLine(ex.Message))
 				return -1; // Return an error code
+			}
+			finally
+			{
+				Disconnect(); // Always close the connection
+			}
+		}
+
+		public static SavedData LoadSession(int id)
+		{
+			if (!Connect()) return new SavedData(); // Ensure a connection is established
+			try
+			{
+				var query = $"SELECT * FROM SessionLevel WHERE SessionID = {id}";
+				var cmd = new MySqlCommand(query, conn);
+				var reader = cmd.ExecuteReader();
+				reader.Read();
+				var savedData = new SavedData
+				{
+					PlayerName = reader.GetString("PlayerName"),
+					GameMode = reader.GetString("GameMode"),
+					PlayerHearts = reader.GetInt32("PlayerHearts"),
+					PlayerHP = reader.GetInt32("PlayerHP"),
+					Score = reader.GetInt32("Score"),
+					Keys = reader.GetInt32("Keys"),
+					LevelWidth = reader.GetInt32("LevelWidth"),
+					LevelHeight = reader.GetInt32("LevelHeight"),
+					LevelMap = reader.GetString("LevelMap"),
+					RemainingCoins = reader.GetInt32("RemainingCoins"),
+					StartPos = reader.GetString("StartPos"),
+					EndPos = reader.GetString("EndPos"),
+					BonusValue = reader.GetInt32("BonusValue")
+				};
+				return savedData;
+			}
+			catch (MySqlException)
+			{
+				// Log the exception (e.g., Console.WriteLine(ex.Message))
+				return new SavedData(); // Return an empty SavedData object
 			}
 			finally
 			{
@@ -90,6 +128,7 @@ namespace DB
 		public int RemainingCoins { get; set; }
 		public string StartPos { get; set; } = "0,0";
 		public string EndPos { get; set; } = "0,0";
+		public string PlayerPos { get; set; } = "0,0";
 		public int BonusValue { get; set; } = 0;
 	}
 }

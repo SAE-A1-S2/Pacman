@@ -55,6 +55,7 @@ namespace PacMan
 			btnQuit.Enabled = enabled;
 			btnStat.Enabled = enabled;
 			BtnSettings.Enabled = enabled;
+			BtnDB.Enabled = enabled;
 
 			btnCredits.ForeColor = labelColor;
 			btnHistore.ForeColor = labelColor;
@@ -62,6 +63,7 @@ namespace PacMan
 			btnQuit.ForeColor = labelColor;
 			btnStat.ForeColor = labelColor;
 			BtnSettings.ForeColor = labelColor;
+			BtnDB.ForeColor = labelColor;
 		}
 
 		// Gère la fermeture de la fenêtre popup
@@ -158,6 +160,13 @@ namespace PacMan
 			FrmSettings settings = new(); // Crée une nouvelle instance de la fenêtre de paramètres
 			settings.ShowDialog(this); // Affiche la fenêtre de paramètres en tant que boîte de dialogue modale
 			SetLabelStates(true); // Réactive les labels du menu principal
+		}
+
+		private void BtnDB_Click(object sender, EventArgs e)
+		{
+			Hide();
+			frmGame frmGame = new(Properties.Settings.Default.LastInserterID);
+			frmGame.Show();
 		}
 	}
 }
