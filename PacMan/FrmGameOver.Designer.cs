@@ -87,7 +87,6 @@
 			Icon = Properties.Resources.logo;
 			Name = "FrmGameOver";
 			Text = "FrmPause";
-			Load += this.FrmPause_Load;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

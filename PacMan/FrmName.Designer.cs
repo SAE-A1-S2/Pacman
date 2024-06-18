@@ -113,7 +113,7 @@
 			MaximizeBox = false;
 			Name = "FrmName";
 			Text = "FrmName";
-			Load += this.FrmName_Load;
+			Load += this.Frm_Load;
 			KeyDown += this.TxtName_KeyDown;
 			this.ResumeLayout(false);
 			this.PerformLayout();

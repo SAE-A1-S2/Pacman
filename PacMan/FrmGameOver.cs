@@ -1,8 +1,9 @@
 ﻿namespace PacMan
 {
-	public partial class FrmGameOver : Form
+	public partial class FrmGameOver : FrmEntity
 	{
 		private readonly frmGame frmGame;
+
 		public FrmGameOver(frmGame FrmGame)
 		{
 			InitializeComponent();
@@ -24,25 +25,11 @@
 			return base.ProcessCmdKey(ref msg, keyData); // retourne ici pour indiquer que la touche n'est pas traitée
 		}
 
-		// Rajoute un contour autour de la fenêtre
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-
-			using Pen pen = new(Color.White, 1);
-			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
-		}
-
 		private void BtnNxtLvl_Click(object sender, EventArgs e)
 		{
 			Hide(); // Ferme la fenêtre
 			frmGame.gameManager.NextLevel();
 			frmGame.ReloadForm();
-		}
-
-		private void FrmPause_Load(object sender, EventArgs e)
-		{
-			CenterToParent(); // Centre la fenêtre par rapport à la fenêtre parente
 		}
 	}
 }

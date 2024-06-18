@@ -135,6 +135,8 @@ namespace PacMan
 		// et aussi de verifer que la fermeture est une erreur ou bien demandée par l'utilisateur
 		private void FrmHome_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (e.CloseReason == CloseReason.ApplicationExitCall) return; // Si la fermeture est demandée par le programme, on ne demande pas à l'utilisateur
+
 			// Affiche la fenêtre de notification
 			// Si l'utilisateur clique sur "Non", on annule la fermeture de la fenêtre principale
 			FrmNotif frmNotif = new(this);

@@ -153,8 +153,7 @@ namespace PacMan
 
 		private void frmGame_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (e.CloseReason != CloseReason.UserClosing &&
-		e.CloseReason != CloseReason.WindowsShutDown) return;
+			if (e.CloseReason == CloseReason.ApplicationExitCall) return;
 
 			gameManager.Pause();
 			frmNotif.ShowDialog(this);

@@ -1,6 +1,6 @@
 ﻿namespace PacMan
 {
-	public partial class FrmNotif : Form
+	public partial class FrmNotif : FrmEntity
 	{
 		// Propriété publique pour stocker le résultat de la boîte de dialogue (Oui/Non)
 		public bool Result { get; private set; }
@@ -12,17 +12,6 @@
 			InitializeComponent();
 			form = (Form)sender;
 			IsGameDB = isGame;
-		}
-
-
-		// Surcharge de la méthode OnPaint pour ajouter un contour blanc autour de la fenêtre
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);        // Appelle la méthode OnPaint de la classe de base
-
-			// Dessine un rectangle blanc avec une largeur de 1 pixel
-			using Pen pen = new(Color.White, 1);
-			e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
 		}
 
 		// Méthode appelée au chargement de la fenêtre
