@@ -7,8 +7,8 @@ namespace Engine
 
 		public static CellCoordinates FindClosestCell(Cell[,] maze) // this will be changed
 		{
-			var john = FindPlayer(maze);
-			List<Cell> targets = [Cell.HealthKit, Cell.Key, Cell.SpeedBoost, Cell.Torch, Cell.InvisibilityCloack];
+			CellCoordinates john = FindPlayer(maze);
+			List<Cell> targets = [Cell.HEALTH_KIT, Cell.KEY, Cell.TORCH];
 			CellCoordinates closest = new(-1, -1);
 			double minDistance = double.MaxValue;
 
@@ -18,7 +18,7 @@ namespace Engine
 				{
 					if (targets.Contains(maze[y, x]))
 					{
-						double distance = Math.Sqrt(Math.Pow(x - john.row, 2) + Math.Pow(y - john.col, 2));
+						double distance = Math.Sqrt(Math.Pow(x - john.Row, 2) + Math.Pow(y - john.Col, 2));
 						if (distance < minDistance)
 						{
 							minDistance = distance;
@@ -31,12 +31,10 @@ namespace Engine
 			return closest;
 		}
 
-		public static CellCoordinates FindCell(Cell[,] maze, CellCoordinates target, Cell cellType = Cell.Empty, int maxSearchDistance = 0)
+		public static CellCoordinates FindCell(Cell[,] maze, CellCoordinates target, Cell cellType = Cell.EMPTY, int maxSearchDistance = 0)
 		{
 			if (maxSearchDistance <= 0)
 				maxSearchDistance = Math.Max(maze.GetLength(0), maze.GetLength(1)) / 4;
-
-			(int dr, int dc)[] directions = [(1, 0), (0, 1), (-1, 0), (0, -1)];
 
 			int currentDistance = 0;
 			int dr = 0, dc = 1;
@@ -44,13 +42,13 @@ namespace Engine
 
 			while (currentDistance <= maxSearchDistance)
 			{
-				if (Entity.IsInBounds(current, maze) && maze[current.row, current.col] == cellType)
+				if (Entity.IsInBounds(current, maze) && maze[current.Row, current.Col] == cellType)
 					return current;
 
-				current.row += dr;
-				current.col += dc;
+				current.Row += dr;
+				current.Col += dc;
 
-				if (!Entity.IsInBounds(current, maze) || maze[current.row, current.col] != Cell.Empty || Math.Abs(current.row - target.row) + Math.Abs(current.col - target.col) > currentDistance)
+				if (!Entity.IsInBounds(current, maze) || maze[current.Row, current.Col] != Cell.EMPTY || Math.Abs(current.Row - target.Row) + Math.Abs(current.Col - target.Col) > currentDistance)
 				{
 					(dr, dc) = (-dc, dr);
 					currentDistance++;
@@ -65,7 +63,7 @@ namespace Engine
 			Random random = new();
 			CellCoordinates cell = new(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
 
-			while (maze[cell.row, cell.col] != Cell.Empty)
+			while (maze[cell.Row, cell.Col] != Cell.EMPTY)
 				cell = new CellCoordinates(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
 
 			return cell;
@@ -77,7 +75,7 @@ namespace Engine
 			CellCoordinates pos = new(0, 0);
 			for (int x = 0; x < maze.GetLength(0); x++)
 				for (int y = 0; y < maze.GetLength(1); y++)
-					if (maze[x, y] == Cell.John)
+					if (maze[x, y] == Cell.JOHN)
 						pos = new CellCoordinates(x, y);
 			return pos;
 		}
@@ -95,13 +93,13 @@ namespace Engine
 			while (priorityQueue.Count > 0)
 			{
 				var current = Dequeue(priorityQueue);
-				if (current.row == dst.row && current.col == dst.col)
+				if (current.Row == dst.Row && current.Col == dst.Col)
 					return ReconstructPath(prev, dst, src);
 
 				foreach (var dir in directions)
 				{
-					var neighbor = new CellCoordinates(current.row + dir.Item1, current.col + dir.Item2);
-					if (IsWithinBounds(neighbor, _maze) && _maze[neighbor.row, neighbor.col] != Cell.Wall) // Verifier si la cellule est valide
+					var neighbor = new CellCoordinates(current.Row + dir.Item1, current.Col + dir.Item2);
+					if (IsWithinBounds(neighbor, _maze) && _maze[neighbor.Row, neighbor.Col] != Cell.WALL) // Verifier si la cellule est valide
 					{
 						int newDist = distance[current] + 1;
 						if (!distance.TryGetValue(neighbor, out int value) || newDist < value)
@@ -143,12 +141,12 @@ namespace Engine
 					for (int y = 0; y < _maze.GetLength(1); y++)
 					{
 						var u = new CellCoordinates(x, y);
-						if (dist[u] == int.MaxValue || _maze[u.row, u.col] == Cell.Wall) continue;
+						if (dist[u] == int.MaxValue || _maze[u.Row, u.Col] == Cell.WALL) continue;
 
 						foreach (var direction in directions)
 						{
 							var v = new CellCoordinates(x + direction.Item1, y + direction.Item2);
-							if (IsWithinBounds(v, _maze) && (_maze[v.row, v.col] != Cell.Wall) && dist[u] + 1 < dist[v])
+							if (IsWithinBounds(v, _maze) && (_maze[v.Row, v.Col] != Cell.WALL) && dist[u] + 1 < dist[v])
 							{
 								dist[v] = dist[u] + 1;
 								pred[v] = u;
@@ -198,6 +196,6 @@ namespace Engine
 		}
 
 		private static bool IsWithinBounds(CellCoordinates cell, Cell[,] maze) =>
-			cell.row >= 0 && cell.row < maze.GetLength(0) && cell.col >= 0 && cell.col < maze.GetLength(1);
+			cell.Row >= 0 && cell.Row < maze.GetLength(0) && cell.Col >= 0 && cell.Col < maze.GetLength(1);
 	}
 }

@@ -15,36 +15,36 @@ namespace Engine
 		{
 			return direction switch
 			{
-				Direction.UP => new CellCoordinates(currentPosition.row - 1, currentPosition.col),
-				Direction.DOWN => new CellCoordinates(currentPosition.row + 1, currentPosition.col),
-				Direction.LEFT => new CellCoordinates(currentPosition.row, currentPosition.col - 1),
-				Direction.RIGHT => new CellCoordinates(currentPosition.row, currentPosition.col + 1),
+				Direction.UP => new CellCoordinates(currentPosition.Row - 1, currentPosition.Col),
+				Direction.DOWN => new CellCoordinates(currentPosition.Row + 1, currentPosition.Col),
+				Direction.LEFT => new CellCoordinates(currentPosition.Row, currentPosition.Col - 1),
+				Direction.RIGHT => new CellCoordinates(currentPosition.Row, currentPosition.Col + 1),
 				_ => currentPosition,
 			};
 		}
 
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
-			maze[Position.row, Position.col] = Cell.Empty;
-			maze[newCell.row, newCell.col] = Kind;
+			maze[Position.Row, Position.Col] = Cell.EMPTY;
+			maze[newCell.Row, newCell.Col] = Kind;
 			Position = newCell;
 		}
 
 		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
 		{
-			return cell.row >= 0 && cell.row < maze.GetLength(0) &&
-				   cell.col >= 0 && cell.col < maze.GetLength(1);
+			return cell.Row >= 0 && cell.Row < maze.GetLength(0) &&
+				   cell.Col >= 0 && cell.Col < maze.GetLength(1);
 		}
 
 		public static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
 		{
-			if (src.col < dst.col)
+			if (src.Col < dst.Col)
 				return Direction.RIGHT;
-			if (src.col > dst.col)
+			if (src.Col > dst.Col)
 				return Direction.LEFT;
-			if (src.row < dst.row)
+			if (src.Row < dst.Row)
 				return Direction.DOWN;
-			if (src.row > dst.row)
+			if (src.Row > dst.Row)
 				return Direction.UP;
 			return Direction.STOP;
 		}
@@ -66,11 +66,16 @@ namespace Engine
 		public static void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze, GameManager gameManager)
 		{
 			var playerPos = gameManager.LevelManager.Player.Position; // use GetNextPosition instead, 
-			maze[playerPos.row, playerPos.col] = Cell.Empty;
-			maze[newCell.row, newCell.col] = gameManager.LevelManager.Player.Kind;
+			maze[playerPos.Row, playerPos.Col] = Cell.EMPTY;
+			maze[newCell.Row, newCell.Col] = gameManager.LevelManager.Player.Kind;
 			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
-			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => maze[enemy.Position.row, enemy.Position.col] = Cell.Empty);
-			Enemies.enemies.ToEnumerable().ToList().ForEach(enemy => enemy.Position = enemy.StartPosition);
+			Enemies.enemies.ForEach(enemy =>
+			{
+				maze[enemy.Position.Row, enemy.Position.Col] = Cell.EMPTY;
+				enemy.Position = enemy.StartPosition;
+				maze[enemy.Position.Row, enemy.Position.Col] = enemy.Kind;
+			}
+			);
 		}
 
 	}

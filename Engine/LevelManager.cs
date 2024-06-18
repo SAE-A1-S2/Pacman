@@ -85,7 +85,7 @@ public class LevelManager : INotifyPropertyChanged
 		Player = player;
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
-		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
+		PlaceStaticObjects([Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH]);
 
 		//Test
 		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
@@ -107,7 +107,7 @@ public class LevelManager : INotifyPropertyChanged
 		}
 		else
 		{
-			LevelMap = m_MazeGenerator._map;
+			LevelMap = m_MazeGenerator.Map;
 			MazeStartPos = m_MazeGenerator.Start;
 			MazeEndPos = m_MazeGenerator.End;
 		}
@@ -128,8 +128,8 @@ public class LevelManager : INotifyPropertyChanged
 		{
 			for (var y = 0; y < LevelMap.GetLength(1); y++)
 			{
-				if (LevelMap[x, y] != Cell.Empty) continue;
-				LevelMap[x, y] = Cell.Coin;
+				if (LevelMap[x, y] != Cell.EMPTY) continue;
+				LevelMap[x, y] = Cell.COIN;
 				RemainingCoins++;
 			}
 		}
@@ -147,10 +147,10 @@ public class LevelManager : INotifyPropertyChanged
 		Health.ResetHealth();
 		Score = 0;
 		Key = 0;
-		LevelMap = m_MazeGenerator._map;
+		LevelMap = m_MazeGenerator.Map;
 		RemainingCoins = 0;
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
-		PlaceStaticObjects([Cell.Key, Cell.Key, Cell.HealthKit, Cell.Torch]);
+		PlaceStaticObjects([Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH]);
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));
 	}
@@ -162,7 +162,7 @@ public class LevelManager : INotifyPropertyChanged
 		{
 			var corner = corners[objects.IndexOf(obj)];
 			var placement = Algorithms.FindCell(LevelMap, corner);
-			LevelMap[placement.row, placement.col] = obj;
+			LevelMap[placement.Row, placement.Col] = obj;
 			ObjectPositions[obj] = placement;
 		}
 	}

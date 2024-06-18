@@ -3,25 +3,17 @@
 	public partial class FrmNotif : Form
 	{
 		// Propriété publique pour stocker le résultat de la boîte de dialogue (Oui/Non)
-		public bool Result { get; private set; } 
+		public bool Result { get; private set; }
+		private readonly Form form;
+		private readonly bool IsGameDB;
 
-		// Références vers les fenêtres de jeu et d'accueil 
-		private readonly frmGame? FrmGame; // Peut être null si la notification vient de l'accueil
-		private readonly FrmHome? FrmHome; // Peut être null si la notification vient du jeu
-
-		// Constructeur pour une notification venant de FrmHome
-		public FrmNotif(FrmHome frmHome)
-		{
-			InitializeComponent(); 
-			FrmHome = frmHome;     // Stocke la référence à FrmHome
-		}
-
-		// Constructeur pour une notification venant de frmGame
-		public FrmNotif(frmGame frmGame)
+		public FrmNotif(object sender, bool isGame = false)
 		{
 			InitializeComponent();
-			FrmGame = frmGame;
+			form = (Form)sender;
+			IsGameDB = isGame;
 		}
+
 
 		// Surcharge de la méthode OnPaint pour ajouter un contour blanc autour de la fenêtre
 		protected override void OnPaint(PaintEventArgs e)
@@ -39,15 +31,20 @@
 			CenterToParent(); // Centre la fenêtre par rapport à sa fenêtre parent
 
 			// Affiche un message différent selon que la notification vient du jeu ou de l'accueil
-			if (FrmGame != null)
+			if (form.Name == "frmGame")
 			{
 				lblMsg.Text = "Voulez-vous vraiment quitter la partie ?";
 				lblDetails.Text = "Toutes les données non sauvegardées seront perdues.";
 			}
-			else if (FrmHome != null)
+			else if (form.Name == "FrmHome" && !IsGameDB)
 			{
 				lblMsg.Text = "Voulez-vous vraiment quitter le jeu ?";
-				lblDetails.Text = ""; // Pas de détails supplémentaires pour quitter le jeu
+				lblDetails.Text = "";
+			}
+			else if (form.Name == "FrmHome" && IsGameDB)
+			{
+				lblMsg.Text = "Aucune partie n'a été sauvegardée.";
+				lblDetails.Text = "Voulez-vous continuer en mode infini ?";
 			}
 		}
 

@@ -1,6 +1,5 @@
 ﻿using Engine.utils;
 using DB;
-using System.Text;
 
 namespace Engine
 {
@@ -24,7 +23,7 @@ namespace Engine
 			SavedData savedData = Base.LoadSession(sessionId);
 			Player = new Player(savedData.PlayerName, savedData.BonusValue);
 			GameMode = (GameMode)Enum.Parse(typeof(GameMode), savedData.GameMode, true);
-			LevelManager = new(savedData.Score, savedData.Keys, ParseMap(savedData.LevelMap), CellCoordinates.Parse(savedData.StartPos), CellCoordinates.Parse(savedData.EndPos), Player, (byte)savedData.PlayerHearts, (byte)savedData.PlayerHP, GameMode, CellCoordinates.Parse(savedData.PlayerPos), savedData.RemainingCoins);
+			LevelManager = new(savedData.Score, savedData.Keys, Static.ParseMap(savedData.LevelMap), CellCoordinates.Parse(savedData.StartPos), CellCoordinates.Parse(savedData.EndPos), Player, (byte)savedData.PlayerHearts, (byte)savedData.PlayerHP, GameMode, CellCoordinates.Parse(savedData.PlayerPos), savedData.RemainingCoins);
 		}
 
 		public void StepPlayer(Direction direction)
@@ -54,11 +53,11 @@ namespace Engine
 				Keys = LevelManager.Key,
 				LevelWidth = LevelManager.LevelMap.GetLength(0),
 				LevelHeight = LevelManager.LevelMap.GetLength(1),
-				LevelMap = FormatMap(LevelManager.LevelMap),
+				LevelMap = Static.FormatMap(LevelManager.LevelMap),
 				RemainingCoins = LevelManager.RemainingCoins,
 				StartPos = LevelManager.MazeStartPos.ToString(),
 				EndPos = LevelManager.MazeEndPos.ToString(),
-				BonusValue = Player.m_Bonuses.FrontEndValue,
+				BonusValue = Player.Bonuses.FrontEndValue,
 				PlayerPos = Player.Position.ToString()
 			};
 			GameState = GameState.PAUSED;
@@ -105,45 +104,6 @@ namespace Engine
 			GameState = GameState.GAME_OVER;
 		}
 
-		private static string FormatMap(Cell[,] levelMap)
-		{
-			var rows = levelMap.GetLength(0);
-			var cols = levelMap.GetLength(1);
-			var sb = new StringBuilder();
 
-			for (var i = 0; i < rows; i++)
-			{
-				for (var j = 0; j < cols; j++)
-				{
-					sb.Append((int)levelMap[i, j]); // Convert Cell enum value to int
-					if (j < cols - 1)
-					{
-						sb.Append(',');  // Add comma separator between columns
-					}
-				}
-				sb.AppendLine(";");
-			}
-
-			return sb.ToString();
-		}
-
-		private static Cell[,] ParseMap(string mapString)
-		{
-			var rows = mapString.Split(';');
-			var levelMap = new Cell[rows.Length, rows[0].Split(',').Length]; // Determine the size based on string
-
-			for (var i = 0; i < rows.Length; i++)
-			{
-				var cols = rows[i].Split(',');
-				for (var j = 0; j < cols.Length; j++)
-				{
-					if (Enum.TryParse(cols[j], true, out Cell cell))
-					{
-						levelMap[i, j] = cell;
-					}
-				}
-			}
-			return levelMap;
-		}
 	}
 }

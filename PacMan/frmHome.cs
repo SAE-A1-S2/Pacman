@@ -99,19 +99,19 @@ namespace PacMan
 			stats.ShowDialog(this); // Affiche la fenêtre des statistiques en tant que boîte de dialogue modale
 		}
 
-		// Lance le mode de jeu infini
+		// Lance le jeu selon le bouton qui a été cliqué
 		private void BtnGame_Click(object sender, EventArgs e)
 		{
 			// Vérifie si le nom du joueur est défini. Si non, affiche la fenêtre de saisie.
 			if (string.IsNullOrEmpty(Properties.Settings.Default.PlayerName))
 			{
-				FrmName frmName = new(); // Utilisation du mot clé "using" pour une gestion automatique de la ressource
+				FrmName frmName = new(); // Instancie la fenêtre de saisie
 				SetLabelStates(false);
 				frmName.ShowDialog(); // Affiche la fenêtre de saisie
 				if (frmName.Result) // Vérification du résultat de la boîte de dialogue
 				{
 					Hide();
-					CreateAndShowGameForm((Button)sender, frmName.PlayerName); // Réutilisation de la logique de création du formulaire
+					CreateAndShowGameForm((Button)sender, frmName.PlayerName);
 					return;
 				}
 				SetLabelStates(true);
@@ -122,10 +122,10 @@ namespace PacMan
 			CreateAndShowGameForm((Button)sender, Properties.Settings.Default.PlayerName);
 		}
 
-		// Nouvelle méthode pour créer et afficher le formulaire de jeu
+		// Creer et affiche le jeu
 		private void CreateAndShowGameForm(Button senderButton, string playerName)
 		{
-			GameMode mode = senderButton == btnInfini ? GameMode.INFINITE : GameMode.STORY;
+			GameMode mode = senderButton == btnInfini ? GameMode.INFINITE : GameMode.STORY;// Determine le mode de jeu
 			frmGame game = new(mode, playerName);
 			game.Show();
 		}
@@ -144,6 +144,7 @@ namespace PacMan
 				e.Cancel = true;
 		}
 
+		// Gestionnaire d'événement pour le chargement de la fenêtre
 		private void FrmHome_Load(object sender, EventArgs e)
 		{
 			// Affiche la fenêtre popup au lancement si l'option est activée
@@ -162,10 +163,29 @@ namespace PacMan
 			SetLabelStates(true); // Réactive les labels du menu principal
 		}
 
+		/// <summary>
+		/// Gère le clic de la bouton "BtnDB" (Reprendre la partie).
+		/// </summary>
+		/// <param name="sender">L'objet qui a déclenché l'événement.</param>
+		/// <param name="e">Les arguments de l'événement.</param>
 		private void BtnDB_Click(object sender, EventArgs e)
 		{
+			/// Récupère l'ID du dernier de la dernière partie enregistrée depuis les paramètres de l'application et vérifie s'il est égal à -1(signifie qu'aucune partie n'a été sauvegardée).
+			int id = Properties.Settings.Default.LastInserterID;
+			if (id == -1)
+			{
+				/// Si c'est le cas, on crée une nouvelle instance de la forme "FrmNotif" pour informer l'utilisateur que aucune partie n'a été sauvegardée et demander s'il souhaite continuer en mode infini.
+				/// Si le résultat du dialogue est vrai, il appelle la méthode "BtnGame_Click" avec la bouton "btnInfini" en tant que source et les arguments d'événement fournis, pour lancer  le jeu en mode infini.
+				FrmNotif frmNotif = new(this, true);
+				frmNotif.ShowDialog(this);
+				if (frmNotif.Result)
+					BtnGame_Click(btnInfini, e);
+				return;
+			}
+			/// Si l'ID du dernier partie enregistrée n'est pas égal à -1, on masque la forme actuelle et crée une nouvelle instance de la forme "frmGame" avec l'ID du dernier insermé en tant que paramètre.
+			/// Ensuite, il affiche la forme "frmGame".
 			Hide();
-			frmGame frmGame = new(Properties.Settings.Default.LastInserterID);
+			frmGame frmGame = new(id);
 			frmGame.Show();
 		}
 	}

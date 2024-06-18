@@ -60,7 +60,7 @@ namespace PacMan
 			lblScore.DataBindings.Add("Text", gameManager.LevelManager, "Score");
 			pnlKeys.DataBindings.Add("TabIndex", gameManager.LevelManager, "Key");
 			pnlHealth.DataBindings.Add("TabIndex", gameManager.LevelManager.Health, "HealthPoints");
-			PnlBonuses.DataBindings.Add("TabIndex", gameManager.LevelManager.Player.m_Bonuses, "FrontEndValue");
+			PnlBonuses.DataBindings.Add("TabIndex", gameManager.LevelManager.Player.Bonuses, "FrontEndValue");
 		}
 
 		public void ReloadForm()

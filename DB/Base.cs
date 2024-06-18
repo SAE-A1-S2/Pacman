@@ -70,6 +70,28 @@ namespace DB
 			}
 		}
 
+		public static (string, string, string) LoadStoryLevel(int id)
+		{
+			if (!Connect()) return ("", "", ""); // Ensure a connection is established
+			try
+			{
+				var query = $"SELECT * FROM StoryLevel WHERE LevelID = {id}";
+				var cmd = new MySqlCommand(query, conn);
+				var reader = cmd.ExecuteReader();
+				reader.Read();
+				return (reader.GetString("LevelMap"), reader.GetString("StartPos"), reader.GetString("EndPos"));
+			}
+			catch (MySqlException)
+			{
+				// Log the exception (e.g., Console.WriteLine(ex.Message))
+				return ("", "", "");
+			}
+			finally
+			{
+				Disconnect(); // Always close the connection
+			}
+		}
+
 		public static SavedData LoadSession(int id)
 		{
 			if (!Connect()) return new SavedData(); // Ensure a connection is established
@@ -99,7 +121,6 @@ namespace DB
 			}
 			catch (MySqlException)
 			{
-				// Log the exception (e.g., Console.WriteLine(ex.Message))
 				return new SavedData(); // Return an empty SavedData object
 			}
 			finally
@@ -116,19 +137,19 @@ namespace DB
 
 	public class SavedData
 	{
-		public string PlayerName { get; set; } = "John Nick";
-		public string GameMode { get; set; } = "Story";
-		public int PlayerHearts { get; set; } = 3;
-		public int PlayerHP { get; set; } = 2;
-		public int Score { get; set; } = 0;
-		public int Keys { get; set; } = 0;
-		public int LevelWidth { get; set; } = 30;
-		public int LevelHeight { get; set; } = 20;
-		public string LevelMap { get; set; } = "";
+		public string PlayerName { get; set; } = string.Empty;
+		public string PlayerPos { get; set; } = string.Empty;
+		public string LevelMap { get; set; } = string.Empty;
+		public string StartPos { get; set; } = string.Empty;
+		public string GameMode { get; set; } = string.Empty;
+		public string EndPos { get; set; } = string.Empty;
 		public int RemainingCoins { get; set; }
-		public string StartPos { get; set; } = "0,0";
-		public string EndPos { get; set; } = "0,0";
-		public string PlayerPos { get; set; } = "0,0";
-		public int BonusValue { get; set; } = 0;
+		public int PlayerHearts { get; set; }
+		public int LevelHeight { get; set; }
+		public int BonusValue { get; set; }
+		public int LevelWidth { get; set; }
+		public int PlayerHP { get; set; }
+		public int Score { get; set; }
+		public int Keys { get; set; }
 	}
 }
