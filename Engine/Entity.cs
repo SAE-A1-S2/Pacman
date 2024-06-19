@@ -64,6 +64,11 @@ namespace Engine
 			Position = newCell;                           // Met à jour la position de l'entité
 		}
 
+		public void SetPosition(CellCoordinates newCell, Cell[,] maze)
+		{
+			Position = newCell;
+		}
+
 		/// <summary>
 		/// Vérifie si une cellule donnée est à l'intérieur des limites du labyrinthe.
 		/// </summary>
