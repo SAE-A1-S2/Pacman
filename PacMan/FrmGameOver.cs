@@ -1,8 +1,8 @@
 ﻿namespace PacMan
 {
-	public partial class FrmGameOver : FrmEntity
+	public partial class FrmGameOver : FrmEntity // Classe du formulaire de fin de partie, hérite de FrmEntity (formulaire de base)
 	{
-		private readonly frmGame frmGame;
+		private readonly frmGame frmGame; // Référence au formulaire de jeu principal
 
 		public FrmGameOver(frmGame FrmGame)
 		{
@@ -10,26 +10,28 @@
 			frmGame = FrmGame;
 		}
 
-		// Correspond à l'evenement KeyDown, permet de récuperer les touches appuyées par l'utilisateur
-		// dans notre cas, le jeu ne couvre pas l'entièreté de l'écran, donc il se peut que d'autres applications ouvertes 
-		//récupèrent les touches appuyées avant notre application.
-		// plus d'infos: https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.control.processcmdkey?view=windowsdesktop-8.0
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape)
-			{
-				Hide(); // ferme la fenêtre si la touche Escape est appuyée
-				frmGame.gameManager.Resume(); // Reprend la partie
-				return true; // retourne ici pour indiquer que la touche est bien traitée
-			}
-			return base.ProcessCmdKey(ref msg, keyData); // retourne ici pour indiquer que la touche n'est pas traitée
-		}
-
+		// Gestionnaire de l'événement de clic sur le bouton "Prochain niveau"
 		private void BtnNxtLvl_Click(object sender, EventArgs e)
 		{
-			Hide(); // Ferme la fenêtre
+			Hide();  // Masquer le formulaire de fin de partie
+
+			// Passer au niveau suivant dans le gestionnaire de jeu
 			frmGame.gameManager.NextLevel();
+
+			// Recharger le formulaire de jeu (pour afficher le nouveau niveau)
+			// Le rechargement est necessaire pour "deconnecter"  et puis "reconnecter" les données liées par le DataBinding
+			// car le DataBinding est associer avec l'objet et non la classe ou le source de donnée en elle même
+			// Pour passer au prochain niveau, on reinstancie la classe "LevelManager"
+			// nous avons remarqué que si on "reinitialise" pas les DataBinding, les elements de Jeu ne sont pas reinitialisés
 			frmGame.ReloadForm();
+		}
+
+		private async void btnQuit_Click(object sender, EventArgs e)
+		{
+			Close();
+
+			await Task.Delay(2000); // Attendre 2 secondes
+			frmGame.Close();
 		}
 	}
 }

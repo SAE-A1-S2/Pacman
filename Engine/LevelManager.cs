@@ -73,14 +73,14 @@ public class LevelManager : INotifyPropertyChanged
 		Player.PlacePlayer(LevelMap, mazeStartPos, playerPosition);
 	}
 
-	public LevelManager(Player player, GameMode gameMode)
+	public LevelManager(Player player, GameMode gameMode, string PlayerUid = "")
 	{
 		Health = new Health();
 		Score = 0;
 		Key = 0;
 		m_MazeGenerator = new MazeGenerator(s_Width, s_Height);
 
-		InitializeLevel(gameMode);
+		InitializeLevel(gameMode, PlayerUid);
 		// The player should be an outside ref.
 		Player = player;
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
@@ -96,11 +96,11 @@ public class LevelManager : INotifyPropertyChanged
 
 	}
 
-	private void InitializeLevel(GameMode gameMode = GameMode.INFINITE)
+	private void InitializeLevel(GameMode gameMode = GameMode.INFINITE, string PlayerUid = "")
 	{
 		if (gameMode == GameMode.STORY)
 		{
-			StoryMode storyMode = new();
+			StoryMode storyMode = new(PlayerUid);
 			LevelMap = storyMode.Maze;
 			MazeStartPos = storyMode.StartPos;
 			MazeEndPos = storyMode.EndPos;
@@ -142,15 +142,19 @@ public class LevelManager : INotifyPropertyChanged
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
 	}
 
-	public void ResetLevel()
+	public void ResetLevel(GameMode gameMode, string PlayerUid)
 	{
 		Health.ResetHealth();
 		Score = 0;
 		Key = 0;
-		LevelMap = m_MazeGenerator.Map;
-		RemainingCoins = 0;
+
+		InitializeLevel(gameMode, PlayerUid);
+
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 		PlaceStaticObjects([Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH]);
+
+		PlaceCoins();
+		RemainingCoins = 0;
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));
 	}

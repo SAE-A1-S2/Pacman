@@ -11,11 +11,11 @@ namespace Engine
 
 		public Player Player { get; set; }
 
-		public GameManager(GameMode gameMode, string playerName)
+		public GameManager(GameMode gameMode, string playerName, string PlayerUid = "")
 		{
 			Player = new Player(playerName);
 			GameMode = gameMode;
-			LevelManager = new LevelManager(Player, gameMode);
+			LevelManager = new LevelManager(Player, gameMode, PlayerUid);
 		}
 
 		public GameManager(int sessionId)
@@ -74,6 +74,18 @@ namespace Engine
 			Entity.CollideWithEnemy(this);
 			return true;
 
+		}
+
+		public static List<PlayerData> LoadGameStat(string PlayerUid)
+		{
+			try
+			{
+				return Base.LoadGameData(PlayerUid);
+			}
+			catch (InvalidOperationException)
+			{
+				throw new InvalidOperationException();
+			}
 		}
 
 		public bool CheckGameCompleted()

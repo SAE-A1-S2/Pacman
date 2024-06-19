@@ -1,11 +1,4 @@
 /*
-- ABASS Hammed
-- AURIGNAC Arthur
-- DOHER Alexis
-- GODET Adrien
-- MAS Cédric
-- NAHARRO Guerby
-
 GROUPE D-06
 SAE 2.01
 2023-2024
@@ -19,16 +12,16 @@ using Engine.utils;
 
 namespace PacMan
 {
-	public partial class FrmHome : Form
+	public partial class FrmHome : Form // Classe du formulaire principal (écran d'accueil)
 	{
-		// Fenêtres enfants de FrmHome
+		// Déclaration des fenêtres enfants (formulaires secondaires)
 		private readonly FrmPopUp popUpForm;     // Fenêtre popup affichée au lancement
 		private readonly FrmCredits credits;     // Fenêtre des crédits
 		private readonly FrmStats stats;         // Fenêtre des statistiques
 
 		public FrmHome()
 		{
-			InitializeComponent(); // Initialise les composants visuels du formulaire
+			InitializeComponent();
 
 			// Instancie les fenêtres enfants
 			popUpForm = new FrmPopUp();
@@ -39,6 +32,9 @@ namespace PacMan
 			stats.VisibleChanged += Handle_Visibility;     // Appelé quand la visibilité de la fenêtre stats change
 			credits.VisibleChanged += Handle_Visibility;   // Appelé quand la visibilité de la fenêtre crédits change
 			popUpForm.FormClosed += popup_FormClosed;     // Appelé quand la fenêtre popup est fermée
+
+			// Génère et stocke un ID unique pour le joueur
+			GenerateAndStorePlayerId();
 
 		}
 
@@ -69,8 +65,11 @@ namespace PacMan
 		// Gère la fermeture de la fenêtre popup
 		private void popup_FormClosed(object? sender, FormClosedEventArgs e)
 		{
-			SetLabelStates(true);      // Réactive les labels du menu principal
-			popUpForm.Dispose();     // Libère les ressources de la fenêtre popup
+			// Réactive les labels du menu principal
+			SetLabelStates(true);
+
+			// Libère les ressources de la fenêtre popup
+			popUpForm.Dispose();
 		}
 
 		// Gère le changement de visibilité des fenêtres "Crédits" et "Statistiques"
@@ -84,19 +83,25 @@ namespace PacMan
 		// Gestionnaires d'événements pour les clics sur les labels du menu principal
 		private void BtnQuit_Click(object sender, EventArgs e)
 		{
-			Close(); // Ferme l'application (déclenche l'événement FormClosing)
+			// Ferme l'application (déclenche l'événement FormClosing)
+			Close();
 		}
 
 		private void BtnCredit_Click(object sender, EventArgs e)
 		{
-			SetLabelStates(false); // Désactive les labels pendant que la fenêtre est affichée
-			credits.ShowDialog(this); // Affiche la fenêtre des crédits en tant que boîte de dialogue modale
+			// Désactive les labels pendant que la fenêtre est affichée
+			SetLabelStates(false);
+
+			// Affiche la fenêtre des crédits en tant que boîte de dialogue modale
+			credits.ShowDialog(this);
 		}
 
 		private void BtnStat_Click(object sender, EventArgs e)
 		{
-			SetLabelStates(false); // Désactive les labels pendant que la fenêtre est affichée
-			stats.ShowDialog(this); // Affiche la fenêtre des statistiques en tant que boîte de dialogue modale
+			SetLabelStates(false);
+
+			// Affiche la fenêtre des statistiques en tant que boîte de dialogue modale
+			stats.ShowDialog(this);
 		}
 
 		// Lance le jeu selon le bouton qui a été cliqué
@@ -105,10 +110,15 @@ namespace PacMan
 			// Vérifie si le nom du joueur est défini. Si non, affiche la fenêtre de saisie.
 			if (string.IsNullOrEmpty(Properties.Settings.Default.PlayerName))
 			{
-				FrmName frmName = new(); // Instancie la fenêtre de saisie
+				// Instancie la fenêtre de saisie de Pseudo
+				FrmName frmName = new();
 				SetLabelStates(false);
-				frmName.ShowDialog(); // Affiche la fenêtre de saisie
-				if (frmName.Result) // Vérification du résultat de la boîte de dialogue
+
+				// Affiche la fenêtre de saisie
+				frmName.ShowDialog();
+
+				// Vérification du résultat de la boîte de dialogue 
+				if (frmName.Result)
 				{
 					Hide();
 					CreateAndShowGameForm((Button)sender, frmName.PlayerName);
@@ -125,7 +135,8 @@ namespace PacMan
 		// Creer et affiche le jeu
 		private void CreateAndShowGameForm(Button senderButton, string playerName)
 		{
-			GameMode mode = senderButton == btnInfini ? GameMode.INFINITE : GameMode.STORY;// Determine le mode de jeu
+			// Determine le mode de jeu
+			GameMode mode = senderButton == btnInfini ? GameMode.INFINITE : GameMode.STORY;
 			frmGame game = new(mode, playerName);
 			game.Show();
 		}
@@ -135,11 +146,12 @@ namespace PacMan
 		// et aussi de verifer que la fermeture est une erreur ou bien demandée par l'utilisateur
 		private void FrmHome_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (e.CloseReason == CloseReason.ApplicationExitCall) return; // Si la fermeture est demandée par le programme, on ne demande pas à l'utilisateur
+
+			if (e.CloseReason == CloseReason.ApplicationExitCall) return;
 
 			// Affiche la fenêtre de notification
-			// Si l'utilisateur clique sur "Non", on annule la fermeture de la fenêtre principale
 			FrmNotif frmNotif = new(this);
+
 			frmNotif.ShowDialog(this);
 			if (!frmNotif.Result)
 				// Si jamais l'utilisateur clique sur "Non", on annule demande de fermeture
@@ -159,10 +171,14 @@ namespace PacMan
 
 		private void BtnSettings_Click(object sender, EventArgs e)
 		{
-			SetLabelStates(false); // Désactive les labels pendant que la fenêtre est affichée
-			FrmSettings settings = new(); // Crée une nouvelle instance de la fenêtre de paramètres
-			settings.ShowDialog(this); // Affiche la fenêtre de paramètres en tant que boîte de dialogue modale
-			SetLabelStates(true); // Réactive les labels du menu principal
+			SetLabelStates(false);
+
+			// Crée une nouvelle instance de la fenêtre de paramètres
+			FrmSettings settings = new();
+			settings.ShowDialog(this);
+
+			// Réactive les labels du menu principal
+			SetLabelStates(true);
 		}
 
 		/// <summary>
@@ -184,11 +200,26 @@ namespace PacMan
 					BtnGame_Click(btnInfini, e);
 				return;
 			}
-			/// Si l'ID du dernier partie enregistrée n'est pas égal à -1, on masque la forme actuelle et crée une nouvelle instance de la forme "frmGame" avec l'ID du dernier insermé en tant que paramètre.
+
+			/// Si l'ID du dernier partie enregistrée n'est pas égal à -1, on masque la forme actuelle et crée une nouvelle instance de la forme "frmGame" avec l'ID du derniere partie en tant que paramètre.
 			/// Ensuite, il affiche la forme "frmGame".
 			Hide();
 			frmGame frmGame = new(id);
 			frmGame.Show();
+		}
+
+		private static void GenerateAndStorePlayerId() // methode appelée à chaque lancement de l'application
+		{
+			// On verifie que l'ID du joueur n'est pas vide, ce qui signifie que l'utilisateur n'a pas encore d'ID enregistré
+			if (string.IsNullOrEmpty(Properties.Settings.Default.PlayerUID))
+			{
+				// On crée un nouvel ID pour le joueur
+				string newPlayerID = Guid.NewGuid().ToString();
+
+				// On enregistre l'ID du joueur dans les paramètres de l'application
+				Properties.Settings.Default.PlayerUID = newPlayerID;
+				Properties.Settings.Default.Save();
+			}
 		}
 	}
 }

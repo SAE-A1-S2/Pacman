@@ -1,20 +1,11 @@
 ﻿/*
-- ABASS Hammed
-- AURIGNAC Arthur
-- DOHER Alexis
-- GODET Adrien
-- MAS Cédric
-- NAHARRO Guerby
-
 GROUPE D-06
 SAE 2.01
 2023-2024
 
-Les commentaires devient répétitif, il se passe pratiquement la même chose que dans le fichier frmStats.cs, frmCredits.cs
 
 Résumé:
 Ce fichier contient le code de la classe frmPopUp qui est utilisée pour afficher une fenêtre contextuelle dans notre jeu. 
-Il inclut des fonctionnalités pour gérer les événements de la fenêtre, permettre le déplacement de la fenêtre par glisser-déposer, et enregistrer les préférences de l'utilisateur.
 */
 
 namespace PacMan

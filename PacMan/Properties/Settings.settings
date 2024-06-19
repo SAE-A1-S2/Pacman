@@ -11,7 +11,7 @@
     <Setting Name="LastInserterID" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
-    <Setting Name="shit" Type="System.String" Scope="User">
+    <Setting Name="PlayerUID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

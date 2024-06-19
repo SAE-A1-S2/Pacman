@@ -1,11 +1,4 @@
 ﻿/*
-- ABASS Hammed
-- AURIGNAC Arthur
-- DOHER Alexis
-- GODET Adrien
-- MAS Cédric
-- NAHARRO Guerby
-
 GROUPE D-06
 SAE 2.01
 2023-2024
@@ -29,11 +22,11 @@ namespace Engine
 		/// Constructeur de la classe StoryMode.
 		/// Initialise le niveau actuel, charge le labyrinthe et trouve la position de départ.
 		/// </summary>
-		public StoryMode()
+		public StoryMode(string PlayerUid)
 		{
 			string maze, start, end;
-			FileManager fileManager = new();
-			Level = fileManager.GetLastPlayedLevel() == -1 ? 1 : fileManager.GetLastPlayedLevel() + 1;
+			int LastLevelPlayed = Base.GetLastStoryLevelPlayed(PlayerUid);
+			Level = LastLevelPlayed == -1 ? 1 : LastLevelPlayed + 1;
 			(maze, start, end) = Base.LoadStoryLevel(Level);
 			StartPos = CellCoordinates.Parse(start);
 			EndPos = CellCoordinates.Parse(end);
