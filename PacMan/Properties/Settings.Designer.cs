@@ -62,12 +62,12 @@ namespace PacMan.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string shit {
+        public string PlayerUID {
             get {
-                return ((string)(this["shit"]));
+                return ((string)(this["PlayerUID"]));
             }
             set {
-                this["shit"] = value;
+                this["PlayerUID"] = value;
             }
         }
     }

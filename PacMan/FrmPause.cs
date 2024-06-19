@@ -2,9 +2,10 @@
 
 namespace PacMan
 {
-	public partial class FrmPause : FrmEntity
+	public partial class FrmPause : FrmEntity // Classe du formulaire de pause, hérite de FrmEntity (formulaire de base)
 	{
-		private readonly GameManager gameManager;
+		private readonly GameManager gameManager; // Référence au gestionnaire de jeu (GameManager)
+
 		public FrmPause(GameManager game)
 		{
 			InitializeComponent();
@@ -19,35 +20,45 @@ namespace PacMan
 		{
 			if (keyData == Keys.Escape)
 			{
-				Hide(); // ferme la fenêtre si la touche Escape est appuyée
-				gameManager.Resume(); // Reprend la partie
-				return true; // retourne ici pour indiquer que la touche est bien traitée
+				// ferme la fenêtre si la touche Escape est appuyée
+				Hide();
+
+				// Reprend la partie
+				gameManager.Resume();
+
+				// retourne ici pour indiquer que la touche est bien traitée
+				return true;
 			}
-			return base.ProcessCmdKey(ref msg, keyData); // retourne ici pour indiquer que la touche n'est pas traitée
+
+			// retourne ici pour indiquer que la touche n'est pas traitée
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
+		// Gestionnaire de l'événement de clic sur le bouton "Reprendre"
 		private void btnReprendre_Click(object sender, EventArgs e)
 		{
 			Hide(); // Ferme la fenêtre
 			gameManager.Resume(); // Reprend la partie
 		}
 
+		// Gestionnaire de l'événement de clic sur le bouton "Quitter et sauvegarder"
 		private async void btnQuitSave_Click(object sender, EventArgs e)
 		{
-			Properties.Settings.Default.LastInserterID = gameManager.SaveSession(); // Sauvegarde la partie
-			if (Properties.Settings.Default.LastInserterID != -1)
+			// Sauvegarde de la session de jeu et récupération de l'ID de la sauvegarde
+			Properties.Settings.Default.LastInserterID = gameManager.SaveSession();
+			if (Properties.Settings.Default.LastInserterID != -1) // Succès
 			{
-				lblMsgDB.ForeColor = Color.Green;
+				lblMsgDB.ForeColor = Color.Green; // texte en vert
 				lblMsgDB.Text = "Partie sauvegardée !";
 			}
-			else
+			else // Échec
 			{
-				lblMsgDB.ForeColor = Color.Red;
+				lblMsgDB.ForeColor = Color.Red; // texte en rouge
 				lblMsgDB.Text = "Erreur lors de la sauvegarde !";
 			}
-			Properties.Settings.Default.Save(); // Sauvegarde les paramètres
-			await Task.Delay(2000);
-			Application.Exit();
+			Properties.Settings.Default.Save(); // Sauvegarde des paramètres (y compris l'ID de la dernière session sauvegardée)
+			await Task.Delay(2000); // Attente de 2 secondes pour afficher le message de sauvegarde
+			Application.Exit(); // Quitter l'application
 		}
 	}
 }

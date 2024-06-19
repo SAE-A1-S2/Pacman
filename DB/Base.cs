@@ -61,18 +61,17 @@ namespace DB
 			}
 			catch (MySqlException)
 			{
-				// Log the exception (e.g., Console.WriteLine(ex.Message))
-				return -1; // Return an error code
+				return -1;
 			}
 			finally
 			{
-				Disconnect(); // Always close the connection
+				Disconnect();
 			}
 		}
 
 		public static (string, string, string) LoadStoryLevel(int id)
 		{
-			if (!Connect()) return ("", "", ""); // Ensure a connection is established
+			if (!Connect()) return ("", "", "");
 			try
 			{
 				var query = $"SELECT * FROM StoryLevel WHERE LevelID = {id}";
@@ -83,14 +82,81 @@ namespace DB
 			}
 			catch (MySqlException)
 			{
-				// Log the exception (e.g., Console.WriteLine(ex.Message))
 				return ("", "", "");
 			}
 			finally
 			{
-				Disconnect(); // Always close the connection
+				Disconnect();
 			}
 		}
+
+		public static int GetLastStoryLevelPlayed(string playerUID)
+		{
+			int lastLevel = -1;
+
+			if (!Connect()) return lastLevel;
+
+			try
+			{
+				string query = "SELECT Level FROM LevelStat WHERE PlayerUID = @PlayerUID AND GameMode = 'Story' ORDER BY StatID DESC LIMIT 1";
+				using var cmd = new MySqlCommand(query, conn);
+				cmd.Parameters.AddWithValue("@PlayerUID", playerUID);
+				using var reader = cmd.ExecuteReader();
+				if (reader.Read())
+				{
+					lastLevel = reader.GetInt32("Level");
+				}
+			}
+			catch (MySqlException)
+			{
+				return -1;
+			}
+			finally
+			{
+				Disconnect();
+			}
+
+			return lastLevel;
+		}
+
+		public static List<PlayerData> LoadGameData(string playerUID)
+		{
+			List<PlayerData> allGameData = [];
+
+			if (!Connect()) throw new InvalidOperationException("Erreur de connexion.");
+
+			try
+			{
+
+				string query = $"SELECT `Date`, `GameMode`, `Score`, `TimeSpentInMinutes`, `Level` FROM `LevelStat` WHERE `PlayerUID` = '{playerUID}'";
+				MySqlCommand cmd = new(query, conn);
+				using MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					PlayerData data = new()
+					{
+						Date = DateTime.Parse(reader.GetString("Date")),
+						GameMode = reader.GetString("GameMode"),
+						Score = reader.GetInt32("Score"),
+						TimeSpentInMinutes = reader.GetInt32("TimeSpentInMinutes"),
+						Level = reader.GetInt32("Level")
+					};
+					allGameData.Add(data);
+				}
+
+				if (allGameData.Count == 0)
+				{
+					throw new InvalidOperationException();
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Erreur lors du chargement des données.", ex);
+			}
+
+			return allGameData;
+		}
+
 
 		public static SavedData LoadSession(int id)
 		{
@@ -152,5 +218,14 @@ namespace DB
 		public int PlayerHP { get; set; }
 		public int Score { get; set; }
 		public int Keys { get; set; }
+	}
+
+	public class PlayerData
+	{
+		public DateTime Date { get; set; }
+		public string GameMode { get; set; } = "Story";
+		public int Score { get; set; }
+		public int TimeSpentInMinutes { get; set; }
+		public int Level { get; set; } = -1;
 	}
 }

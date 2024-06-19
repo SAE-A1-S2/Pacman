@@ -30,7 +30,7 @@
 		{
 			lblNextLevel = new Label();
 			BtnNxtLvl = new Button();
-			btnQuitSave = new Button();
+			btnQuit = new Button();
 			this.SuspendLayout();
 			// 
 			// lblNextLevel
@@ -59,20 +59,21 @@
 			BtnNxtLvl.UseVisualStyleBackColor = true;
 			BtnNxtLvl.Click += this.BtnNxtLvl_Click;
 			// 
-			// btnQuitSave
+			// btnQuit
 			// 
-			btnQuitSave.BackColor = Color.FromArgb(51, 51, 51);
-			btnQuitSave.Cursor = Cursors.Hand;
-			btnQuitSave.FlatAppearance.BorderSize = 0;
-			btnQuitSave.FlatStyle = FlatStyle.Flat;
-			btnQuitSave.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			btnQuitSave.ForeColor = Color.DodgerBlue;
-			btnQuitSave.Location = new Point(89, 247);
-			btnQuitSave.Name = "btnQuitSave";
-			btnQuitSave.Size = new Size(206, 74);
-			btnQuitSave.TabIndex = 2;
-			btnQuitSave.Text = "Sauvegarder et quitter";
-			btnQuitSave.UseVisualStyleBackColor = false;
+			btnQuit.BackColor = Color.FromArgb(51, 51, 51);
+			btnQuit.Cursor = Cursors.Hand;
+			btnQuit.FlatAppearance.BorderSize = 0;
+			btnQuit.FlatStyle = FlatStyle.Flat;
+			btnQuit.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			btnQuit.ForeColor = Color.DodgerBlue;
+			btnQuit.Location = new Point(89, 247);
+			btnQuit.Name = "btnQuit";
+			btnQuit.Size = new Size(206, 74);
+			btnQuit.TabIndex = 2;
+			btnQuit.Text = "Quitter";
+			btnQuit.UseVisualStyleBackColor = false;
+			btnQuit.Click += this.btnQuit_Click;
 			// 
 			// FrmGameOver
 			// 
@@ -80,13 +81,13 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.FromArgb(51, 51, 51);
 			ClientSize = new Size(402, 381);
-			Controls.Add(btnQuitSave);
+			Controls.Add(btnQuit);
 			Controls.Add(BtnNxtLvl);
 			Controls.Add(lblNextLevel);
 			FormBorderStyle = FormBorderStyle.None;
 			Icon = Properties.Resources.logo;
 			Name = "FrmGameOver";
-			Text = "FrmPause";
+			Text = "FrmGameOver";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
@@ -95,6 +96,6 @@
 
 		private Label lblNextLevel;
 		private Button BtnNxtLvl;
-		private Button btnQuitSave;
+		private Button btnQuit;
 	}
 }

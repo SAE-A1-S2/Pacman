@@ -5,27 +5,42 @@ namespace PacMan
 {
 	public partial class frmGame : Form
 	{
+		// Dessine un personnage (Pac-Man ou fantôme) sur le graphique
 		private void DrawCharacter(Graphics g, int x, int y, ref CellCoordinates prevPos, string characterType, int cellSize)
 		{
+			// Obtient les coordonnées actuelles du personnage
 			var currentPos = new CellCoordinates(x, y);
+
+			// Détermine la direction du personnage
 			var direction = characterType == "Player" ? currentDirection : GetDirection(prevPos, currentPos);
+
+			// Obtient l'image appropriée pour le personnage et la direction
 			var characterImage = GetCharacterImage(characterType, direction, ref animationFrame);
+
+			// Dessine l'image du personnage à la position spécifiée
 			g.DrawImage(characterImage, y * cellSize, x * cellSize, cellSize, cellSize);
+
+			// Met à jour la position précédente du personnage
 			prevPos = currentPos;
 		}
 
+		// Affiche le labyrinthe à l'écran
 		public void DisplayMaze(Cell[,] maze)
 		{
-			const int cellSize = 30;
-			int width = maze.GetLength(1) * cellSize;
-			int height = maze.GetLength(0) * cellSize;
-			Bitmap bmp = new(width, height);
+			const int cellSize = 30; // Taille d'une cellule
+			int width = maze.GetLength(1) * cellSize; // Largeur du labyrinthe en pixels
+			int height = maze.GetLength(0) * cellSize; // Hauteur du labyrinthe en pixels
+			Bitmap bmp = new(width, height); // Crée une image bitmap pour dessiner le labyrinthe
+
+			// Utilise un objet Graphics pour dessiner sur l'image bitmap
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
+				// Parcours toutes les cellules du labyrinthe
 				for (int x = 0; x < maze.GetLength(0); x++)
 				{
 					for (int y = 0; y < maze.GetLength(1); y++)
 					{
+						// Dessine chaque cellule en fonction de son type
 						switch (maze[x, y])
 						{
 							case Cell.CAIN:
@@ -72,31 +87,31 @@ namespace PacMan
 					}
 				}
 			}
+			// Affecte l'image bitmap dessinée au contrôle imgMap
 			imgMap.Image = bmp;
 		}
 
+		// Obtient l'image à afficher pour un personnage en fonction de son type et de sa direction
 		private Image GetCharacterImage(string characterType, Direction direction, ref int animationFrame)
 		{
-			string key = characterType + direction.ToString();
-			if (!characterImages.ContainsKey(key))
-				key = characterType + "Stop";
+			string key = characterType + direction.ToString(); // Crée une clé unique pour l'image (ex: "PlayerUP")
+			if (!characterImages.ContainsKey(key)) // Si l'image n'existe pas pour cette direction
+				key = characterType + "Stop";       // Utilise l'image d'arrêt
 
-			Image[] images = characterImages[key];
-			Image image = images[animationFrame % images.Length];
-			animationFrame++;
+			Image[] images = characterImages[key]; // Récupère le tableau d'images pour l'animation
+			Image image = images[animationFrame % images.Length]; // Sélectionne l'image en fonction de l'indice d'animation
+			animationFrame++; // Incrémente l'indice d'animation pour la prochaine image
 			return image;
 		}
 
+		// Détermine la direction d'un personnage en fonction de ses positions précédente et actuelle
 		private static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
 		{
-			if (src.Col < dst.Col)
-				return Direction.RIGHT;
-			if (src.Col > dst.Col)
-				return Direction.LEFT;
-			if (src.Row < dst.Row)
-				return Direction.DOWN;
-			if (src.Row > dst.Row)
-				return Direction.UP;
+			// Compare les coordonnées pour déterminer la direction (droite, gauche, bas, haut, ou arrêt)
+			if (src.Col < dst.Col) return Direction.RIGHT;
+			if (src.Col > dst.Col) return Direction.LEFT;
+			if (src.Row < dst.Row) return Direction.DOWN;
+			if (src.Row > dst.Row) return Direction.UP;
 			return Direction.STOP;
 		}
 	}
