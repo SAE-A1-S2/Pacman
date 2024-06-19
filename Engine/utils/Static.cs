@@ -106,5 +106,26 @@ namespace Engine.utils
 			}
 			return neighbors;
 		}
+
+
+		/// <summary>
+		/// Vérifie si un labyrinthe est vide, c'est-à-dire s'il ne contient plus aucun objet à collecter (kit de santé, pièces, clés ou torches).
+		/// </summary>
+		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
+		/// <returns>True si le labyrinthe est vide, false sinon.</returns>
+		public static bool IsMazeEmpty(Cell[,] maze)
+		{
+			// Parcours toutes les cellules du labyrinthe
+			for (int i = 0; i < maze.GetLength(0); i++)  // Parcours des lignes (hauteur)
+			{
+				for (int j = 0; j < maze.GetLength(1); j++) // Parcours des colonnes (largeur)
+				{
+					// Vérifie si la cellule contient un objet à collecter (kit de santé, pièce, clé ou torche)
+					if (maze[i, j] == Cell.HEALTH_KIT || maze[i, j] == Cell.COIN || maze[i, j] == Cell.KEY || maze[i, j] == Cell.TORCH)
+						return false; // Si un objet est trouvé, le labyrinthe n'est pas vide
+				}
+			}
+			return true; // Si aucun objet n'a été trouvé, le labyrinthe est vide
+		}
 	}
 }

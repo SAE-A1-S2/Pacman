@@ -175,41 +175,50 @@ namespace Engine
 			EnhanceMazeWithLoops();
 		}
 
+		/// <summary>
+		/// Améliore le labyrinthe en créant des boucles potentielles en supprimant certains murs.
+		/// Cette méthode prend en compte à la fois les cellules entourées de trois murs ET les cellules avec une seule direction de mouvement possible.
+		/// </summary>
 		private void EnhanceMazeWithLoops()
 		{
-			for (int y = 1; y < m_Height - 1; y++)
+			// Parcours toutes les cellules du labyrinthe
+			for (int y = 1; y < m_Height; y++) // Lignes 
 			{
-				for (int x = 1; x < m_Width - 1; x++)
+				for (int x = 1; x < m_Width; x++) // Colonnes 
 				{
+					// Vérifie si la cellule est vide, le point de départ ou le point d'arrivée
 					if (Map[y, x] == Cell.EMPTY || Map[y, x] == Cell.START || Map[y, x] == Cell.END)
 					{
-						List<CellCoordinates> surroundingWalls = [];
-						List<CellCoordinates> validWalls = [];
+						List<CellCoordinates> surroundingWalls = []; // Murs entourant la cellule
+						List<CellCoordinates> validWalls = [];       // Murs potentiellement supprimables
 
-						// Check surrounding cells
-						if (Map[y - 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y - 1, x)); // above
-						if (Map[y + 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y + 1, x)); // below
-						if (Map[y, x - 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x - 1)); // left
-						if (Map[y, x + 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x + 1)); // right
+						// Vérifie les cellules voisines (haut, bas, gauche, droite) pour identifier les murs
+						if (IsInBounds(new CellCoordinates(y - 1, x)) && Map[y - 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y - 1, x)); // Haut
+						if (IsInBounds(new CellCoordinates(y + 1, x)) && Map[y + 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y + 1, x)); // Bas
+						if (IsInBounds(new CellCoordinates(y, x - 1)) && Map[y, x - 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x - 1)); // Gauche
+						if (IsInBounds(new CellCoordinates(y, x + 1)) && Map[y, x + 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x + 1)); // Droite
 
-						// If there are exactly three surrounding walls, consider removing one
-						if (surroundingWalls.Count == 3)
+						// Condition 1 : Si la cellule est entourée de trois murs, on peut potentiellement en supprimer un pour créer une boucle
+						// Condition 2 : Si la cellule a seulement une direction valide de mouvement (entourée de 2 murs + bord du labyrinthe)
+						if (surroundingWalls.Count == 3 || (surroundingWalls.Count == 2 && HasOnlyOneValidDirection(Map, x, y)))
 						{
-							// Check if removing a wall creates a valid new path
+							// Vérifie si la suppression d'un mur crée un nouveau chemin valide
 							foreach (var wall in surroundingWalls)
 							{
 								int wallRow = wall.Row;
 								int wallCol = wall.Col;
 
-								// Check if removing the wall will connect two distinct passages
-								if ((IsInBounds(new CellCoordinates(wallRow - 1, wallCol)) && Map[wallRow - 1, wallCol] == Cell.EMPTY && IsInBounds(new CellCoordinates(wallRow + 1, wallCol)) && Map[wallRow + 1, wallCol] == Cell.EMPTY) ||
-									(IsInBounds(new CellCoordinates(wallRow, wallCol - 1)) && Map[wallRow, wallCol - 1] == Cell.EMPTY && IsInBounds(new CellCoordinates(wallRow, wallCol + 1)) && Map[wallRow, wallCol + 1] == Cell.EMPTY))
+								// Vérifie si la suppression du mur connecterait deux passages distincts (horizontalement ou verticalement)
+								if (
+									(IsInBounds(new CellCoordinates(wallRow - 1, wallCol)) && Map[wallRow - 1, wallCol] == Cell.EMPTY && IsInBounds(new CellCoordinates(wallRow + 1, wallCol)) && Map[wallRow + 1, wallCol] == Cell.EMPTY) ||
+									(IsInBounds(new CellCoordinates(wallRow, wallCol - 1)) && Map[wallRow, wallCol - 1] == Cell.EMPTY && IsInBounds(new CellCoordinates(wallRow, wallCol + 1)) && Map[wallRow, wallCol + 1] == Cell.EMPTY)
+								)
 								{
-									validWalls.Add(wall);
+									validWalls.Add(wall); // Ajoute le mur à la liste des murs pouvant être supprimés
 								}
 							}
 
-							// Remove one of the valid walls if any
+							// Supprime un mur aléatoire parmi les murs valides (s'il y en a)
 							if (validWalls.Count > 0)
 							{
 								CellCoordinates wallToRemove = validWalls[m_Random.Next(validWalls.Count)];
@@ -220,5 +229,23 @@ namespace Engine
 				}
 			}
 		}
+
+		/// <summary>
+		/// Vérifie si une cellule donnée a une seule direction de mouvement valide (entourée de 2 murs et d'un bord du labyrinthe).
+		/// </summary>
+		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
+		/// <param name="x">La colonne de la cellule à vérifier.</param>
+		/// <param name="y">La ligne de la cellule à vérifier.</param>
+		/// <returns>True si la cellule a une seule direction valide, false sinon.</returns>
+		private bool HasOnlyOneValidDirection(Cell[,] maze, int x, int y)
+		{
+			int validDirections = 0;
+			if (y > 0 && maze[y - 1, x] != Cell.WALL) validDirections++; // Haut
+			if (y < m_Height - 1 && maze[y + 1, x] != Cell.WALL) validDirections++; // Bas
+			if (x > 0 && maze[y, x - 1] != Cell.WALL) validDirections++; // Gauche
+			if (x < m_Width - 1 && maze[y, x + 1] != Cell.WALL) validDirections++; // Droite
+			return validDirections == 1;
+		}
+
 	}
 }
