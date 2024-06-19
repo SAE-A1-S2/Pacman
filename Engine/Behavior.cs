@@ -10,7 +10,7 @@
 		public CellCoordinates NextPosition(Cell[,] maze, CellCoordinates currentPosition, Direction direction = Direction.STOP)
 		{
 			CellCoordinates dst = Algorithms.FindPlayer(maze);
-			return Algorithms.FindBellManFord(currentPosition, dst, maze);
+			return Algorithms.FindBellmanFord(currentPosition, dst, maze);
 		}
 	}
 
@@ -18,7 +18,9 @@
 	{
 		public CellCoordinates NextPosition(Cell[,] maze, CellCoordinates currentPosition, Direction direction = Direction.STOP)
 		{
-			throw new NotImplementedException();
+			CellCoordinates playerPosition = Algorithms.FindPlayer(maze);
+			CellCoordinates dst = Algorithms.CalculatePositionAhead(maze, playerPosition, direction, 2);
+			return Algorithms.FindBellmanFord(currentPosition, dst, maze);
 		}
 	}
 
@@ -27,7 +29,7 @@
 		public CellCoordinates NextPosition(Cell[,] maze, CellCoordinates currentPosition, Direction direction = Direction.STOP)
 		{
 			CellCoordinates dst = Algorithms.FindClosestCell(maze);
-			return Algorithms.FindDijkstra(dst, currentPosition, maze);
+			return Algorithms.FindDijkstra(currentPosition, dst, maze);
 		}
 	}
 

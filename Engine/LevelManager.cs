@@ -3,46 +3,6 @@ using Engine.utils;
 
 namespace Engine;
 
-public class Health(byte lives, byte healthPoints) : INotifyPropertyChanged
-{
-	private static readonly byte _defaultLives = 3;
-	private static readonly byte _defaultHP = 2;
-	public byte Lives { get; private set; } = lives;
-	public byte HealthPoints { get; private set; } = healthPoints;
-
-	public event PropertyChangedEventHandler? PropertyChanged;
-
-	public Health() : this(_defaultLives, _defaultHP) { }
-
-	public void ReduceHealth()
-	{
-		if (!IsDead() && HealthPoints <= 0)
-		{
-			Lives--;
-			HealthPoints = _defaultHP;
-		}
-		else
-			HealthPoints--;
-
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));
-	}
-
-	public void IncrementHealth()
-	{
-		if (HealthPoints < _defaultHP) HealthPoints++;
-
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));
-	}
-
-	public void ResetHealth()
-	{
-		Lives = _defaultLives;
-		HealthPoints = _defaultHP;
-	}
-
-	public bool IsDead() => Lives <= 0 && HealthPoints <= 0;
-}
-
 public class LevelManager : INotifyPropertyChanged
 {
 	private static readonly int s_Width = 30;

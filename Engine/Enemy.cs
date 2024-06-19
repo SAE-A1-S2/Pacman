@@ -11,14 +11,6 @@ namespace Engine
 		public static Enemy Marquis = new("Marquis", new WhimsicalBehavior(), Cell.MARQUIS);
 		public static (Enemy, Enemy, Enemy, Enemy) enemies = (Winston, Cain, Viggo, Marquis);
 
-		public static IEnumerable<Enemy> ToEnumerable(this (Enemy, Enemy, Enemy, Enemy) tuple)
-		{
-			yield return tuple.Item1;
-			yield return tuple.Item2;
-			yield return tuple.Item3;
-			yield return tuple.Item4;
-		}
-
 		public static void ForEach(this (Enemy, Enemy, Enemy, Enemy) tuple, Action<Enemy> action)
 		{
 			action(tuple.Item1);
