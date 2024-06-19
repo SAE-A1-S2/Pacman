@@ -91,7 +91,7 @@ namespace PacMan
 			PnlBonuses.DataBindings.Add("TabIndex", gameManager.LevelManager.Player.Bonuses, "FrontEndValue");  // Lie le tabindex à la valeur des bonus
 		}
 
-		// Recharge le formulaire de jeu (utile pour mettre à jour l'affichage après un changement de niveau, etc.)
+		// Recharge le formulaire de jeu (utile pour mettre à jour l'affichage après un changement de niveau)
 		public void ReloadForm()
 		{
 			this.frmGame_Load(this, EventArgs.Empty); // Appelle la méthode de chargement du formulaire avec un événement vide
@@ -164,10 +164,16 @@ namespace PacMan
 		// Surcharge de la méthode ProcessCmdKey pour intercepter certaines touches du clavier
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (keyData == Keys.P) // Si la touche "P" est pressée
+			if (keyData == Keys.P) // Si la touche "P" est appuyée
 			{
 				btnPause_Click(this, EventArgs.Empty); // Simule un clic sur le bouton de pause
 				return true;                            // Indique que la touche a été gérée
+			}
+
+			if (keyData == Keys.Space) // Si la touche "Espace" est appuyée
+			{
+				gameManager.LevelManager.Player.Bonuses.UseFirst(gameManager.LevelManager); // Utilise le bonus actif
+				return true; // Indique que la touche a été gérée
 			}
 
 			HandleKeyInput(keyData); // Appelle la méthode pour gérer la touche en tant que mouvement potentiel
@@ -189,6 +195,14 @@ namespace PacMan
 
 			// Réaffiche le labyrinthe (mettre à jour les positions des personnages)
 			DisplayMaze(gameManager.LevelManager.LevelMap);
+
+			if (gameManager.CheckGameCompleted())
+			{
+				TmrPlayer.Stop();
+				gameManager.Pause();
+				FrmGameOver frmGameOver = new(this);
+				frmGameOver.ShowDialog(this);
+			}
 		}
 
 		// Gestionnaire du clic sur le bouton Pause

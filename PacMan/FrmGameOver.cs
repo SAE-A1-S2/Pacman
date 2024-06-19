@@ -24,6 +24,7 @@
 			// Pour passer au prochain niveau, on reinstancie la classe "LevelManager"
 			// nous avons remarqué que si on "reinitialise" pas les DataBinding, les elements de Jeu ne sont pas reinitialisés
 			frmGame.ReloadForm();
+			frmGame.gameManager.Resume(); // Reprendre le jeu
 		}
 
 		private async void btnQuit_Click(object sender, EventArgs e)

@@ -122,7 +122,7 @@ namespace Engine
 		{
 			GameState = GameState.PLAYING;
 			LevelManager = new LevelManager(Player, GameMode);
-			// LevelManager.NextLevel(GameMode);
+			Player.Bonuses.Clear();
 		}
 
 		public void GameOver()
@@ -151,8 +151,8 @@ namespace Engine
 			LevelManager.Player.SetPlayerPosition(newCell);
 			Enemies.enemies.ForEach(enemy =>
 			{
-				maze[enemy.Position.Row, enemy.Position.Col] = Cell.EMPTY;
-				// enemy.Position = enemy.StartPosition;
+				maze[enemy.Position.Row, enemy.Position.Col] = enemy.m_PreviousKind;
+				enemy.SetPosition(enemy.StartPosition, maze);
 				maze[enemy.Position.Row, enemy.Position.Col] = enemy.Kind;
 			}
 			);
