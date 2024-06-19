@@ -1,4 +1,4 @@
-﻿using Engine; // Importation du moteur de jeu personnalisé (Engine)
+﻿using Engine;
 using Engine.utils;
 
 namespace PacMan

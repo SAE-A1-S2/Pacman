@@ -20,7 +20,7 @@ namespace Engine
 
 		/// <summary>
 		/// Constructeur de la classe StoryMode.
-		/// Initialise le niveau actuel, charge le labyrinthe et trouve la position de départ.
+		/// Initialise le niveau actuel, charge le labyrinthe et trouve la position.
 		/// </summary>
 		public StoryMode(string PlayerUid)
 		{

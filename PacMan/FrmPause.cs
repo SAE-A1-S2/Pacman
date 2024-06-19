@@ -45,7 +45,7 @@ namespace PacMan
 		private async void btnQuitSave_Click(object sender, EventArgs e)
 		{
 			// Sauvegarde de la session de jeu et récupération de l'ID de la sauvegarde
-			Properties.Settings.Default.LastInserterID = gameManager.SaveSession();
+			Properties.Settings.Default.LastInserterID = gameManager.SaveSession(Properties.Settings.Default.PlayerUID);
 			if (Properties.Settings.Default.LastInserterID != -1) // Succès
 			{
 				lblMsgDB.ForeColor = Color.Green; // texte en vert

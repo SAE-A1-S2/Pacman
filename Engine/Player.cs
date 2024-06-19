@@ -32,7 +32,7 @@ namespace Engine
 
 		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition, CellCoordinates PlayerPosition)
 		{
-			maze[startPosition.Row, startPosition.Col] = Kind;
+			maze[PlayerPosition.Row, PlayerPosition.Col] = Kind;
 			Position = PlayerPosition;
 			StartPosition = startPosition;
 			CurrentDirection = Direction.STOP;
