@@ -68,6 +68,8 @@ namespace Engine
 
 		public void SetPosition(CellCoordinates newCell, Cell[,] maze)
 		{
+			maze[Position.Row, Position.Col] = previousCell;
+			maze[newCell.Row, newCell.Col] = Kind;
 			Position = newCell;
 		}
 
