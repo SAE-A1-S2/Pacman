@@ -196,12 +196,25 @@ namespace PacMan
 			// Réaffiche le labyrinthe (mettre à jour les positions des personnages)
 			DisplayMaze(gameManager.LevelManager.LevelMap);
 
+			// Vérifie si le jeu est terminé
 			if (gameManager.CheckGameCompleted())
 			{
+				// Met le jeu en pause et affiche le formulaire de fin de partie
 				TmrPlayer.Stop();
 				gameManager.Pause();
 				FrmGameOver frmGameOver = new(this);
 				frmGameOver.ShowDialog(this);
+				gameManager.Resume();
+			}
+
+			if (gameManager.LevelManager.Health.IsDead())
+			{
+				// met le jeu en pause et affiche le formulaire de partie perdue
+				TmrPlayer.Stop();
+				gameManager.Pause();
+				FrmLostGame frmLostGame = new(this);
+				frmLostGame.ShowDialog(this);
+				gameManager.Resume();
 			}
 		}
 
