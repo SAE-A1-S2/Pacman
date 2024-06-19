@@ -12,7 +12,7 @@ namespace PacMan
 			var currentPos = new CellCoordinates(x, y);
 
 			// Détermine la direction du personnage
-			var direction = characterType == "Player" ? currentDirection : GetDirection(prevPos, currentPos);
+			var direction = characterType == "Player" ? currentDirection : Entity.GetDirection(prevPos, currentPos);
 
 			// Obtient l'image appropriée pour le personnage et la direction
 			var characterImage = GetCharacterImage(characterType, direction, ref animationFrame);
@@ -102,17 +102,6 @@ namespace PacMan
 			Image image = images[animationFrame % images.Length]; // Sélectionne l'image en fonction de l'indice d'animation
 			animationFrame++; // Incrémente l'indice d'animation pour la prochaine image
 			return image;
-		}
-
-		// Détermine la direction d'un personnage en fonction de ses positions précédente et actuelle
-		private static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
-		{
-			// Compare les coordonnées pour déterminer la direction (droite, gauche, bas, haut, ou arrêt)
-			if (src.Col < dst.Col) return Direction.RIGHT;
-			if (src.Col > dst.Col) return Direction.LEFT;
-			if (src.Row < dst.Row) return Direction.DOWN;
-			if (src.Row > dst.Row) return Direction.UP;
-			return Direction.STOP;
 		}
 	}
 }

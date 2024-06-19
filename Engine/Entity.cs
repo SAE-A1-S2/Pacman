@@ -1,82 +1,93 @@
-using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine
 {
+	/// <summary>
+	/// Classe de base pour les entités du jeu (joueur, fantômes).
+	/// </summary>
 	public class Entity
 	{
+		/// <summary>
+		/// Obtient ou définit la position actuelle de l'entité dans le labyrinthe.
+		/// </summary>
 		public CellCoordinates Position { get; protected set; }
-		public string Name { get; protected set; } = "";
+
+		/// <summary>
+		/// Obtient ou définit le nom de l'entité.
+		/// </summary>
+		public string Name { get; protected set; } = ""; // Nom par défaut vide
+
+		/// <summary>
+		/// Obtient ou définit le type de cellule (Cell) que l'entité représente dans le labyrinthe.
+		/// </summary>
 		public Cell Kind { get; protected set; }
+
+		/// <summary>
+		/// Obtient ou définit la direction actuelle de l'entité.
+		/// </summary>
 		public Direction CurrentDirection { get; protected set; }
+
+		/// <summary>
+		/// Obtient ou définit la position de départ de l'entité dans le labyrinthe.
+		/// </summary>
 		public CellCoordinates StartPosition { get; set; }
 
+
+		/// <summary>
+		/// Calcule la prochaine position de l'entité en fonction de sa position actuelle et de la direction donnée.
+		/// </summary>
+		/// <param name="currentPosition">Position actuelle de l'entité.</param>
+		/// <param name="direction">Direction dans laquelle l'entité se déplace.</param>
+		/// <returns>Les nouvelles coordonnées de l'entité après le déplacement.</returns>
 		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{
+			// Utilise une expression switch pour déterminer les nouvelles coordonnées en fonction de la direction
 			return direction switch
 			{
-				Direction.UP => new CellCoordinates(currentPosition.Row - 1, currentPosition.Col),
-				Direction.DOWN => new CellCoordinates(currentPosition.Row + 1, currentPosition.Col),
-				Direction.LEFT => new CellCoordinates(currentPosition.Row, currentPosition.Col - 1),
-				Direction.RIGHT => new CellCoordinates(currentPosition.Row, currentPosition.Col + 1),
-				_ => currentPosition,
+				Direction.UP => new CellCoordinates(currentPosition.Row - 1, currentPosition.Col),       // Haut
+				Direction.DOWN => new CellCoordinates(currentPosition.Row + 1, currentPosition.Col),    // Bas
+				Direction.LEFT => new CellCoordinates(currentPosition.Row, currentPosition.Col - 1),    // Gauche
+				Direction.RIGHT => new CellCoordinates(currentPosition.Row, currentPosition.Col + 1),   // Droite
+				_ => currentPosition, // Si la direction est invalide, l'entité ne bouge pas (retourne la position actuelle)
 			};
 		}
 
+		/// <summary>
+		/// Met à jour la position de l'entité dans le labyrinthe.
+		/// </summary>
+		/// <param name="newCell">Les nouvelles coordonnées de l'entité.</param>
+		/// <param name="maze">Le labyrinthe représenté sous forme de tableau 2D de cellules.</param>
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
 		{
-			maze[Position.Row, Position.Col] = Cell.EMPTY;
-			maze[newCell.Row, newCell.Col] = Kind;
-			Position = newCell;
+			maze[Position.Row, Position.Col] = Cell.EMPTY; // Vide la cellule précédente
+			maze[newCell.Row, newCell.Col] = Kind;         // Met à jour la nouvelle cellule avec le type de l'entité
+			Position = newCell;                           // Met à jour la position de l'entité
 		}
 
+		/// <summary>
+		/// Vérifie si une cellule donnée est à l'intérieur des limites du labyrinthe.
+		/// </summary>
+		/// <param name="cell">Les coordonnées de la cellule à vérifier.</param>
+		/// <param name="maze">Le labyrinthe représenté sous forme de tableau 2D de cellules.</param>
+		/// <returns>Vrai si la cellule est dans les limites, faux sinon.</returns>
 		public static bool IsInBounds(CellCoordinates cell, Cell[,] maze)
 		{
-			return cell.Row >= 0 && cell.Row < maze.GetLength(0) &&
-				   cell.Col >= 0 && cell.Col < maze.GetLength(1);
+			return cell.Row >= 0 && cell.Row < maze.GetLength(0) && cell.Col >= 0 && cell.Col < maze.GetLength(1);
 		}
 
+		/// <summary>
+		/// Détermine la direction d'un personnage en comparant sa position actuelle et sa position précédente.
+		/// </summary>
+		/// <param name="src">La position précédente du personnage.</param>
+		/// <param name="dst">La position actuelle du personnage.</param>
+		/// <returns>La direction du mouvement (Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT, ou Direction.STOP).</returns>
 		public static Direction GetDirection(CellCoordinates src, CellCoordinates dst)
 		{
-			if (src.Col < dst.Col)
-				return Direction.RIGHT;
-			if (src.Col > dst.Col)
-				return Direction.LEFT;
-			if (src.Row < dst.Row)
-				return Direction.DOWN;
-			if (src.Row > dst.Row)
-				return Direction.UP;
-			return Direction.STOP;
+			if (src.Col < dst.Col) return Direction.RIGHT; // droite
+			if (src.Col > dst.Col) return Direction.LEFT;  // gauche
+			if (src.Row < dst.Row) return Direction.DOWN;  // bas
+			if (src.Row > dst.Row) return Direction.UP;    // haut
+			return Direction.STOP;                        // Pas de mouvement (position inchangée)
 		}
-
-		public static void CollideWithEnemy(GameManager gameManager) // this will be moved to gameManager, just testing for now
-		{
-			gameManager.LevelManager.Health.ReduceHealth();
-			if (gameManager.LevelManager.Health.IsDead())
-			{
-				gameManager.GameOver();
-				// Optionally save the game data
-			}
-			else
-			{
-				UpdatePlayerPosition(gameManager.Player.StartPosition, gameManager.LevelManager.LevelMap, gameManager);
-			}
-		}
-
-		public static void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze, GameManager gameManager)
-		{
-			var playerPos = gameManager.LevelManager.Player.Position; // use GetNextPosition instead, 
-			maze[playerPos.Row, playerPos.Col] = Cell.EMPTY;
-			maze[newCell.Row, newCell.Col] = gameManager.LevelManager.Player.Kind;
-			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
-			Enemies.enemies.ForEach(enemy =>
-			{
-				maze[enemy.Position.Row, enemy.Position.Col] = Cell.EMPTY;
-				enemy.Position = enemy.StartPosition;
-				maze[enemy.Position.Row, enemy.Position.Col] = enemy.Kind;
-			}
-			);
-		}
-
 	}
 }
