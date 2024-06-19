@@ -80,9 +80,10 @@ namespace Engine
 		{
 			foreach (var enemy in Enemies.enemies.ToEnumerable())
 			{
-				if (Player.NextPosition == enemy.NextPosition || Player.Position == enemy.NextPosition) {
+				if (Player.NextPosition == enemy.NextPosition || Player.Position == enemy.NextPosition)
+				{
 					CollideWithEnemy();
-					return true; 
+					return true;
 				}
 			}
 
@@ -122,14 +123,12 @@ namespace Engine
 		{
 			GameState = GameState.PLAYING;
 			LevelManager = new LevelManager(Player, GameMode);
-			// LevelManager.NextLevel(GameMode);
+			Player.Bonuses.Clear();
 		}
 
 		public void GameOver()
 		{
 			GameState = GameState.GAME_OVER;
 		}
-
-
 	}
 }

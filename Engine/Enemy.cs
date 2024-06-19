@@ -48,7 +48,7 @@ namespace Engine
 		public EnemyState State { get; private set; } = EnemyState.FRIGHTENED;
 		public IEnemyBehavior EnemyBehavior { get; private set; }
 		private readonly Random m_Random = new();
-		private Cell m_PreviousKind = Cell.COIN;
+		public Cell m_PreviousKind { get; private set; } = Cell.COIN;
 
 		public Enemy(string name, IEnemyBehavior enemyBehavior, Cell kind)
 		{

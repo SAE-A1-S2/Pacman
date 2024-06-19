@@ -6,14 +6,10 @@ namespace Engine
 	{
 		public string Name { get; private set; } = name;
 		public string Description { get; private set; } = description;
-		public int DurationMS { get; protected set; } = 0;
 		public Action? OnCompleted { get; set; } = null;
 
-		public virtual void Use(LevelManager lm)
-		{
-			Console.WriteLine(Name);
-			throw new NotImplementedException();
-		}
+		public virtual void Use(LevelManager lm) { }
+
 
 
 	}
@@ -60,22 +56,6 @@ namespace Engine
 			Second = null;
 			FrontEndValue = 0;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FrontEndValue)));
-		}
-
-		// To be used if the user wants to use a specific bonus.
-		// If position 1 is chosen, the second bonus will be placed as number
-		// one.
-		public void Use(LevelManager lm, uint position = 1)
-		{
-			if (IsEmpty()) return;
-			if (position == 1) UseFirst(lm);
-			else if (position == 2)
-			{
-				Second?.Use(lm);
-				Second = null;
-			}
-
-			CalculateFrontEndValue();
 		}
 
 		public void UseFirst(LevelManager lm)

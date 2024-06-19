@@ -139,6 +139,9 @@ namespace PacMan
 			GameMode mode = senderButton == btnInfini ? GameMode.INFINITE : GameMode.STORY;
 			frmGame game = new(mode, playerName);
 			game.Show();
+
+			// Active les labels du menu principal
+			SetLabelStates(true);
 		}
 
 		// Evenement appelé avant la fermeture de la fenêtre principale
