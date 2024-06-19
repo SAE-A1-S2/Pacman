@@ -47,13 +47,19 @@ public class LevelManager : INotifyPropertyChanged
 
 		PlaceStaticObjects([Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH]);
 
-		//Test
-		var pos = Enemies.FindEmptyPositions(LevelMap, 1);
-		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);
+		PlaceEnemies();
 
-		// Place coins
 		PlaceCoins();
 
+	}
+
+	private void PlaceEnemies()
+	{
+		var pos = Enemies.FindEmptyPositions(LevelMap, 4, MazeStartPos);
+		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);
+		Enemies.Viggo.SetStartingPosition(pos[1], LevelMap);
+		Enemies.Marquis.SetStartingPosition(pos[2], LevelMap);
+		Enemies.Winston.SetStartingPosition(pos[3], LevelMap);
 	}
 
 	private void InitializeLevel(GameMode gameMode = GameMode.INFINITE, string PlayerUid = "")
@@ -115,6 +121,8 @@ public class LevelManager : INotifyPropertyChanged
 
 		PlaceCoins();
 		RemainingCoins = 0;
+
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
 
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Score)));
 	}

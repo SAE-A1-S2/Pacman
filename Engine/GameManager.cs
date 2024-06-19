@@ -37,6 +37,9 @@ namespace Engine
 			if (GameState == GameState.PLAYING)
 			{
 				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);
+				Enemies.Viggo.Move(LevelManager.LevelMap, Player.CurrentDirection);
+				Enemies.Marquis.Move(LevelManager.LevelMap, Player.CurrentDirection);
+				Enemies.Winston.Move(LevelManager.LevelMap, Player.CurrentDirection);
 			}
 		}
 
