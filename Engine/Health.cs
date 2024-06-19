@@ -46,8 +46,7 @@ namespace Engine
 		/// </summary>
 		public void IncrementHealth()
 		{
-			if (HealthPoints < _defaultHP) // Si les points de vie ne sont pas au maximum
-				HealthPoints++;           // Augmenter les points de vie
+			HealthPoints = _defaultHP;           // Augmenter les points de vie
 
 			// Notifier que la propriété HealthPoints a changé
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HealthPoints)));

@@ -139,21 +139,38 @@ namespace Engine
 			}
 
 			// Si aucune cellule appropriée n'est trouvée, retourner une cellule vide aléatoire
-			return FindRandomEmptyCell(maze);
+			return FindEmptyCellNearCorner(maze, target);
 		}
 
-
 		/// <summary>
-		/// Trouve une cellule vide aléatoire dans le labyrinthe.
+		/// Trouve une cellule vide proche d'un coin donné dans le labyrinthe.
 		/// </summary>
 		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
-		/// <returns>Les coordonnées d'une cellule vide aléatoire.</returns>
-		private static CellCoordinates FindRandomEmptyCell(Cell[,] maze)
+		/// <param name="corner">Les coordonnées du coin à partir duquel chercher.</param>
+		/// <param name="maxAttempts">Le nombre maximum de tentatives pour trouver une cellule vide (optionnel, par défaut 100).</param>
+		/// <returns>Les coordonnées d'une cellule vide proche du coin, ou une cellule vide aléatoire si aucune n'est trouvée.</returns>
+		private static CellCoordinates FindEmptyCellNearCorner(Cell[,] maze, CellCoordinates corner, int maxAttempts = 100)
 		{
-			Random random = new Random(); // Générateur de nombres aléatoires
-			CellCoordinates cell;         // Coordonnées de la cellule aléatoire
+			Random random = new();
+			int attempts = 0;
+			CellCoordinates cell;
+			while (attempts < maxAttempts)
+			{
+				// Calcule une distance maximale de recherche à partir du coin (augmente à chaque tentative)
+				int searchDistance = attempts / 10 + 1;
 
-			// Boucle pour générer des coordonnées aléatoires jusqu'à trouver une cellule vide
+				// Génère des coordonnées aléatoires dans une zone autour du coin
+				int row = Math.Clamp(corner.Row + random.Next(-searchDistance, searchDistance + 1), 0, maze.GetLength(0) - 1);
+				int col = Math.Clamp(corner.Col + random.Next(-searchDistance, searchDistance + 1), 0, maze.GetLength(1) - 1);
+				cell = new CellCoordinates(row, col);
+
+				// Vérifie si la cellule est vide
+				if (maze[cell.Row, cell.Col] == Cell.EMPTY)
+					return cell; // Trouvé !
+
+				attempts++;
+			}
+
 			do
 			{
 				cell = new CellCoordinates(random.Next(maze.GetLength(0)), random.Next(maze.GetLength(1)));
