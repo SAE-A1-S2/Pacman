@@ -40,7 +40,7 @@ namespace Engine
 			}
 		}
 
-		public int SaveSession()
+		public int SaveSession(string PlayerUid)
 		{
 			SavedData savedData = new()
 			{
@@ -61,7 +61,7 @@ namespace Engine
 				PlayerPos = Player.Position.ToString()
 			};
 			GameState = GameState.PAUSED;
-			return Base.SaveSession(savedData);
+			return Base.SaveSession(savedData, PlayerUid);
 		}
 
 		public bool CheckGhostCollisions()

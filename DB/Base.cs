@@ -3,136 +3,218 @@
 
 namespace DB
 {
-	public static class Base
+	public static class Base // Classe statique pour gérer les interactions avec la base de données
 	{
-		private static MySqlConnection conn;
+		// Connexion à la base de données
+		private static MySqlConnection? conn;
 
+
+		/// <summary>
+		/// Méthode pour établir une connexion à la base de données
+		/// </summary>
+		/// <returns></returns>
 		public static bool Connect()
 		{
-			string serv = "10.1.139.236";
-			string db = "based6";
-			string login = "d6";
-			string pass = "coubeh";
+			// Informations de connexion à la base de données
+			string serv = "10.1.139.236";  // Adresse du serveur
+			string db = "based6";        // Nom de la base de données
+			string login = "d6";         // Nom d'utilisateur
+			string pass = "coubeh";      // Mot de passe
 
+			// Chaîne de connexion
 			string connectionString = $"SERVER={serv};DATABASE={db};UID={login};PASSWORD={pass};";
 
-
-			conn = new MySqlConnection(connectionString);
+			conn = new MySqlConnection(connectionString); // Création de l'objet de connexion
 			try
 			{
-				conn.Open();
-				return true;
+				conn.Open(); // Ouverture de la connexion
+				return true;  // Connexion réussie
 			}
 			catch (MySqlException)
 			{
-				return false;
+				return false; // Échec de la connexion
 			}
 		}
 
+
+		/// <summary>
+		/// Méthode pour fermer la connexion à la base de données
+		/// </summary>
+		/// <returns></returns>
 		public static bool Disconnect()
 		{
 			try
 			{
-				if (conn.State == System.Data.ConnectionState.Open)
+				if (conn?.State == System.Data.ConnectionState.Open) // Si la connexion est ouverte
 				{
-					conn.Close();
-					conn.Dispose();
+					conn.Close();     // Fermeture de la connexion
+					conn.Dispose();  // Libération des ressources
 				}
-				return true;
+				return true; // Fermeture réussie
 			}
 			catch (MySqlException)
 			{
-				return false;
+				return false; // Échec de la fermeture
 			}
 		}
 
-		public static int SaveSession(SavedData savedData)
+
+		/// <summary>
+		/// Méthode pour sauvegarder une session de jeu dans la base de données
+		/// </summary>
+		/// <param name="savedData"></param>
+		/// <param name="PlayerUID"></param>
+		/// <returns></returns>
+		public static int SaveSession(SavedData savedData, string PlayerUID)
 		{
-			if (!Connect()) return -1; // Ensure a connection is established
+			if (!Connect()) return -1; // Vérifie si la connexion est établie
+
 			try
 			{
-				// Note the added comma after the Score parameter in the VALUES list
-				string query = $"INSERT INTO SessionLevel (PlayerName, GameMode, PlayerHearts, PlayerHP, Score, `Keys`, LevelWidth, LevelHeight, LevelMap, RemainingCoins, StartPos, EndPos, BonusValue, PlayerPos) " +
-					$"VALUES ('{savedData.PlayerName}', '{savedData.GameMode}', {savedData.PlayerHearts}, {savedData.PlayerHP}, {savedData.Score}, {savedData.Keys}, {savedData.LevelWidth}, {savedData.LevelHeight}, '{savedData.LevelMap}', {savedData.RemainingCoins}, '{savedData.StartPos}', '{savedData.EndPos}', {savedData.BonusValue}, '{savedData.PlayerPos}');";
+				// Requête SQL pour insérer les données de la session dans la table SessionLevel
+				string query = $"INSERT INTO SessionLevel (PlayerName, PlayerUID, GameMode, PlayerHearts, PlayerHP, Score, `Keys`, LevelWidth, LevelHeight, LevelMap, RemainingCoins, StartPos, EndPos, BonusValue, PlayerPos) " +
+							   $"VALUES ('{savedData.PlayerName}', '{PlayerUID}','{savedData.GameMode}', {savedData.PlayerHearts}, {savedData.PlayerHP}, {savedData.Score}, {savedData.Keys}, {savedData.LevelWidth}, {savedData.LevelHeight}, '{savedData.LevelMap}', {savedData.RemainingCoins}, '{savedData.StartPos}', '{savedData.EndPos}', {savedData.BonusValue}, '{savedData.PlayerPos}');";
 
-				var cmd = new MySqlCommand(query, conn);
-				cmd.ExecuteNonQuery();
-				return (int)cmd.LastInsertedId;
+				var cmd = new MySqlCommand(query, conn);  // Création de la commande SQL
+				cmd.ExecuteNonQuery();                   // Exécution de la requête
+				return (int)cmd.LastInsertedId;          // Retourne l'ID de la session insérée
 			}
 			catch (MySqlException)
 			{
-				return -1;
+				return -1; // Retourne -1 en cas d'erreur
 			}
 			finally
 			{
-				Disconnect();
+				Disconnect(); // Ferme la connexion dans tous les cas (succès ou échec)
 			}
 		}
 
+		/// <summary>
+		/// Charge les données d'un niveau du mode histoire depuis la base de données.
+		/// </summary>
+		/// <param name="id">L'ID du niveau à charger.</param>
+		/// <returns>Un tuple contenant la carte du niveau (`LevelMap`), la position de départ (`StartPos`) et la position d'arrivée (`EndPos`).</returns>
 		public static (string, string, string) LoadStoryLevel(int id)
 		{
-			if (!Connect()) return ("", "", "");
+			if (!Connect()) return ("", "", ""); // Vérifier la connexion à la base de données
+
 			try
 			{
-				var query = $"SELECT * FROM StoryLevel WHERE LevelID = {id}";
-				var cmd = new MySqlCommand(query, conn);
-				var reader = cmd.ExecuteReader();
-				reader.Read();
+				var query = $"SELECT * FROM StoryLevel WHERE LevelID = {id}"; // Requête SQL pour sélectionner le niveau
+				var cmd = new MySqlCommand(query, conn); // Création de la commande SQL
+				var reader = cmd.ExecuteReader(); // Exécution de la requête et obtention du lecteur de résultats
+
+				reader.Read(); // Lecture de la première (et unique) ligne de résultat
+
+				// Retourne un tuple contenant les informations du niveau
 				return (reader.GetString("LevelMap"), reader.GetString("StartPos"), reader.GetString("EndPos"));
 			}
-			catch (MySqlException)
+			catch (MySqlException) // Capture les erreurs MySQL
 			{
-				return ("", "", "");
+				return ("", "", ""); // Retourne des chaînes vides en cas d'erreur
 			}
 			finally
 			{
-				Disconnect();
+				Disconnect(); // Ferme la connexion à la base de données dans tous les cas (succès ou erreur)
 			}
 		}
 
+		/// <summary>
+		/// Obtient le dernier niveau du mode histoire joué par un joueur.
+		/// </summary>
+		/// <param name="playerUID">L'UID du joueur.</param>
+		/// <returns>Le numéro du dernier niveau joué, ou -1 si aucune donnée n'a été trouvée.</returns>
 		public static int GetLastStoryLevelPlayed(string playerUID)
 		{
-			int lastLevel = -1;
+			int lastLevel = -1; // Valeur par défaut (-1 indique qu'aucun niveau n'a été joué)
 
-			if (!Connect()) return lastLevel;
+			if (!Connect()) return lastLevel; // Vérifier la connexion à la base de données
 
 			try
 			{
-				string query = "SELECT Level FROM LevelStat WHERE PlayerUID = @PlayerUID AND GameMode = 'Story' ORDER BY StatID DESC LIMIT 1";
+				string query = "SELECT Level FROM LevelStat WHERE PlayerUID = @PlayerUID AND GameMode = 'Story' ORDER BY StatID DESC LIMIT 1"; // Requête SQL pour obtenir le dernier niveau joué
 				using var cmd = new MySqlCommand(query, conn);
-				cmd.Parameters.AddWithValue("@PlayerUID", playerUID);
-				using var reader = cmd.ExecuteReader();
-				if (reader.Read())
+				cmd.Parameters.AddWithValue("@PlayerUID", playerUID); // Ajout du paramètre pour l'UID du joueur
+				using var reader = cmd.ExecuteReader(); // Exécution de la requête
+
+				if (reader.Read()) // Si des résultats ont été trouvés
 				{
-					lastLevel = reader.GetInt32("Level");
+					lastLevel = reader.GetInt32("Level"); // Récupère le numéro du niveau
 				}
 			}
-			catch (MySqlException)
+			catch (MySqlException) // Capture les erreurs MySQL
 			{
-				return -1;
+				return -1; // Retourne -1 en cas d'erreur
 			}
 			finally
 			{
-				Disconnect();
+				Disconnect(); // Ferme la connexion à la base de données
 			}
 
-			return lastLevel;
+			return lastLevel; // Retourne le dernier niveau joué (ou -1 si aucun)
 		}
 
-		public static List<PlayerData> LoadGameData(string playerUID)
+		/// <summary>
+		/// Sauvegarde les données d'une partie terminée dans la table LevelStat.
+		/// </summary>
+		/// <param name="playerData">Les données de la partie à sauvegarder (PlayerData).</param>
+		/// <param name="playerUID">L'UID du joueur.</param>
+		public static void SaveGameData(PlayerData playerData, string playerUID)
 		{
-			List<PlayerData> allGameData = [];
-
-			if (!Connect()) throw new InvalidOperationException("Erreur de connexion.");
+			if (!Connect()) // Vérifier la connexion à la base de données
+				throw new InvalidOperationException("Erreur de connexion à la base de données.");
 
 			try
 			{
+				// Requête SQL paramétrée pour insérer les données dans la table LevelStat
+				string query = @"
+            INSERT INTO LevelStat (PlayerUID, GameMode, `Date`, Score, TimeSpentInMinutes, Level)
+            VALUES (@PlayerUID, @GameMode, @Date, @Score, @TimeSpentInMinutes, @Level)";
 
+				using var cmd = new MySqlCommand(query, conn);
+
+				// Ajout des paramètres à la requête SQL
+				cmd.Parameters.AddWithValue("@PlayerUID", playerUID);
+				cmd.Parameters.AddWithValue("@GameMode", playerData.GameMode);
+				cmd.Parameters.AddWithValue("@Date", playerData.Date.ToString("yyyy-MM-dd HH:mm:ss")); // Formater la date
+				cmd.Parameters.AddWithValue("@Score", playerData.Score);
+				cmd.Parameters.AddWithValue("@TimeSpentInMinutes", playerData.TimeSpentInMinutes);
+				cmd.Parameters.AddWithValue("@Level", playerData.Level);
+
+				cmd.ExecuteNonQuery(); // Exécution de la requête
+			}
+			catch (MySqlException ex)
+			{
+				// Gérer les exceptions de la base de données (enregistrer dans un fichier journal, afficher un message d'erreur, etc.)
+				throw new InvalidOperationException("Erreur lors de la sauvegarde des données de jeu.", ex);
+			}
+			finally
+			{
+				Disconnect(); // Fermer la connexion dans tous les cas
+			}
+		}
+
+
+		/// <summary>
+		/// Charge les données de jeu d'un joueur depuis la base de données.
+		/// </summary>
+		/// <param name="playerUID">L'UID du joueur.</param>
+		/// <returns>Une liste d'objets PlayerData contenant les données de jeu du joueur.</returns>
+		public static List<PlayerData> LoadGameData(string playerUID)
+		{
+			List<PlayerData> allGameData = []; // Crée une liste pour stocker les données de jeu
+
+			if (!Connect()) throw new InvalidOperationException("Erreur de connexion."); // Vérifie la connexion et lève une exception en cas d'échec
+
+			try
+			{
 				string query = $"SELECT `Date`, `GameMode`, `Score`, `TimeSpentInMinutes`, `Level` FROM `LevelStat` WHERE `PlayerUID` = '{playerUID}'";
-				MySqlCommand cmd = new(query, conn);
-				using MySqlDataReader reader = cmd.ExecuteReader();
-				while (reader.Read())
+				MySqlCommand cmd = new(query, conn); // Création de la commande SQL
+				using MySqlDataReader reader = cmd.ExecuteReader(); // Exécution de la requête
+
+				while (reader.Read()) // Parcours les lignes de résultat
 				{
+					// Crée un objet PlayerData pour chaque ligne et l'ajoute à la liste
 					PlayerData data = new()
 					{
 						Date = DateTime.Parse(reader.GetString("Date")),
@@ -144,29 +226,38 @@ namespace DB
 					allGameData.Add(data);
 				}
 
-				if (allGameData.Count == 0)
+				if (allGameData.Count == 0) // Si aucune donnée n'a été trouvée, lève une exception
 				{
 					throw new InvalidOperationException();
 				}
 			}
-			catch (Exception ex)
+			catch (Exception ex) // Capture les erreurs et lève une nouvelle exception avec un message plus explicite
 			{
 				throw new InvalidOperationException("Erreur lors du chargement des données.", ex);
 			}
 
-			return allGameData;
+			return allGameData; // Retourne la liste des données de jeu du joueur
 		}
 
 
+		/// <summary>
+		/// Charge les données d'une session de jeu à partir de la base de données.
+		/// </summary>
+		/// <param name="id">L'identifiant de la session à charger.</param>
+		/// <returns>Un objet SavedData contenant les données de la session, ou un objet vide en cas d'erreur.</returns>
 		public static SavedData LoadSession(int id)
 		{
-			if (!Connect()) return new SavedData(); // Ensure a connection is established
+			// Vérifie la connexion à la base de données
+			if (!Connect()) return new SavedData();
+
 			try
 			{
-				var query = $"SELECT * FROM SessionLevel WHERE SessionID = {id}";
-				var cmd = new MySqlCommand(query, conn);
-				var reader = cmd.ExecuteReader();
-				reader.Read();
+				var query = $"SELECT * FROM SessionLevel WHERE SessionID = {id}"; // Requête pour sélectionner la session
+				var cmd = new MySqlCommand(query, conn); // Création de la commande SQL
+				var reader = cmd.ExecuteReader(); // Exécution de la requête
+				reader.Read(); // Lecture de la première (et unique) ligne de résultat
+
+				// Crée et remplit un objet SavedData avec les données de la session
 				var savedData = new SavedData
 				{
 					PlayerName = reader.GetString("PlayerName"),
@@ -184,48 +275,84 @@ namespace DB
 					BonusValue = reader.GetInt32("BonusValue"),
 					PlayerPos = reader.GetString("PlayerPos")
 				};
+
+				// Retourne les données de la session
 				return savedData;
 			}
 			catch (MySqlException)
 			{
-				return new SavedData(); // Return an empty SavedData object
+				return new SavedData(); // Retourne un objet vide en cas d'erreur
 			}
 			finally
 			{
-				Disconnect(); // Always close the connection
+				Disconnect(); // Ferme la connexion
 			}
 		}
-
-
-
-
-
 	}
 
+	// Classe représentant les données d'une session de jeu sauvegardée
 	public class SavedData
 	{
+		// Nom du joueur
 		public string PlayerName { get; set; } = string.Empty;
+
+		// Position actuelle du joueur (chaîne formatée)
 		public string PlayerPos { get; set; } = string.Empty;
+
+		// Représentation textuelle de la carte du niveau (format personnalisé)
 		public string LevelMap { get; set; } = string.Empty;
+
+		// Position de départ du joueur (chaîne formatée)
 		public string StartPos { get; set; } = string.Empty;
+
+		// Mode de jeu (Story, Infinite, etc.)
 		public string GameMode { get; set; } = string.Empty;
+
+		// Position d'arrivée du niveau (chaîne formatée)
 		public string EndPos { get; set; } = string.Empty;
+
+		// Nombre de pièces restantes à collecter
 		public int RemainingCoins { get; set; }
+
+		// Nombre de vies (cœurs) restantes du joueur
 		public int PlayerHearts { get; set; }
+
+		// Hauteur du niveau en nombre de cellules
 		public int LevelHeight { get; set; }
+
+		// Valeur correspondante aux bonus récupérés 
 		public int BonusValue { get; set; }
+
+		// Largeur du niveau en nombre de cellules
 		public int LevelWidth { get; set; }
+
+		// Points de vie actuels du joueur (santé)
 		public int PlayerHP { get; set; }
+
+		// Score actuel du joueur
 		public int Score { get; set; }
+
+		// Nombre de clés possédées par le joueur
 		public int Keys { get; set; }
 	}
 
+	// Classe représentant les données de jeu d'un joueur (probablement pour les statistiques)
 	public class PlayerData
 	{
+		// Date et heure de la partie
 		public DateTime Date { get; set; }
-		public string GameMode { get; set; } = "Story";
+
+		// Mode de jeu (Story, Infinite)
+		public string GameMode { get; set; } = "Story"; // Par défaut, le mode Story
+
+		// Score obtenu dans la partie
 		public int Score { get; set; }
+
+		// Temps passé dans la partie en minutes
 		public int TimeSpentInMinutes { get; set; }
+
+		// Niveau actuel (-1 si non applicable, par exemple en mode Infinite)
 		public int Level { get; set; } = -1;
 	}
+
 }
