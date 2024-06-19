@@ -64,15 +64,29 @@ namespace Engine
 			return Base.SaveSession(savedData, PlayerUid);
 		}
 
+		public void CollideWithEnemy()
+		{
+			LevelManager.Health.ReduceHealth();
+			if (LevelManager.Health.IsDead())
+			{
+				GameOver();
+				// Optionally save the game data
+				return;
+			}
+			Player.SetToStart();
+		}
+
 		public bool CheckGhostCollisions()
 		{
-			List<CellCoordinates> enemiesNextPos = [];
-			var playerNextPos = Entity.GetNextPosition(Player.Position, Player.CurrentDirection);
-			Enemies.enemies.ForEach(enemy => enemiesNextPos.Add(Entity.GetNextPosition(enemy.Position, enemy.CurrentDirection)));
+			foreach (var enemy in Enemies.enemies.ToEnumerable())
+			{
+				if (Player.NextPosition == enemy.NextPosition || Player.Position == enemy.NextPosition) {
+					CollideWithEnemy();
+					return true; 
+				}
+			}
 
-			if (!enemiesNextPos.Contains(playerNextPos)) return false;
-			Entity.CollideWithEnemy(this);
-			return true;
+			return false;
 
 		}
 
