@@ -130,6 +130,34 @@ namespace Engine
 			GameState = GameState.GAME_OVER;
 		}
 
+		public void CollideWithEnemy() // this will be moved to gameManager, just testing for now
+		{
+			LevelManager.Health.ReduceHealth();
+			if (LevelManager.Health.IsDead())
+			{
+				GameOver();
+			}
+			else
+			{
+				UpdatePlayerPosition(Player.StartPosition, LevelManager.LevelMap);
+			}
+		}
+
+		public void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze)
+		{
+			var playerPos = LevelManager.Player.Position; // use GetNextPosition instead, 
+			maze[playerPos.Row, playerPos.Col] = Cell.EMPTY;
+			maze[newCell.Row, newCell.Col] = LevelManager.Player.Kind;
+			LevelManager.Player.SetPlayerPosition(newCell);
+			Enemies.enemies.ForEach(enemy =>
+			{
+				maze[enemy.Position.Row, enemy.Position.Col] = Cell.EMPTY;
+				// enemy.Position = enemy.StartPosition;
+				maze[enemy.Position.Row, enemy.Position.Col] = enemy.Kind;
+			}
+			);
+		}
+
 
 	}
 }

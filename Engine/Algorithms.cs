@@ -134,7 +134,7 @@ namespace Engine
 				if (!Entity.IsInBounds(current, maze) || maze[current.Row, current.Col] != Cell.EMPTY || Math.Abs(current.Row - target.Row) + Math.Abs(current.Col - target.Col) > currentDistance)
 				{
 					(dr, dc) = (-dc, dr); // Rotation de 90 degrés
-					currentDistance++;    // Incrémentation de la distance de recherche
+					currentDistance++;    // Incrémente de la distance de recherche
 				}
 			}
 
