@@ -48,12 +48,6 @@ namespace Engine
 		/// <summary>
 		/// Définit la position du joueur.
 		/// </summary>
-		/// <param name="newPostion">La nouvelle position (coordonnées).</param>
-		public void SetPlayerPosition(CellCoordinates newPosition)
-		{
-			Position = newPosition;
-		}
-
 		public void SetToStart()
 		{
 			Position = StartPosition;

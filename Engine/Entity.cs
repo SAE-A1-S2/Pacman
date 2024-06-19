@@ -61,7 +61,7 @@ namespace Engine
 		/// <param name="maze">Le labyrinthe représenté sous forme de tableau 2D de cellules.</param>
 		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze, Cell previousCell = Cell.EMPTY)
 		{
-			maze[Position.Row, Position.Col] = Cell.EMPTY;
+			maze[Position.Row, Position.Col] = previousCell;
 			maze[newCell.Row, newCell.Col] = Kind;
 			Position = newCell;
 		}
