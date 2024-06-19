@@ -68,21 +68,19 @@ namespace Engine
 		{
 			if (State == EnemyState.FRIGHTENED)
 			{
-				MoveRandom(maze);
+				if (!MoveRandom(maze)) return;
 			}
 			else
 			{
-				// A factoriser
 				NextPosition = EnemyBehavior.NextPosition(maze, Position, direction);
-				var dir = GetDirection(Position, NextPosition);
-				CurrentDirection = dir;
-				Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
-				UpdatePosition(NextPosition, maze, m_PreviousKind);
-				m_PreviousKind = nextCell;
+				CurrentDirection = GetDirection(Position, NextPosition);
 			}
+			Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
+			UpdatePosition(NextPosition, maze, m_PreviousKind);
+			m_PreviousKind = nextCell;
 		}
 
-		public void MoveRandom(Cell[,] maze)
+		public bool MoveRandom(Cell[,] maze)
 		{
 			var currentPos = Position;
 			var dir = CurrentDirection;
@@ -119,14 +117,9 @@ namespace Engine
 				}
 			}
 
-			// Move to the new position if valid
-			if (IsInBounds(NextPosition, maze) && maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
-			{
-				CurrentDirection = dir;
-				Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
-				UpdatePosition(NextPosition, maze, m_PreviousKind);
-				m_PreviousKind = nextCell;
-			}
+			bool isValid = IsInBounds(NextPosition, maze) && maze[NextPosition.Row, NextPosition.Col] != Cell.WALL;
+			if (isValid) CurrentDirection = dir;
+			return isValid;
 		}
 
 		private bool IsDynamicEntity(Cell cell)
