@@ -11,6 +11,8 @@ namespace Engine
 		public Direction CurrentDirection { get; protected set; }
 		public CellCoordinates StartPosition { get; set; }
 
+		public CellCoordinates NextPosition { get; protected set; }
+
 		public static CellCoordinates GetNextPosition(CellCoordinates currentPosition, Direction direction)
 		{
 			return direction switch
@@ -23,9 +25,9 @@ namespace Engine
 			};
 		}
 
-		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze)
+		public void UpdatePosition(CellCoordinates newCell, Cell[,] maze, Cell previousCell = Cell.EMPTY)
 		{
-			maze[Position.Row, Position.Col] = Cell.EMPTY;
+			maze[Position.Row, Position.Col] = previousCell;
 			maze[newCell.Row, newCell.Col] = Kind;
 			Position = newCell;
 		}
@@ -48,35 +50,5 @@ namespace Engine
 				return Direction.UP;
 			return Direction.STOP;
 		}
-
-		public static void CollideWithEnemy(GameManager gameManager) // this will be moved to gameManager, just testing for now
-		{
-			gameManager.LevelManager.Health.ReduceHealth();
-			if (gameManager.LevelManager.Health.IsDead())
-			{
-				gameManager.GameOver();
-				// Optionally save the game data
-			}
-			else
-			{
-				UpdatePlayerPosition(gameManager.Player.StartPosition, gameManager.LevelManager.LevelMap, gameManager);
-			}
-		}
-
-		public static void UpdatePlayerPosition(CellCoordinates newCell, Cell[,] maze, GameManager gameManager)
-		{
-			var playerPos = gameManager.LevelManager.Player.Position; // use GetNextPosition instead, 
-			maze[playerPos.Row, playerPos.Col] = Cell.EMPTY;
-			maze[newCell.Row, newCell.Col] = gameManager.LevelManager.Player.Kind;
-			gameManager.LevelManager.Player.SetPlayerPosition(newCell);
-			Enemies.enemies.ForEach(enemy =>
-			{
-				maze[enemy.Position.Row, enemy.Position.Col] = Cell.EMPTY;
-				enemy.Position = enemy.StartPosition;
-				maze[enemy.Position.Row, enemy.Position.Col] = enemy.Kind;
-			}
-			);
-		}
-
 	}
 }

@@ -25,9 +25,15 @@ namespace Engine
 			Name = newName;
 		}
 
-		public void SetPlayerPosition(CellCoordinates newPostion)
+		public void SetPlayerPosition(CellCoordinates newPosition)
 		{
-			Position = newPostion;
+			Position = newPosition;
+		}
+
+		public void SetToStart()
+		{
+			Position = StartPosition;
+			NextPosition = Position;
 		}
 
 		public void PlacePlayer(Cell[,] maze, CellCoordinates startPosition, CellCoordinates PlayerPosition)
@@ -40,16 +46,16 @@ namespace Engine
 
 		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)
 		{
-			CellCoordinates newPosition = GetNextPosition(Position, direction);
+			NextPosition = GetNextPosition(Position, direction);
 
 			// Check if the new position is within the bounds of the maze
-			if (IsInBounds(newPosition, maze))
+			if (IsInBounds(NextPosition, maze))
 			{
-				if (maze[newPosition.Row, newPosition.Col] != Cell.WALL)
+				if (maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
 				{
 					CurrentDirection = direction;
-					CheckCollisions(maze[newPosition.Row, newPosition.Col], gameManager);
-					UpdatePosition(newPosition, maze);
+					CheckCollisions(maze[NextPosition.Row, NextPosition.Col], gameManager);
+					UpdatePosition(NextPosition, maze);
 				}
 				else
 					CurrentDirection = Direction.STOP;
@@ -72,7 +78,6 @@ namespace Engine
 				case Cell.TORCH:
 					Bonuses.Add(new TorchBonus());
 					break;
-
 				default:
 					break;
 					// Add more cases as needed
