@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine;
@@ -88,7 +89,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
 		// Placement des objets statiques, des ennemis et des pièces dans le labyrinthe
-		PlaceStaticObjects([Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH]);
+		PlaceStaticObjects([Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH, Cell.KEY]);
 		PlaceEnemies();
 		PlaceCoins();
 	}
@@ -198,7 +199,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
 		// Replace les objets statiques (clés, trousse de soins, torche)
-		PlaceStaticObjects(new List<Cell> { Cell.KEY, Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH });
+		PlaceStaticObjects([Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH, Cell.KEY]);
 
 		PlaceCoins();             // Replace les pièces dans le labyrinthe
 		RemainingCoins = 0;        // Réinitialise le compteur de pièces restantes
@@ -215,12 +216,12 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	public void PlaceStaticObjects(List<Cell> objects)
 	{
 		// Coordonnées des quatre coins du labyrinthe
-		CellCoordinates[] corners = {
+		CellCoordinates[] corners = [
 		new(0, 0),
 		new(s_Width - 1, 0),
 		new(0, s_Height - 1),
 		new(s_Width - 1, s_Height - 1)
-	};
+	];
 
 		// Parcourt la liste des objets à placer
 		foreach (var obj in objects)

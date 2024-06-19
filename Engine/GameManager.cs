@@ -1,5 +1,6 @@
 ﻿using Engine.utils;
 using DB;
+using System.Diagnostics;
 
 namespace Engine
 {
@@ -217,10 +218,10 @@ namespace Engine
 		/// </summary>
 		public void NextLevel()
 		{
-			GameState = GameState.PLAYING; // Rétablit l'état du jeu à PLAYING
-										   // Crée un nouveau gestionnaire de niveau pour le prochain niveau, en utilisant le mode de jeu actuel et le joueur existant
+			// Crée un nouveau gestionnaire de niveau pour le prochain niveau, en utilisant le mode de jeu actuel et le joueur existant
 			LevelManager = new LevelManager(Player, GameMode);
 			Player.Bonuses.Clear(); // Supprime tous les bonus du joueur
+			GameState = GameState.PLAYING; // Rétablit l'état du jeu à PLAYING
 		}
 
 		/// <summary>
