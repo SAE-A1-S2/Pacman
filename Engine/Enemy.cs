@@ -64,16 +64,6 @@ namespace Engine
 			maze[Position.Row, Position.Col] = Kind;
 		}
 
-		public void UpdateStatus(CellCoordinates newCell, Cell[,] maze, Direction direction = Direction.STOP)
-		{
-			CurrentDirection = direction;
-			if (!IsDynamicEntity(maze[newCell.Row, newCell.Col]))
-				maze[Position.Row, Position.Col] = m_PreviousKind;
-			m_PreviousKind = GetStaticEntity(maze[newCell.Row, newCell.Col]);
-			Position = newCell;
-			maze[Position.Row, Position.Col] = Kind;
-		}
-
 		public void Move(Cell[,] maze, Direction direction)
 		{
 			if (State == EnemyState.FRIGHTENED)
@@ -82,9 +72,13 @@ namespace Engine
 			}
 			else
 			{
-				var nextPosition = EnemyBehavior.NextPosition(maze, Position, direction);
-				var dir = GetDirection(Position, nextPosition);
-				UpdateStatus(nextPosition, maze, dir);
+				// A factoriser
+				NextPosition = EnemyBehavior.NextPosition(maze, Position, direction);
+				var dir = GetDirection(Position, NextPosition);
+				CurrentDirection = dir;
+				Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
+				UpdatePosition(NextPosition, maze, m_PreviousKind);
+				m_PreviousKind = nextCell;
 			}
 		}
 
@@ -92,9 +86,9 @@ namespace Engine
 		{
 			var currentPos = Position;
 			var dir = CurrentDirection;
-			var newPos = GetNextPosition(currentPos, dir);
+			NextPosition = GetNextPosition(currentPos, dir);
 
-			bool pathBlocked = !IsInBounds(newPos, maze) || maze[newPos.Row, newPos.Col] == Cell.WALL || IsOccupied(newPos, maze);
+			bool pathBlocked = !IsInBounds(NextPosition, maze) || maze[NextPosition.Row, NextPosition.Col] == Cell.WALL || IsOccupied(NextPosition, maze);
 
 			int randomDecision = m_Random.Next(1, 4);
 			// If the path is blocked or randomness forces a change, select a new direction
@@ -106,8 +100,8 @@ namespace Engine
 				// Try all alternative directions excluding the opposite direction first
 				foreach (var altDir in alternativeDirections)
 				{
-					newPos = GetNextPosition(currentPos, altDir);
-					if (IsInBounds(newPos, maze) && maze[newPos.Row, newPos.Col] != Cell.WALL)
+					NextPosition = GetNextPosition(currentPos, altDir);
+					if (IsInBounds(NextPosition, maze) && maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
 					{
 						dir = altDir;
 						foundValidDirection = true;
@@ -119,15 +113,20 @@ namespace Engine
 				if (!foundValidDirection)
 				{
 					var oppositeDir = GetOppositeDirection(CurrentDirection);
-					newPos = GetNextPosition(currentPos, oppositeDir);
-					if (IsInBounds(newPos, maze) && maze[newPos.Row, newPos.Col] != Cell.WALL)
+					NextPosition = GetNextPosition(currentPos, oppositeDir);
+					if (IsInBounds(NextPosition, maze) && maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
 						dir = oppositeDir;
 				}
 			}
 
 			// Move to the new position if valid
-			if (IsInBounds(newPos, maze) && maze[newPos.Row, newPos.Col] != Cell.WALL)
-				UpdateStatus(newPos, maze, dir);
+			if (IsInBounds(NextPosition, maze) && maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
+			{
+				CurrentDirection = dir;
+				Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
+				UpdatePosition(NextPosition, maze, m_PreviousKind);
+				m_PreviousKind = nextCell;
+			}
 		}
 
 		private bool IsDynamicEntity(Cell cell)
