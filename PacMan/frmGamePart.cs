@@ -12,7 +12,7 @@ namespace PacMan
 			var currentPos = new CellCoordinates(x, y);
 
 			// Détermine la direction du personnage
-			var direction = characterType == "Player" ? currentDirection : Entity.GetDirection(prevPos, currentPos);
+			var direction = characterType == "Player" ? gameManager.Player.CurrentDirection : Entity.GetDirection(prevPos, currentPos);
 
 			// Obtient l'image appropriée pour le personnage et la direction
 			var characterImage = GetCharacterImage(characterType, direction, ref animationFrame);

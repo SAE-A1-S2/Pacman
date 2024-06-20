@@ -29,7 +29,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	public CellCoordinates MazeEndPos { get; private set; }   // Position de fin dans le labyrinthe
 
 	// Dictionnaire pour stocker les positions des objets statiques
-	private readonly Dictionary<Cell, CellCoordinates> ObjectPositions = [];
+	private readonly Dictionary<string, CellCoordinates> ObjectPositions = [];
 
 	// Événement déclenché lorsqu'une propriété change 
 	public event PropertyChangedEventHandler? PropertyChanged;
@@ -89,7 +89,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
 		// Placement des objets statiques, des ennemis et des pièces dans le labyrinthe
-		PlaceStaticObjects([Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH, Cell.KEY]);
+		PlaceStaticObjects();
 		PlaceEnemies();
 		PlaceCoins();
 	}
@@ -189,20 +189,33 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	/// <param name="PlayerUid">L'identifiant unique du joueur (utilisé pour le mode histoire).</param>
 	public void ResetLevel(GameMode gameMode, string PlayerUid)
 	{
-		Health.ResetHealth();      // Réinitialise la santé du joueur
-		Score = 0;                  // Réinitialise le score
-		Key = 0;                    // Réinitialise le nombre de clés
+		// Réinitialise la santé du joueur
+		Health.ResetHealth();
 
-		InitializeLevel(gameMode, PlayerUid); // Réinitialise le labyrinthe et les positions
+		// Réinitialise le score et le nombre de clés
+		Score = 0;
+		Key = 0;
+
+		// Efface tous les bonus du jeu                    
+		Player.Bonuses.Clear();
+
+		// Réinitialise le labyrinthe et les positions
+		InitializeLevel(gameMode, PlayerUid);
+
+		// Supprime tous les objets du jeu
+		RemoveObjects();
 
 		// Replace le joueur à la position de départ
 		Player.PlacePlayer(LevelMap, MazeStartPos, MazeStartPos);
 
-		// Replace les objets statiques (clés, trousse de soins, torche)
-		PlaceStaticObjects([Cell.KEY, Cell.HEALTH_KIT, Cell.TORCH, Cell.KEY]);
+		// Vide la liste des positions des objets
+		ObjectPositions.Clear();
 
-		PlaceCoins();             // Replace les pièces dans le labyrinthe
-		RemainingCoins = 0;        // Réinitialise le compteur de pièces restantes
+		// Replace les objets statiques (clés, trousse de soins, torche)
+		PlaceStaticObjects();
+
+		// Replace les pièces dans le labyrinthe
+		PlaceCoins();
 
 		// Notifie l'interface utilisateur des changements de propriétés (score et clés)
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
@@ -213,8 +226,11 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	/// Place les objets statiques (clés, kit de soin, torche) dans les coins du labyrinthe.
 	/// </summary>
 	/// <param name="objects">La liste des objets statiques à placer.</param>
-	public void PlaceStaticObjects(List<Cell> objects)
+	private void PlaceStaticObjects()
 	{
+		// Liste des objets statiques à placer
+		List<Cell> objects = [Cell.HEALTH_KIT, Cell.KEY, Cell.TORCH, Cell.KEY];
+
 		// Coordonnées des quatre coins du labyrinthe
 		CellCoordinates[] corners = [
 		new(0, 0),
@@ -222,6 +238,9 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		new(0, s_Height - 1),
 		new(s_Width - 1, s_Height - 1)
 	];
+
+		// Initialisation du compteur pour les clés en double
+		int keyCounter = 0;
 
 		// Parcourt la liste des objets à placer
 		foreach (var obj in objects)
@@ -235,7 +254,24 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 			LevelMap[placement.Row, placement.Col] = obj;
 
 			// Enregistre la position de l'objet dans le dictionnaire ObjectPositions
-			ObjectPositions[obj] = placement;
+			if (obj == Cell.KEY)
+			{
+				ObjectPositions.Add($"{obj}_{keyCounter}", placement);
+				keyCounter++;
+			}
+			else
+				ObjectPositions.Add(obj.ToString(), placement);
 		}
+	}
+
+
+	/// <summary>
+	/// Supprime tous les objets statiques (clés, kit de soin, torche) du labyrinthe.
+	/// </summary>
+	private void RemoveObjects()
+	{
+		// Parcourt le dictionnaire ObjectPositions pour supprimer chaque objet
+		foreach (var obj in ObjectPositions.Keys)
+			LevelMap[ObjectPositions[obj].Row, ObjectPositions[obj].Col] = Cell.EMPTY;
 	}
 }

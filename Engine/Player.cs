@@ -98,6 +98,8 @@ namespace Engine
 				else
 					CurrentDirection = Direction.STOP; // Arrête le joueur s'il rencontre un mur
 			}
+			else
+				CurrentDirection = Direction.STOP; // Arrête le joueur s'il atteint les limites du labyrinthe
 		}
 
 		/// <summary>
