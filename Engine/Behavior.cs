@@ -48,6 +48,10 @@
 		public CellCoordinates NextPosition(Cell[,] maze, CellCoordinates currentPosition, Direction direction = Direction.STOP)
 		{
 			CellCoordinates dst = Algorithms.FindClosestCell(maze);  // Trouve une cellule cible aléatoire (clé, soin, etc.)
+			if (Enemies.Marquis.Position == dst)
+			{
+				Enemies.Marquis.ChangeEnemyState(EnemyState.SCATTER);
+			}
 			return Algorithms.FindDijkstra(currentPosition, dst, maze); // Calcule le chemin le plus court vers la cible
 		}
 	}

@@ -231,6 +231,8 @@ namespace PacMan
 					Close();
 				else
 					TmrPlayer.Start();
+
+				gameManager.Resume();
 			}
 		}
 
