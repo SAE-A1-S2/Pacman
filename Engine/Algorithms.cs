@@ -183,7 +183,7 @@ namespace Engine
 
 		public static CellCoordinates FindPlayer(Cell[,] maze)
 		{
-			CellCoordinates pos = new(-1, -1);
+			CellCoordinates pos = new(0, 0);
 			for (int x = 0; x < maze.GetLength(0); x++)
 				for (int y = 0; y < maze.GetLength(1); y++)
 					if (maze[x, y] == Cell.JOHN)

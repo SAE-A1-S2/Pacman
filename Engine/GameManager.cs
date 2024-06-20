@@ -127,6 +127,11 @@ namespace Engine
 			return Base.SaveSession(savedData, PlayerUid); // Sauvegarde les données et retourne l'ID de session
 		}
 
+		/// <summary>
+		/// Sauvegarde les données du niveau
+		/// </summary>
+		/// <param name="PlayerUID"></param>
+		/// <param name="timeSpent"></param>
 		public void SaveLevelData(string PlayerUID, int timeSpent)
 		{
 			PlayerData playerData = new()
@@ -162,6 +167,8 @@ namespace Engine
 		/// <returns>True si une collision a eu lieu, false sinon.</returns>
 		public bool CheckGhostCollisions()
 		{
+			Debug.WriteLine(Enemies.Cain.State);
+			if (Enemies.Cain.State == EnemyState.SCATTER) return false;
 			// Parcours tous les ennemis
 			foreach (var enemy in Enemies.enemies.ToEnumerable())
 			{
