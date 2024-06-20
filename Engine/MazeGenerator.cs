@@ -107,7 +107,7 @@ namespace Engine
 			// Continue tant qu'il y a des cellules dans la pile.
 			while (stack.Count > 0)
 			{
-				// Récupère la cellule courante en haut de la pile sans la retirer.
+				// Récupère la cellule courante en haut de la pile.
 				CellCoordinates current = stack.Pop();
 
 				// Obtient une liste des voisins non visités de la cellule courante.
@@ -193,9 +193,12 @@ namespace Engine
 						List<CellCoordinates> validWalls = [];       // Murs potentiellement supprimables
 
 						// Vérifie les cellules voisines (haut, bas, gauche, droite) pour identifier les murs
-						if (IsInBounds(new CellCoordinates(y - 1, x)) && Map[y - 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y - 1, x)); // Haut
-						if (IsInBounds(new CellCoordinates(y + 1, x)) && Map[y + 1, x] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y + 1, x)); // Bas
-						if (IsInBounds(new CellCoordinates(y, x - 1)) && Map[y, x - 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x - 1)); // Gauche
+						if (IsInBounds(new CellCoordinates(y - 1, x)) && Map[y - 1, x] == Cell.WALL)
+							surroundingWalls.Add(new CellCoordinates(y - 1, x)); // Haut
+						if (IsInBounds(new CellCoordinates(y + 1, x)) && Map[y + 1, x] == Cell.WALL)
+							surroundingWalls.Add(new CellCoordinates(y + 1, x)); // Bas
+						if (IsInBounds(new CellCoordinates(y, x - 1)) && Map[y, x - 1] == Cell.WALL)
+							surroundingWalls.Add(new CellCoordinates(y, x - 1)); // Gauche
 						if (IsInBounds(new CellCoordinates(y, x + 1)) && Map[y, x + 1] == Cell.WALL) surroundingWalls.Add(new CellCoordinates(y, x + 1)); // Droite
 
 						// Condition 1 : Si la cellule est entourée de trois murs, on peut potentiellement en supprimer un pour créer une boucle
