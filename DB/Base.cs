@@ -336,7 +336,7 @@ namespace DB
 		public int Keys { get; set; }
 	}
 
-	// Classe représentant les données de jeu d'un joueur (probablement pour les statistiques)
+	// Classe représentant les données de jeu d'un joueur ( pour les statistiques)
 	public class PlayerData
 	{
 		// Date et heure de la partie
