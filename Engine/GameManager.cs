@@ -90,10 +90,10 @@ namespace Engine
 		{
 			if (GameState == GameState.PLAYING) // Vérifie si le jeu est en cours
 			{
+				Enemies.Winston.Move(LevelManager.LevelMap, Player.CurrentDirection);  // Déplace le fantôme Winston
 				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);    // Déplace le fantôme Cain
 																					  // Enemies.Viggo.Move(LevelManager.LevelMap, Player.CurrentDirection);
 				Enemies.Marquis.Move(LevelManager.LevelMap, Player.CurrentDirection);  // Déplace le fantôme Marquis
-				Enemies.Winston.Move(LevelManager.LevelMap, Player.CurrentDirection);  // Déplace le fantôme Winston
 			}
 		}
 

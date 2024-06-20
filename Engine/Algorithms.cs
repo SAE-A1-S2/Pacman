@@ -36,6 +36,7 @@ namespace Engine
 			{
 				CellCoordinates current = frontier.Dequeue(); // Récupère la cellule avec la priorité la plus faible (coût estimé le plus bas)
 
+
 				// Si la cellule actuelle est une cible, on a trouvé le chemin le plus court
 				if (targets.Contains(maze[current.Row, current.Col]))
 					return current;

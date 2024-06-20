@@ -107,12 +107,22 @@ namespace Engine
 		/// <summary>
 		/// Moment où le mode de déplacement SCATTER a été activé pour la dernière fois.
 		/// </summary>
-		private DateTime lastScatterStartTime;
+		private DateTime lastFrigthenedTime;
+
+		/// <summary>
+		/// Moment où le mode de déplacement SCATTER a été activé pour la première fois.
+		/// </summary>
+		private DateTime lastScatterTime;
 
 		/// <summary>
 		/// Durée pendant laquelle l'ennemi reste en mode SCATTER (en secondes).
 		/// </summary>
-		private const int scatterDurationSeconds = 30;
+		private const int frigthenedDurationSeconds = 30;
+
+		/// <summary>
+		/// Durée pendant laquelle l'ennemi reste en mode SCATTER (en secondes).
+		/// </summary>
+		private const int scatterDurationSeconds = 15;
 
 		/// <summary>
 		/// Type de cellule précédemment occupé par l'ennemi (utilisé pour restaurer la cellule après son passage).
@@ -158,10 +168,17 @@ namespace Engine
 				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
 				{
 					enemy.ChangeEnemyState(EnemyState.FRIGHTENED); // Passe en mode EFFRAYÉ
-					enemy.lastScatterStartTime = DateTime.Now; // Enregistre le moment du changement d'état
+					enemy.lastFrigthenedTime = DateTime.Now; // Enregistre le moment du changement d'état
 				}
 			}
-			else if (State == EnemyState.FRIGHTENED && (DateTime.Now - lastScatterStartTime).TotalSeconds >= scatterDurationSeconds) // Si l'ennemi est en mode SCATTER et que 30 secondes se sont écoulées
+			else if (State == EnemyState.FRIGHTENED && (DateTime.Now - lastFrigthenedTime).TotalSeconds >= frigthenedDurationSeconds) // Si l'ennemi est en mode SCATTER et que 30 secondes se sont écoulées
+			{
+				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
+				{
+					enemy.ChangeEnemyState(EnemyState.CHASE); // Passe en mode CHASE
+				}
+			}
+			else if (State == EnemyState.SCATTER && (DateTime.Now - lastScatterTime).TotalSeconds >= scatterDurationSeconds) // Si l'ennemi est en mode SCATTER et que 15 secondes se sont écoulées
 			{
 				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
 				{
@@ -273,6 +290,8 @@ namespace Engine
 		/// <param name="newState">Le nouvel état de l'ennemi.</param>
 		public void ChangeEnemyState(EnemyState newState)
 		{
+			if (newState == EnemyState.SCATTER)
+				lastScatterTime = DateTime.Now; // Enregistre le moment du changement d'état en cas de scatter
 			State = newState; // Met à jour l'état
 		}
 
