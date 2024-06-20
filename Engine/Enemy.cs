@@ -94,7 +94,7 @@ namespace Engine
 		/// <summary>
 		/// État actuel de l'ennemi (effrayé, chasse, dispersion, etc.).
 		/// </summary>
-		public EnemyState State { get; private set; } = EnemyState.CHASE; // État initial : effrayé
+		public EnemyState State { get; private set; } = EnemyState.FRIGHTENED; // État initial : effrayé
 
 		/// <summary>
 		/// Comportement de l'ennemi, qui détermine comment il se déplace et prend des décisions.
@@ -112,7 +112,7 @@ namespace Engine
 		/// <summary>
 		/// Moment où le mode de déplacement SCATTER a été activé pour la première fois.
 		/// </summary>
-		private DateTime lastScatterTime;
+		public DateTime lastScatterTime;
 
 		/// <summary>
 		/// Durée pendant laquelle l'ennemi reste en mode SCATTER (en secondes).
@@ -161,28 +161,11 @@ namespace Engine
 		/// <param name="direction">La direction actuelle du joueur (utilisée pour certains comportements).</param>
 		public void Move(Cell[,] maze, Direction direction)
 		{
-
-			// Gestion du changement d'état en fonction du temps et de la position du joueur
-			if (State == EnemyState.CHASE && Position == Algorithms.FindPlayer(maze)) // Si l'ennemi est en mode CHASE et atteint le joueur
+			if (State == EnemyState.SCATTER && (DateTime.Now - lastScatterTime).TotalSeconds >= scatterDurationSeconds) // Si l'ennemi est en mode SCATTER et que 15 secondes se sont écoulées
 			{
 				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
 				{
-					enemy.ChangeEnemyState(EnemyState.FRIGHTENED); // Passe en mode EFFRAYÉ
-					enemy.lastFrigthenedTime = DateTime.Now; // Enregistre le moment du changement d'état
-				}
-			}
-			else if (State == EnemyState.FRIGHTENED && (DateTime.Now - lastFrigthenedTime).TotalSeconds >= frigthenedDurationSeconds) // Si l'ennemi est en mode SCATTER et que 30 secondes se sont écoulées
-			{
-				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
-				{
-					enemy.ChangeEnemyState(EnemyState.CHASE); // Passe en mode CHASE
-				}
-			}
-			else if (State == EnemyState.SCATTER && (DateTime.Now - lastScatterTime).TotalSeconds >= scatterDurationSeconds) // Si l'ennemi est en mode SCATTER et que 15 secondes se sont écoulées
-			{
-				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
-				{
-					enemy.ChangeEnemyState(EnemyState.CHASE); // Passe en mode CHASE
+					enemy.ChangeEnemyState(EnemyState.FRIGHTENED); // Passe en mode CHASE
 				}
 			}
 			// Si l'ennemi est effrayé, il se déplace aléatoirement
