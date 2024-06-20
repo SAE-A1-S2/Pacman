@@ -214,7 +214,10 @@ namespace PacMan
 				gameManager.Pause();
 				FrmGameOver frmGameOver = new(this);
 				frmGameOver.ShowDialog(this);
-				TmrPlayer.Start();
+				if (frmGameOver.Result)
+					Close();
+				else
+					TmrPlayer.Start();
 			}
 
 			if (gameManager.LevelManager.Health.IsDead())
@@ -224,8 +227,10 @@ namespace PacMan
 				gameManager.Pause();
 				FrmLostGame frmLostGame = new(this);
 				frmLostGame.ShowDialog(this);
-				gameManager.Resume();
-				TmrPlayer.Start();
+				if (frmLostGame.Result)
+					Close();
+				else
+					TmrPlayer.Start();
 			}
 		}
 

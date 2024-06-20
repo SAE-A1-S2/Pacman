@@ -142,7 +142,7 @@ namespace Engine
 		public void Move(Cell[,] maze, Direction direction)
 		{
 			// Si l'ennemi est effrayé, il se déplace aléatoirement
-			if (State == EnemyState.FRIGHTENED)
+			if (State == EnemyState.FRIGHTENED || State == EnemyState.SCATTER)
 			{
 				if (!MoveRandom(maze)) return; // Si le déplacement aléatoire échoue, ne pas continuer
 			}

@@ -3,6 +3,7 @@
 	public partial class FrmGameOver : FrmEntity // Classe du formulaire de fin de partie, hérite de FrmEntity (formulaire de base)
 	{
 		private readonly frmGame frmGame; // Référence au formulaire de jeu principal
+		public bool Result { get; private set; } = false;
 
 		public FrmGameOver(frmGame FrmGame)
 		{
@@ -31,15 +32,14 @@
 			frmGame.gameManager.Resume(); // Reprendre le jeu
 		}
 
-		private async void btnQuit_Click(object sender, EventArgs e)
+		private void btnQuit_Click(object sender, EventArgs e)
 		{
+			Hide();
 			frmGame.stopWatch.Stop(); // Arreter le chronomètre
 			frmGame.timeElapsed = frmGame.stopWatch.Elapsed; // Mettre le temps de jeu dans la variable timeElapsed
 			frmGame.gameManager.SaveLevelData(Properties.Settings.Default.PlayerUID, frmGame.timeElapsed.Minutes); // Sauvegarder les données du niveau (temps, score, etc.
-			Close();
 
-			await Task.Delay(2000); // Attendre 2 secondes
-			frmGame.Close();
+			Result = true; // Indiquer que le joueur souaite quitter le jeu
 		}
 	}
 }

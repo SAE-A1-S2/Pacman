@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Engine
+namespace Engine.utils
 {
 	/// <summary>
 	/// Classe de base représentant un bonus dans le jeu.
@@ -175,6 +175,12 @@ namespace Engine
 	public sealed class TorchBonus : Bonus
 	{
 		public TorchBonus() : base("TorchBonus", "TorchBonus") { } // Constructeur qui appelle le constructeur de base
+
+		public override void Use(LevelManager lm)
+		{
+			foreach (var enemy in Enemies.enemies.ToEnumerable()) // Applique le bonus à tous les ennemis
+				enemy.ChangeEnemyState(EnemyState.SCATTER);
+		}
 	}
 
 

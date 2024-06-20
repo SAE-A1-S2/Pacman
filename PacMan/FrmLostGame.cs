@@ -4,6 +4,9 @@
 	{
 		private readonly frmGame GameForm; // Référence au formulaire principal du jeu
 
+		public bool Result { get; private set; } = false; // Indique si le joueur souhaite quitter le jeu
+
+
 		public FrmLostGame(frmGame gameForm)
 		{
 			InitializeComponent();
@@ -24,11 +27,12 @@
 		}
 
 		// Gestionnaire de l'événement de clic sur le bouton "Quitter"
-		private async void BtnQuit_Click(object sender, EventArgs e)
+		private void BtnQuit_Click(object sender, EventArgs e)
 		{
-			Close();
-			await Task.Delay(2000); // Attendre 2 secondes
-			GameForm.Close(); // Fermer le formulaire principal du jeu (quitter la partie)
+			Hide(); // Masquer le formulaire de fin de partie
+
+			// Indiquer que le joueur souhaite quitter le jeu
+			Result = true;
 		}
 
 		// Gestionnaire de l'événement de chargement du formulaire
