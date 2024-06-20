@@ -15,6 +15,10 @@
 		{
 			Hide();  // Masquer le formulaire de fin de partie
 
+			frmGame.stopWatch.Stop(); // Arreter le chronomètre
+			frmGame.timeElapsed = frmGame.stopWatch.Elapsed; // Mettre le temps de jeu dans la variable timeElapsed
+			frmGame.gameManager.SaveLevelData(Properties.Settings.Default.PlayerUID, frmGame.timeElapsed.Minutes); // Sauvegarder les données du niveau (temps, score, etc.
+
 			// Passer au niveau suivant dans le gestionnaire de jeu
 			frmGame.gameManager.NextLevel();
 
@@ -29,6 +33,9 @@
 
 		private async void btnQuit_Click(object sender, EventArgs e)
 		{
+			frmGame.stopWatch.Stop(); // Arreter le chronomètre
+			frmGame.timeElapsed = frmGame.stopWatch.Elapsed; // Mettre le temps de jeu dans la variable timeElapsed
+			frmGame.gameManager.SaveLevelData(Properties.Settings.Default.PlayerUID, frmGame.timeElapsed.Minutes); // Sauvegarder les données du niveau (temps, score, etc.
 			Close();
 
 			await Task.Delay(2000); // Attendre 2 secondes

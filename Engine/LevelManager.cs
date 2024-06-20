@@ -28,6 +28,8 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	public CellCoordinates MazeStartPos { get; private set; } // Position de départ dans le labyrinthe
 	public CellCoordinates MazeEndPos { get; private set; }   // Position de fin dans le labyrinthe
 
+	public int Level { get; private set; } = -1; // Niveau actuel (-1 si non applicable, par exemple en mode Infinite)
+
 	// Dictionnaire pour stocker les positions des objets statiques
 	private readonly Dictionary<string, CellCoordinates> ObjectPositions = [];
 
@@ -125,6 +127,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 			LevelMap = storyMode.Maze;
 			MazeStartPos = storyMode.StartPos;
 			MazeEndPos = storyMode.EndPos;
+			Level = storyMode.Level;
 		}
 		else // Si le mode de jeu est "Infini"
 		{

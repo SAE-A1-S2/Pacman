@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System.Diagnostics;
+using Engine;
 using Engine.utils;
 
 namespace PacMan
@@ -29,6 +30,10 @@ namespace PacMan
 		// Formulaires de pause et de notification
 		private readonly FrmPause frmPause;
 		private readonly FrmNotif frmNotif;
+
+		// Chronomètre pour mesurer le temps de jeu
+		public Stopwatch stopWatch = new();
+		public TimeSpan timeElapsed = TimeSpan.Zero;
 
 		public frmGame(GameMode gameMode, string playerName)
 		{
@@ -71,6 +76,11 @@ namespace PacMan
 
 			// Afficher le labyrinthe
 			DisplayMaze(gameManager.LevelManager.LevelMap);
+
+			// Reinitialiser le chronomètre
+			stopWatch.Reset();
+			// Démarrer le chronomètre
+			stopWatch.Start();
 		}
 
 		private void UnbindDataSources()
@@ -204,7 +214,6 @@ namespace PacMan
 				gameManager.Pause();
 				FrmGameOver frmGameOver = new(this);
 				frmGameOver.ShowDialog(this);
-				gameManager.Resume();
 				TmrPlayer.Start();
 			}
 

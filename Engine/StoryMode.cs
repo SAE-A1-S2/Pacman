@@ -14,7 +14,7 @@ namespace Engine.utils
 {
 	public class StoryMode // Classe représentant le mode histoire du jeu
 	{
-		private readonly int Level; // Numéro du niveau actuel (en lecture seule)
+		public readonly int Level; // Numéro du niveau actuel (en lecture seule)
 
 		// Propriétés pour accéder aux données du niveau
 		public Cell[,] Maze { get; private set; }         // Labyrinthe du niveau (tableau 2D de cellules)

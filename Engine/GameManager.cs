@@ -127,6 +127,19 @@ namespace Engine
 			return Base.SaveSession(savedData, PlayerUid); // Sauvegarde les données et retourne l'ID de session
 		}
 
+		public void SaveLevelData(string PlayerUID, int timeSpent)
+		{
+			PlayerData playerData = new()
+			{
+				Date = DateTime.Now, // Date et heure actuelle
+				GameMode = GameMode.ToString(), // Mode de jeu (chaîne de caractères)
+				Score = LevelManager.Score, // Score du joueur
+				TimeSpentInMinutes = timeSpent, // Temps de jeu (en minutes)
+				Level = LevelManager.Level, // Niveau actuel
+			};
+			Base.SaveGameData(playerData, PlayerUID); // Sauvegarde les données du joueur
+		}
+
 		/// <summary>
 		/// Gère la collision du joueur avec un ennemi.
 		/// </summary>
