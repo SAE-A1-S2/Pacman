@@ -9,7 +9,7 @@ namespace Engine
 	{
 		// Instances des ennemis avec leurs noms, comportements et types de cellules associés
 		public static Enemy Winston = new("Winston", new AmbusherBehavior(), Cell.WINSTON);
-		public static Enemy Cain = new("Cain", new ChaserBehavior(), Cell.CAIN);
+		public static Enemy Cain = new("Cain", new ChaserBehavior(), Cell.CAIN, EnemyState.CHASE);
 		public static Enemy Viggo = new("Viggo", new WandererBehavior(), Cell.VIGGO);
 		public static Enemy Marquis = new("Marquis", new WhimsicalBehavior(), Cell.MARQUIS);
 
@@ -94,7 +94,7 @@ namespace Engine
 		/// <summary>
 		/// État actuel de l'ennemi (effrayé, chasse, dispersion, etc.).
 		/// </summary>
-		public EnemyState State { get; private set; } = EnemyState.FRIGHTENED; // État initial : effrayé
+		public EnemyState State { get; private set; } // État initial : effrayé
 
 		/// <summary>
 		/// Comportement de l'ennemi, qui détermine comment il se déplace et prend des décisions.
@@ -135,11 +135,12 @@ namespace Engine
 		/// <param name="name">Nom de l'ennemi.</param>
 		/// <param name="enemyBehavior">Comportement de l'ennemi.</param>
 		/// <param name="kind">Type de cellule représentant l'ennemi dans le labyrinthe.</param>
-		public Enemy(string name, IEnemyBehavior enemyBehavior, Cell kind)
+		public Enemy(string name, IEnemyBehavior enemyBehavior, Cell kind, EnemyState state = EnemyState.FRIGHTENED)
 		{
 			Kind = kind;      // Définit le type de cellule de l'ennemi
 			Name = name;      // Définit le nom de l'ennemi
 			EnemyBehavior = enemyBehavior; // Définit le comportement de l'ennemi
+			State = state;    // Définit l'état initial de l'ennemi
 		}
 
 		/// <summary>
@@ -161,15 +162,30 @@ namespace Engine
 		/// <param name="direction">La direction actuelle du joueur (utilisée pour certains comportements).</param>
 		public void Move(Cell[,] maze, Direction direction)
 		{
-			if (State == EnemyState.SCATTER && (DateTime.Now - lastScatterTime).TotalSeconds >= scatterDurationSeconds) // Si l'ennemi est en mode SCATTER et que 15 secondes se sont écoulées
+			switch (State)
 			{
-				foreach (var enemy in Enemies.enemies.ToEnumerable()) // Pour chaque ennemi
-				{
-					enemy.ChangeEnemyState(EnemyState.FRIGHTENED); // Passe en mode CHASE
-				}
+				case EnemyState.CHASE when Position == Algorithms.FindPlayer(maze) && Kind == Cell.CAIN:
+					Enemies.Cain.ChangeEnemyState(EnemyState.FRIGHTENED);
+					Enemies.Cain.lastFrigthenedTime = DateTime.Now;
+					break;
+				// Si l'ennemi est en mode FRIGHTENED et que 30 secondes se sontoulées
+				case EnemyState.FRIGHTENED when (DateTime.Now - lastFrigthenedTime).TotalSeconds >= frigthenedDurationSeconds && Kind == Cell.CAIN:
+					Enemies.Cain.ChangeEnemyState(EnemyState.CHASE);
+					break;
+				// Si l'ennemi est en mode SCATTER et que 15 secondes se sont écoulées
+				case EnemyState.SCATTER when (DateTime.Now - lastScatterTime).TotalSeconds >= scatterDurationSeconds:
+					{
+						foreach (var enemy in Enemies.enemies.ToEnumerable())
+						{
+							enemy.ChangeEnemyState(EnemyState.FRIGHTENED);
+							enemy.lastFrigthenedTime = DateTime.Now;
+						}
+						break;
+					}
 			}
+
 			// Si l'ennemi est effrayé, il se déplace aléatoirement
-			if (State == EnemyState.FRIGHTENED || State == EnemyState.SCATTER)
+			if (State == EnemyState.FRIGHTENED || State == EnemyState.SCATTER || Kind != Cell.CAIN)
 			{
 				if (!MoveRandom(maze)) return; // Si le déplacement aléatoire échoue, ne pas continuer
 			}
