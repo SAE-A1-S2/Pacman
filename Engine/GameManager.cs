@@ -92,7 +92,7 @@ namespace Engine
 			{
 				Enemies.Winston.Move(LevelManager.LevelMap, Player.CurrentDirection);  // Déplace le fantôme Winston
 				Enemies.Cain.Move(LevelManager.LevelMap, Player.CurrentDirection);    // Déplace le fantôme Cain
-																					  // Enemies.Viggo.Move(LevelManager.LevelMap, Player.CurrentDirection);
+				Enemies.Viggo.Move(LevelManager.LevelMap, Player.CurrentDirection);
 				Enemies.Marquis.Move(LevelManager.LevelMap, Player.CurrentDirection);  // Déplace le fantôme Marquis
 			}
 		}
@@ -167,7 +167,6 @@ namespace Engine
 		/// <returns>True si une collision a eu lieu, false sinon.</returns>
 		public bool CheckGhostCollisions()
 		{
-			Debug.WriteLine(Enemies.Cain.State);
 			if (Enemies.Cain.State == EnemyState.SCATTER) return false;
 			// Parcours tous les ennemis
 			foreach (var enemy in Enemies.enemies.ToEnumerable())

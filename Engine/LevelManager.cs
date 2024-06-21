@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using Engine.utils;
 
 namespace Engine;
@@ -106,7 +105,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 
 		// Place chaque ennemi à l'une des positions trouvées
 		Enemies.Cain.SetStartingPosition(pos[0], LevelMap);    // Place l'ennemi Cain
-															   // Enemies.Viggo.SetStartingPosition(pos[1], LevelMap); // (Commentaire original : Viggo non placé ?)
+		Enemies.Viggo.SetStartingPosition(pos[1], LevelMap);
 		Enemies.Marquis.SetStartingPosition(pos[2], LevelMap);  // Place l'ennemi Marquis
 		Enemies.Winston.SetStartingPosition(pos[3], LevelMap);  // Place l'ennemi Winston
 	}
