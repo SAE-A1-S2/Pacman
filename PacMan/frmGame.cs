@@ -60,6 +60,12 @@ namespace PacMan
 			gameManager = new GameManager(sessionId);
 			frmPause = new FrmPause(gameManager);
 			frmNotif = new FrmNotif(this);
+
+			if (gameManager.LevelManager != null && gameManager.Player != null)
+			{
+				Properties.Settings.Default.LastInserterID = -1;
+				Properties.Settings.Default.Save();
+			}
 		}
 
 		// Gestionnaire de l'événement de chargement du formulaire

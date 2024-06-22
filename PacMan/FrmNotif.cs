@@ -37,9 +37,9 @@
 			}
 
 			// Si la notification vient du formulaire d'accueil (avec problème de sauvegarde)
-			else if (form.Name == "FrmHome" && IsGameDB)
+			else if ((form.Name == "FrmHome" || form.Name == "frmGame") && IsGameDB)
 			{
-				lblMsg.Text = "Aucune partie n'a été sauvegardée.";
+				lblMsg.Text = "Aucune partie n'a été sauvegardée ou recupérée.";
 				lblDetails.Text = "Voulez-vous continuer en mode infini ?";
 			}
 		}
