@@ -67,6 +67,34 @@ namespace Engine
 		}
 
 		/// <summary>
+		/// Met à jour la position d'une entité dans le labyrinthe et gère l'historique des états des cellules.
+		/// </summary>
+		/// <param name="entity">L'entité à déplacer.</param>
+		/// <param name="newPosition">La nouvelle position de l'entité.</param>
+		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
+		/// <param name="cellHistory">L'historique des cellules.</param>
+		public void UpdatePosition(Entity entity, CellCoordinates newPosition, Cell[,] maze, Dictionary<CellCoordinates, Stack<Cell>> cellHistory)
+		{
+			CellCoordinates oldPosition = entity.Position;
+
+			if (!cellHistory.ContainsKey(newPosition) || maze[newPosition.Row, newPosition.Col] == Cell.EMPTY)
+			{
+				cellHistory[newPosition] = new Stack<Cell>();
+				cellHistory[newPosition].Push(maze[newPosition.Row, newPosition.Col]);
+			}
+
+			if (cellHistory.TryGetValue(oldPosition, out Stack<Cell>? value) && value.Count > 0 && value.Peek() != entity.Kind && value.Peek() != Cell.JOHN)
+			{
+				maze[oldPosition.Row, oldPosition.Col] = value.Peek();
+			}
+			else
+				maze[oldPosition.Row, oldPosition.Col] = Cell.COIN;
+
+			maze[newPosition.Row, newPosition.Col] = entity.Kind;
+			entity.Position = newPosition;
+		}
+
+		/// <summary>
 		/// Vérifie si une cellule donnée est à l'intérieur des limites du labyrinthe.
 		/// </summary>
 		/// <param name="cell">Les coordonnées de la cellule à vérifier.</param>

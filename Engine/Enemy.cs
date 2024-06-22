@@ -160,7 +160,7 @@ namespace Engine
 		/// </summary>
 		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
 		/// <param name="direction">La direction actuelle du joueur (utilisée pour certains comportements).</param>
-		public void Move(Cell[,] maze, Direction direction)
+		public void Move(Cell[,] maze, Direction direction, Dictionary<CellCoordinates, Stack<Cell>> cellHistory)
 		{
 			switch (State)
 			{
@@ -202,7 +202,7 @@ namespace Engine
 			Cell nextCell = GetStaticEntity(maze[NextPosition.Row, NextPosition.Col]);
 
 			// Met à jour la position de l'ennemi dans le labyrinthe
-			UpdatePosition(NextPosition, maze, m_PreviousKind);
+			UpdatePosition(this, NextPosition, maze, cellHistory);
 
 			// Enregistre le type de cellule précédemment occupé pour le restaurer plus tard
 			m_PreviousKind = nextCell;

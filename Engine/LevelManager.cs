@@ -32,6 +32,8 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 	// Dictionnaire pour stocker les positions des objets statiques
 	private readonly Dictionary<string, CellCoordinates> ObjectPositions = [];
 
+	public Dictionary<CellCoordinates, Stack<Cell>> cellHistory = [];
+
 	// Événement déclenché lorsqu'une propriété change 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -64,6 +66,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 
 		// Placement du joueur dans le labyrinthe
 		Player.PlacePlayer(LevelMap, mazeStartPos, playerPosition);
+		Static.RestoreEnemy(LevelMap);
 	}
 
 	/// <summary>
@@ -163,7 +166,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		{
 			for (var y = 0; y < LevelMap.GetLength(1); y++) // Parcours les colonnes
 			{
-				if (LevelMap[x, y] != Cell.EMPTY) continue; // Si la cellule n'est pas vide, passe à la suivante
+				if (LevelMap[x, y] != Cell.EMPTY || LevelMap[x, y] == Cell.END) continue; // Si la cellule n'est pas vide, passe à la suivante
 
 				LevelMap[x, y] = Cell.COIN; // Place une pièce dans la cellule vide
 				RemainingCoins++; // Incrémente le compteur de pièces restantes
@@ -198,7 +201,7 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		Score = 0;
 		Key = 0;
 
-		// Efface tous les bonus du jeu                    
+		// Efface tous les bonus du jeu
 		Player.Bonuses.Clear();
 
 		// Réinitialise le labyrinthe et les positions
@@ -218,6 +221,8 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 
 		// Replace les pièces dans le labyrinthe
 		PlaceCoins();
+
+		cellHistory.Clear();
 
 		// Notifie l'interface utilisateur des changements de propriétés (score et clés)
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
@@ -265,7 +270,6 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 				ObjectPositions.Add(obj.ToString(), placement);
 		}
 	}
-
 
 	/// <summary>
 	/// Supprime tous les objets statiques (clés, kit de soin, torche) du labyrinthe.

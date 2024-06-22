@@ -245,11 +245,11 @@ namespace DB
 		/// </summary>
 		/// <param name="id">L'identifiant de la session à charger.</param>
 		/// <returns>Un objet SavedData contenant les données de la session, ou un objet vide en cas d'erreur.</returns>
+		/// <exception cref="InvalidOperationException">En cas d'échec de la connexion à la base de données.</exception>
 		public static SavedData LoadSession(int id)
 		{
 			// Vérifie la connexion à la base de données
-			if (!Connect()) return new SavedData();
-
+			if (!Connect()) return new();
 			try
 			{
 				var query = $"SELECT * FROM SessionLevel WHERE SessionID = {id}"; // Requête pour sélectionner la session
@@ -258,7 +258,7 @@ namespace DB
 				reader.Read(); // Lecture de la première (et unique) ligne de résultat
 
 				// Crée et remplit un objet SavedData avec les données de la session
-				var savedData = new SavedData
+				SavedData savedData = new()
 				{
 					PlayerName = reader.GetString("PlayerName"),
 					GameMode = reader.GetString("GameMode"),
@@ -275,13 +275,18 @@ namespace DB
 					BonusValue = reader.GetInt32("BonusValue"),
 					PlayerPos = reader.GetString("PlayerPos")
 				};
+				cmd.Dispose(); // Libère les ressources de la commande
+
+				var deleteQuery = $"DELETE FROM SessionLevel WHERE SessionID = {id}"; // Requête pour supprimer la session
+				var deleteCmd = new MySqlCommand(deleteQuery, conn); // Création de la commande SQL
+				deleteCmd.ExecuteNonQuery(); // Exécution de la requête de suppression
 
 				// Retourne les données de la session
 				return savedData;
 			}
 			catch (MySqlException)
 			{
-				return new SavedData(); // Retourne un objet vide en cas d'erreur
+				throw new(); // Lève une exception en cas d'erreur
 			}
 			finally
 			{
