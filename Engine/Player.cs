@@ -49,7 +49,7 @@ namespace Engine
 		/// Définit la position du joueur.
 		/// </summary>
 		/// <param name="newPostion">La nouvelle position (coordonnées).</param>
-		public void SetPlayerPosition(CellCoordinates newPostion)
+		public void SetPlayerPosition(CellCoordinates newPosition)
 		{
 			Position = newPosition;
 		}
@@ -89,36 +89,21 @@ namespace Engine
 		/// <param name="gameManager">Le gestionnaire du jeu.</param>
 		public void Move(Direction direction, Cell[,] maze, GameManager gameManager)
 		{
-<<<<<<< HEAD
 			NextPosition = GetNextPosition(Position, direction);
 
 			// Check if the new position is within the bounds of the maze
 			if (IsInBounds(NextPosition, maze))
 			{
 				if (maze[NextPosition.Row, NextPosition.Col] != Cell.WALL)
-=======
-			CellCoordinates newPosition = GetNextPosition(Position, direction); // Calcule la prochaine position
-
-			// Vérifie si la nouvelle position est dans les limites du labyrinthe
-			if (IsInBounds(newPosition, maze))
-			{
-				// Vérifie si la nouvelle position n'est pas un mur
-				if (maze[newPosition.Row, newPosition.Col] != Cell.WALL)
->>>>>>> 3d57cb9 (Still commenting the backend)
 				{
 					// Met à jour la direction actuelle du joueur
 					CurrentDirection = direction;
-<<<<<<< HEAD
-					CheckCollisions(maze[NextPosition.Row, NextPosition.Col], gameManager);
-					UpdatePosition(NextPosition, maze);
-=======
 
 					// Vérifie les collisions avec d'autres objets
-					CheckCollisions(maze[newPosition.Row, newPosition.Col], gameManager);
+					CheckCollisions(maze[NextPosition.Row, NextPosition.Col], gameManager);
 
 					// Met à jour la position du joueur dans le labyrinthe
-					UpdatePosition(newPosition, maze);
->>>>>>> 3d57cb9 (Still commenting the backend)
+					UpdatePosition(NextPosition, maze);
 				}
 				else
 					CurrentDirection = Direction.STOP; // Arrête le joueur s'il rencontre un mur

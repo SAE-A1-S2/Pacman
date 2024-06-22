@@ -66,7 +66,7 @@ namespace Engine
 			Position = newCell;                           // Met à jour la position de l'entité
 		}
 
-		public void SetPosition(CellCoordinates newCell, Cell[,] maze)
+		public void SetPosition(CellCoordinates newCell, Cell[,] maze, Cell previousCell = Cell.EMPTY)
 		{
 			maze[Position.Row, Position.Col] = previousCell;
 			maze[newCell.Row, newCell.Col] = Kind;
