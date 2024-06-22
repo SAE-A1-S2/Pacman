@@ -128,29 +128,35 @@ namespace Engine.utils
 			return true; // Si aucun objet n'a été trouvé, le labyrinthe est vide
 		}
 
-		public static void RestoreEnemy(Cell[,] maze)
-		{
-			for (int i = 0; i < maze.GetLength(0); i++)
-			{
-				for (int j = 0; j < maze.GetLength(1); j++)
-				{
-					switch (maze[i, j])
-					{
-						case Cell.MARQUIS:
-							Enemies.Marquis.SetStartingPosition(new CellCoordinates(i, j), maze);
-							break;
-						case Cell.WINSTON:
-							Enemies.Winston.SetStartingPosition(new CellCoordinates(i, j), maze);
-							break;
-						case Cell.CAIN:
-							Enemies.Cain.SetStartingPosition(new CellCoordinates(i, j), maze);
-							break;
-						case Cell.VIGGO:
-							Enemies.Viggo.SetStartingPosition(new CellCoordinates(i, j), maze);
-							break;
-					}
-				}
-			}
-		}
+		/// <summary>
+    /// Restaure les positions initiales des ennemis dans le labyrinthe.
+    /// </summary>
+    /// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
+    public static void RestoreEnemies(Cell[,] maze)
+    {
+        // Utilisation d'un dictionnaire pour associer directement les types d'ennemis à leurs instances
+        var enemyMapping = new Dictionary<Cell, Enemy>
+        {
+            { Cell.MARQUIS, Enemies.Marquis },
+            { Cell.WINSTON, Enemies.Winston },
+            { Cell.CAIN, Enemies.Cain },
+            { Cell.VIGGO, Enemies.Viggo }
+        };
+
+        // Parcours optimisé du labyrinthe à l'aide de GetLength() pour obtenir les dimensions
+        for (int row = 0; row < maze.GetLength(0); row++)
+        {
+            for (int col = 0; col < maze.GetLength(1); col++)
+            {
+                Cell cell = maze[row, col];
+
+                // Vérifie si la cellule contient un ennemi et si un mapping existe pour cet ennemi
+                if (enemyMapping.TryGetValue(cell, out Enemy enemy))
+                {
+                    enemy.SetStartingPosition(new CellCoordinates(row, col), maze);
+                }
+            }
+        }
+    }
 	}
 }
