@@ -64,9 +64,9 @@ public class LevelManager : INotifyPropertyChanged // Implémentation de l'inter
 		// Initialisation du niveau en fonction du mode de jeu
 		InitializeLevel(gameMode);
 
-		// Placement du joueur dans le labyrinthe
+		// Placement du joueur et des ennemis dans le labyrinthe
 		Player.PlacePlayer(LevelMap, mazeStartPos, playerPosition);
-		Static.RestoreEnemy(LevelMap);
+		Static.RestoreEnemies(LevelMap);
 	}
 
 	/// <summary>

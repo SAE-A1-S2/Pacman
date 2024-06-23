@@ -129,34 +129,34 @@ namespace Engine.utils
 		}
 
 		/// <summary>
-    /// Restaure les positions initiales des ennemis dans le labyrinthe.
-    /// </summary>
-    /// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
-    public static void RestoreEnemies(Cell[,] maze)
-    {
-        // Utilisation d'un dictionnaire pour associer directement les types d'ennemis à leurs instances
-        var enemyMapping = new Dictionary<Cell, Enemy>
-        {
-            { Cell.MARQUIS, Enemies.Marquis },
-            { Cell.WINSTON, Enemies.Winston },
-            { Cell.CAIN, Enemies.Cain },
-            { Cell.VIGGO, Enemies.Viggo }
-        };
+		/// Restaure les positions initiales des ennemis dans le labyrinthe.
+		/// </summary>
+		/// <param name="maze">Le labyrinthe représenté par un tableau 2D de cellules.</param>
+		public static void RestoreEnemies(Cell[,] maze)
+		{
+			// Utilisation d'un dictionnaire pour associer directement les types d'ennemis à leurs instances
+			var enemyMapping = new Dictionary<Cell, Enemy>
+		{
+			{ Cell.MARQUIS, Enemies.Marquis },
+			{ Cell.WINSTON, Enemies.Winston },
+			{ Cell.CAIN, Enemies.Cain },
+			{ Cell.VIGGO, Enemies.Viggo }
+		};
 
-        // Parcours optimisé du labyrinthe à l'aide de GetLength() pour obtenir les dimensions
-        for (int row = 0; row < maze.GetLength(0); row++)
-        {
-            for (int col = 0; col < maze.GetLength(1); col++)
-            {
-                Cell cell = maze[row, col];
+			// Parcours optimisé du labyrinthe à l'aide de GetLength() pour obtenir les dimensions
+			for (int row = 0; row < maze.GetLength(0); row++)
+			{
+				for (int col = 0; col < maze.GetLength(1); col++)
+				{
+					Cell cell = maze[row, col];
 
-                // Vérifie si la cellule contient un ennemi et si un mapping existe pour cet ennemi
-                if (enemyMapping.TryGetValue(cell, out Enemy enemy))
-                {
-                    enemy.SetStartingPosition(new CellCoordinates(row, col), maze);
-                }
-            }
-        }
-    }
+					// Vérifie si la cellule contient un ennemi et si un mapping existe pour cet ennemi
+					if (enemyMapping.TryGetValue(cell, out Enemy? enemy))
+					{
+						enemy.SetStartingPosition(new CellCoordinates(row, col), maze);
+					}
+				}
+			}
+		}
 	}
 }
