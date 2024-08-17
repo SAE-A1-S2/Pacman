@@ -16,10 +16,10 @@ namespace DB
 		public static bool Connect()
 		{
 			// Informations de connexion à la base de données
-			string serv = "10.1.139.236";  // Adresse du serveur
-			string db = "based6";        // Nom de la base de données
-			string login = "d6";         // Nom d'utilisateur
-			string pass = "coubeh";      // Mot de passe
+			string serv = "";  // Adresse du serveur
+			string db = "";        // Nom de la base de données
+			string login = "";         // Nom d'utilisateur
+			string pass = "";      // Mot de passe
 
 			// Chaîne de connexion
 			string connectionString = $"SERVER={serv};DATABASE={db};UID={login};PASSWORD={pass};";
